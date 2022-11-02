@@ -1,0 +1,296 @@
+<!--
+  two jsxgraph plots, Newton then Schwarzschild
+-->
+<html>
+<head>
+<meta name="description" content="[multiple orbits]">
+<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+</head>
+<body>
+  
+  <div id="boxN" class="jxgbox" style="width:400px; height:400px;"></div>
+  
+<form><input type="button" value="clear and run" onClick="clearBoardN(); runN()">
+<input type="button" value="stop" onClick="stopN()">
+<input type="button" value="continue" onClick="goOnN()"></form>
+  <script type="text/javascript">
+    //Constants
+var G = 1,
+    M = 1;
+
+//Initialize board
+var brdN = JXG.JSXGraph.initBoard('boxN', {boundingbox: [-26, 26, 26, -26], axis:true, keepaspectratio:false});
+
+//Create sliders for parameters
+var pSliderN = brdN.create('slider',[[5,23],[20,23],[1,10,50]], {name:'p'});
+var pLabelN = brdN.create('text', [5,21, "Semi-latus Rectum"], {fixed:true});
+var eSliderN = brdN.create('slider',[[5,19],[20,19],[0,0.6,0.9999]], {name:'e'});
+var eLabelN = brdN.create('text', [5,17, "Eccentricity"], {fixed:true});
+
+//Initialize ODE and solve with JXG.Math.Numerics.rungeKutta(); initial value = [0]; 
+function odeN() { 
+  //Evaluation interval
+  var I = [0, 2*Math.PI*Math.pow(pSliderN.Value(),3/2)/Math.pow((1-eSliderN.Value()),3/2)];
+  
+  //Number of steps 
+  var N = 10000;
+  
+  //Right hand side of ODE, dpsi/dt = f(t,psi)
+  var f = function(t,psi) {
+    var diffPsi = []; 
+    diffPsi[0]= Math.sqrt( G*M/Math.pow(pSliderN.Value(),3) ) * Math.pow( 1 + eSliderN.Value()*Math.cos( psi ),2 );
+   return diffPsi;
+  }
+
+  //Use 4th order Runge Kutta to solve ode
+  return JXG.Math.Numerics.rungeKutta('rk4', [0], I, N, f);
+}
+
+//turn data into Cartesian coordinates
+var coordN = function(){
+  //Get data points
+  var data = odeN();
+  
+  //Copy data to arrays to plot it
+  var t = [];
+  var phi0 = 0;
+  var phi = [];
+  var r = [];
+  for(var i = 0; i < data.length; i++) {
+    //get times psi is plotted t[i] = data[i][1];
+    
+    //get polar coordinates
+    phi[i] = data[i][0] + phi0;
+    r[i] = pSliderN.Value()/(1 + eSliderN.Value()*Math.cos( data[i][0] ));
+  }
+  
+  //Get Cartesian coordinates
+  var xCoord = [];
+  var yCoord = [];
+  for(var k = 0; k < phi.length; k++) {
+      xCoord[k] = r[k] * Math.cos( phi[k] );
+      yCoord[k] = r[k] * Math.sin( phi[k] );
+  }
+  return [xCoord, yCoord];
+}
+
+var xCoordN = coordN()[0];
+var yCoordN = coordN()[1];
+
+var getPointsN = function(){
+  xCoordN = coordN()[0];
+  yCoordN = coordN()[1];
+}
+
+//Plot the orbit as a curve
+var orbitN = brdN.create('curve', [xCoordN, yCoordN], {strokeColor:'blue', strokeWidth:1.5});
+orbitN.updateDataArray = function() {
+    var xN = coordN()[0];
+    var yN = coordN()[1];
+    this.dataX = [];
+    this.dataY = [];
+    for(var i = 0; i < xN.length; i++) {
+      this.dataX[i] = xN[i];
+      this.dataY[i] = yN[i];
+    }
+}
+
+var stoppedN = null; //global
+
+//Plot the orbit with a turtle and a point
+var orbitPtN = brdN.create('point', [xCoordN[0], yCoordN[0]]);
+var orbitTN = brdN.create('turtle', [xCoordN[0], yCoordN[0]]);
+orbitTN.setPenColor("purple");
+orbitTN.setPenSize(2);
+var aN = 0;
+var moveTurtleN = function() {
+  //stop the turtle after 2 orbits
+  if(aN > xCoordN.length-1) {
+    return;
+  }
+  else if(!stoppedN) {
+    aN+=15;
+    
+    orbitPtN.moveTo([xCoordN[aN],yCoordN[aN]]);
+    orbitTN.moveTo([xCoordN[aN],yCoordN[aN]]);
+    setTimeout(moveTurtleN, 200);
+  }
+ 
+};
+orbitTN.hideTurtle();
+
+var clearBoardN = function() {
+  aN = -40; //global
+  orbitPtN.moveTo([xCoordN[0],yCoordN[0]]);
+  orbitTN.cs();
+  orbitTN.penUp();
+}
+
+var runN = function() {
+  getPointsN();
+  stoppedN = false; //global
+  orbitTN.setPos([xCoordN[0],yCoordN[0]]);
+  orbitTN.penDown();
+  moveTurtleN();
+}; 
+
+var stopN = function() {
+  stoppedN = true; //global
+};
+
+var goOnN = function() {
+  stoppedN = false; //global
+  moveTurtleN();
+};
+  </script>
+  
+<div id="box" class="jxgbox" style="width:400px; height:400px;">
+</div>
+<form><input type="button" value="clear and run" onClick="clearBoard(); run()">
+<input type="button" value="stop" onClick="stop()">
+<input type="button" value="continue" onClick="goOn()"></form>
+<script type="text/javascript">
+//Constants
+var G = 1,
+    M = 1,
+    c = 1;
+
+//Initialize board
+var brd = JXG.JSXGraph.initBoard('box', {boundingbox: [-26, 26, 26, -26], axis:true, keepaspectratio:false});
+
+//Create sliders for parameters
+var pSlider = brd.create('slider',[[5,23],[20,23],[1,10,50]], {name:'p'});
+var pLabel = brd.create('text', [5,21, "Semi-latus Rectum"], {fixed:true});
+var eSlider = brd.create('slider',[[5,19],[20,19],[0,0.6,0.9999]], {name:'e'});
+var eLabel = brd.create('text', [5,17, "Eccentricity"], {fixed:true});
+
+//Initialize ODEs and solve with JXG.Math.Numerics.rungeKutta()
+//x = [psi, phi]
+//initial value = [0,0]; 
+function ode() { 
+  //Evaluation interval
+  var I = [0, 4*Math.PI*Math.pow(pSlider.Value(),3/2)/Math.pow((1-eSlider.Value()),3/2)];
+  
+  //Number of steps 
+  var N = 10000;
+  
+  //Right hand side of ODE, dx/dt = f(t,x)
+  var f = function(t,x){
+    var y = [];
+    //dpsi/dtau
+    y[0] = Math.sqrt((G*M*Math.pow(1 + eSlider.Value()*Math.cos( x[0] ),4) * (2*G*M*(3 + eSlider.Value()*Math.cos( x[0] )) - pSlider.Value()*Math.pow(c,2)))/(Math.pow(pSlider.Value(),3)*(G*M*(Math.pow(eSlider.Value(),2)+3)-pSlider.Value()*Math.pow(c,2))));
+    //dphi/dtau
+    y[1] = c*Math.sqrt(G*M/(pSlider.Value()*Math.pow(c,2)-G*M*(Math.pow(eSlider.Value(),2)+3)))*Math.pow(1+eSlider.Value()*Math.cos(x[0]),2)/pSlider.Value();
+    
+   return y;
+  }
+
+  //Use 4th order Runge Kutta to solve ode
+  return JXG.Math.Numerics.rungeKutta('rk4', [0,0], I, N, f);;
+ }
+
+
+//turn data into Cartesian coordinates
+var coord = function(){
+  var data = ode();
+  var psiData = [];
+  var phiData = [];
+  
+  //Copy data to arrays to plot it
+  var t = [];
+  var r = [];
+  for(var i = 0; i < data.length; i++) {
+    //get psi and phi
+    psiData[i] = data[i][0];
+    phiData[i] = data[i][1];
+    
+    //get times psi and phi are plotted
+    t[i] = data[i][2];
+    
+    //get polar coordinates
+    r[i] = pSlider.Value()/(1 + eSlider.Value()*Math.cos( psiData[i] ));
+  }
+  
+  //Get Cartesian coordinates
+  var xCoord = [];
+  var yCoord = [];
+  for(var k = 0; k < phiData.length; k++) {
+      xCoord[k] = r[k] * Math.cos(phiData[k] );
+      yCoord[k] = r[k] * Math.sin( phiData[k] );
+  }
+  return [xCoord, yCoord];
+}
+
+var xCoord = coord()[0];
+var yCoord = coord()[1];
+
+var getPoints = function(){
+  xCoord = coord()[0];
+  yCoord = coord()[1];
+}
+
+//Plot the orbit as a curve
+var orbit = brd.create('curve', [xCoord, yCoord], {strokeColor:'blue', strokeWidth:1.5});
+orbit.updateDataArray = function() {
+    var x = coord()[0];
+    var y = coord()[1];
+    this.dataX = [];
+    this.dataY = [];
+    for(var i = 0; i < x.length; i++) {
+      this.dataX[i] = x[i];
+      this.dataY[i] = y[i];
+    }
+}
+
+var stopped = null; //global
+
+//Plot the orbit with a turtle and a point
+var orbitPt = brd.create('point', [xCoord[0], yCoord[0]]);
+var orbitT = brd.create('turtle', [xCoord[0], yCoord[0]]);
+orbitT.setPenColor("purple");
+orbitT.setPenSize(2);
+var a = 0;
+var moveTurtle = function() {
+  //stop the turtle after 2 orbits
+  if(a > xCoord.length-1) {
+    return;
+  }
+  else if(!stopped) {
+    a+=15;
+    
+    orbitPt.moveTo([xCoord[a],yCoord[a]]);
+    orbitT.moveTo([xCoord[a],yCoord[a]]);
+    setTimeout(moveTurtle, 200);
+  }
+ 
+};
+orbitT.hideTurtle();
+
+var clearBoard = function() {
+  a = -40; //global
+  orbitPt.moveTo([xCoord[0],yCoord[0]]);
+  orbitT.cs();
+  orbitT.penUp();
+}
+
+var run = function() {
+  getPoints();
+  stopped = false; //global
+  orbitT.setPos([xCoord[0],yCoord[0]]);
+  orbitT.penDown();
+  moveTurtle();
+}; 
+
+var stop = function() {
+  stopped = true; //global
+};
+
+var goOn = function() {
+  stopped = false; //global
+  moveTurtle();
+};
+</script>
+  
+</body>
+</html>

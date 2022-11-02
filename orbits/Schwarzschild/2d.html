@@ -1,0 +1,161 @@
+<!--
+  jsxgraph, 4 periods, buttons and sliders
+-->
+<html>
+<head>
+<meta name="description" content="[Schwarzschild orbit with sliders]">
+<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+</head>
+<body>
+<div id="box" class="jxgbox" style="width:400px; height:400px;"></div>
+
+<script type="text/javascript">
+  //Constants
+var G = 1,
+    M = 1,
+    c = 1;
+
+//Initialize board
+var brd = JXG.JSXGraph.initBoard('box', {boundingbox: [-26, 26, 26, -26], axis:true, keepaspectratio:false});
+
+//Create sliders for parameters
+var pSlider = brd.create('slider',[[5,23],[20,23],[1,10,50]], {name:'p'});
+var pLabel = brd.create('text', [5,21, "Semi-latus Rectum"], {fixed:true});
+var eSlider = brd.create('slider',[[5,19],[20,19],[0,0.6,0.9999]], {name:'e'});
+var eLabel = brd.create('text', [5,17, "Eccentricity"], {fixed:true});
+
+//Initialize ODEs and solve with JXG.Math.Numerics.rungeKutta()
+//x = [psi, phi]
+//initial value = [0,0]; 
+function ode() { 
+  //Evaluation interval
+  var I = [0, 4*Math.PI*Math.pow(pSlider.Value(),3/2)/Math.pow((1-eSlider.Value()),3/2)];
+  
+  //Number of steps 
+  var N = 10000;
+  
+  //Right hand side of ODE, dx/dt = f(t,x)
+  var f = function(t,x){
+    var y = [];
+    //dpsi/dtau
+    y[0] = Math.sqrt((G*M*Math.pow(1 + eSlider.Value()*Math.cos( x[0] ),4) * (2*G*M*(3 + eSlider.Value()*Math.cos( x[0] )) - pSlider.Value()*Math.pow(c,2)))/(Math.pow(pSlider.Value(),3)*(G*M*(Math.pow(eSlider.Value(),2)+3)-pSlider.Value()*Math.pow(c,2))));
+    //dphi/dtau
+    y[1] = c*Math.sqrt(G*M/(pSlider.Value()*Math.pow(c,2)-G*M*(Math.pow(eSlider.Value(),2)+3)))*Math.pow(1+eSlider.Value()*Math.cos(x[0]),2)/pSlider.Value();
+    
+   return y;
+  }
+
+  //Use 4th order Runge Kutta to solve ode
+  return JXG.Math.Numerics.rungeKutta('rk4', [0,0], I, N, f);;
+ }
+
+
+//turn data into Cartesian coordinates
+var coord = function(){
+  var data = ode();
+  var psiData = [];
+  var phiData = [];
+  
+  //Copy data to arrays to plot it
+  var t = [];
+  var r = [];
+  for(var i = 0; i < data.length; i++) {
+    //get psi and phi
+    psiData[i] = data[i][0];
+    phiData[i] = data[i][1];
+    
+    //get times psi and phi are plotted
+    t[i] = data[i][2];
+    
+    //get polar coordinates
+    r[i] = pSlider.Value()/(1 + eSlider.Value()*Math.cos( psiData[i] ));
+  }
+  
+  //Get Cartesian coordinates
+  var xCoord = [];
+  var yCoord = [];
+  for(var k = 0; k < phiData.length; k++) {
+      xCoord[k] = r[k] * Math.cos(phiData[k] );
+      yCoord[k] = r[k] * Math.sin( phiData[k] );
+  }
+  return [xCoord, yCoord, t];
+}
+
+var xCoord = coord()[0];
+var yCoord = coord()[1];
+
+var getPoints = function(){
+  xCoord = coord()[0];
+  yCoord = coord()[1];
+  //var t = coord()[2];
+}
+
+//Plot the orbit as a curve
+var orbit = brd.create('curve', [xCoord, yCoord], {strokeColor:'blue', strokeWidth:1.5});
+orbit.updateDataArray = function() {
+    var x = coord()[0];
+    var y = coord()[1];
+    this.dataX = [];
+    this.dataY = [];
+    for(var i = 0; i < x.length; i++) {
+      this.dataX[i] = x[i];
+      this.dataY[i] = y[i];
+    }
+}
+
+var stopped = null; //global
+
+//Plot the orbit with a turtle and a point
+var orbitPt = brd.create('point', [xCoord[0], yCoord[0]]);
+var orbitT = brd.create('turtle', [xCoord[0], yCoord[0]]);
+orbitT.setPenColor("purple");
+orbitT.setPenSize(2);
+var a = 0;
+var moveTurtle = function() {
+  //stop the turtle after 2 orbits
+  if(a > xCoord.length-1) {
+    return;
+  }
+  else if(!stopped) {
+    a+=15;
+    
+    orbitPt.moveTo([xCoord[a],yCoord[a]]);
+    orbitT.moveTo([xCoord[a],yCoord[a]]);
+    setTimeout(moveTurtle, 200);
+  }
+ 
+};
+orbitT.hideTurtle();
+
+var clearBoard = function() {
+  a = -40; //global
+  orbitPt.moveTo([xCoord[0],yCoord[0]]);
+  orbitT.cs();
+  orbitT.penUp();
+}
+
+var run = function() {
+  getPoints();
+  stopped = false; //global
+  orbitT.setPos([xCoord[0],yCoord[0]]);
+  orbitT.penDown();
+  moveTurtle();
+}; 
+
+var stop = function() {
+  stopped = true; //global
+};
+
+var goOn = function() {
+  stopped = false; //global
+  moveTurtle();
+};
+</script>
+  
+<form><input type="button" value="clear and run" onClick="clearBoard(); run()">
+<input type="button" value="stop" onClick="stop()">
+<input type="button" value="continue" onClick="goOn()"></form>
+  
+</body>
+</html>
