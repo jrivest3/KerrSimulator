@@ -1,0 +1,76 @@
+I"$<!-- Here is the "safe" way to write LaTeX, without fear of kramdown
+clobbering something:
+<div>
+\begin{align}
+G_{ab} = 8\pi T_{ab}
+\end{align}
+</div>
+    let kgbo= KerrGeoBoundOrbitQ(a.Value(), q.X(), q.Y(), x.Value());
+    console.log(kgbo);
+    var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
+Here is a 2D Schwarzschild orbit: -->
+
+<div id="sepbox" class="jxgbox" style="width:250px; height:250px;"></div>
+<div style="width: 100%; overflow: hidden;">
+  <div id="animbox" style="width:350px; height:300px; float:left;"></div>
+  <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
+</div>
+<p><input type="button" id="playpause" value="Pause" onclick="toy.togglePlayState();" style="width:4em;margin:0.5em" />
+<input type="button" id="showZAMOPoints" value="Show ZAMOs" onclick="toy.toggleZAMOs();" style="width:9em;margin:0.5em" />
+<label for="camera">Camera:</label>
+  <select name="options" id="cameraSwitcher" onchange="toy.switchCamera(cameraSwitcher.value);">
+    <option value="fixed">Fixed</option>
+    <option value="orbitting">Orbitting</option>
+    <option value="trailing">Trailing</option>
+  </select></p>
+
+<p id="BLtime" style="display:block">B-L time = 0</p>
+<p>History: <output name="x" form="player" for="histslide Tstepslide">500</output></p>
+<form id="player" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
+<input id="histslide" type="range" name="history" min="10" max="3000" step="10" value="50" onchange="
+							toy.historyPoints = parseFloat(this.value);
+							toy.historyLength = parseFloat(Tstepslide.value)*parseFloat(this.value);//console.log(toy.historyLength,Tstepslide.value,accuslide.value);
+							toy.GeodesicReConstructor(toy.state.p,toy.state.a,toy.state.e,toy.state.x,parseFloat(accuslide.value)); 
+							" />
+</form>
+<div id="sliders">
+Animation speed: <input id="framerate" type="range" name="playspeed" min="0" max="90" step="5" value="30" />
+Delta T: <input id="Tstepslide" type="number" name="dT" min="0.5" max="5.0" step="0.5" value="1.5" />
+dtau: <input id="accuslide" type="number" name="dtau" min="0.01" max="0.25" step="0.01" value="0.05" />
+</div>
+<p><br /></p>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/fraction.min.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/complex.min.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/quaternion.min.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/polynomial.min.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/vendor/three.min.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/vendor/threestrap.min.js"></script>
+
+<!--<script type="text/javascript" src="http://localhost:4000/assets/js/vendor/OrbitControls.js"></script>-->
+<script type="text/javascript" src="http://localhost:4000/assets/js/elliptic.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/integrator.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/findroots.js"></script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/KerrB.js"> </script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/SepController.js"> </script>
+
+<script type="text/javascript" src="http://localhost:4000/assets/js/GeodesicController.js"> </script>
+
+<!--  <form oninput="brd.suspendUpdate();[ppoints,epoints]=updateSeparatrix(a.value,x.value,epoints,ppoints,numPoints);brd.update();brd.unsuspendUpdate();">
+  <input type="range" name="a" min="0" max=".99" step=".01" value=".9" />
+  <br/>
+  <input type="range" name="x" min="-1" max="1" step=".01" value="0" /> 
+</form> -->
+
+<!-- <form><input type="button" value="test point" onClick="query();"></form> -->
+
+:ET
