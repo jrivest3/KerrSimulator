@@ -1,0 +1,138 @@
+<!--
+  plotly, not buttons or sliders
+-->
+<html>
+<head>
+<meta name="description" content="[Newton plotly]">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ <script src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+</head>
+<body>
+  <div id="graph"></div>
+  <script>
+    //Constants
+var G = 1,
+    M = 1;
+var p = 10,
+    e = 0.6;
+
+//Initialize ODE and solve with JXG.Math.Numerics.rungeKutta(); initial value = [0]; 
+function ode() { 
+  //Evaluation interval
+  var I = [0, 2*Math.PI*Math.pow(p,3/2)/Math.pow((1 - e),3/2)];
+  
+  //Number of steps 
+  var N = 10000;
+  
+  //Right hand side of ODE, dpsi/dt = f(t,psi)
+  var f = function(t,psi) {
+    var diffPsi = []; 
+    diffPsi[0]= Math.sqrt( G*M/Math.pow(p,3) ) * Math.pow( 1 + e*Math.cos( psi ),2 );
+  
+   return diffPsi;
+  }
+
+  //Use 4th order Runge Kutta to solve ode
+  return JXG.Math.Numerics.rungeKutta('rk4', [0], I, N, f);
+}
+
+//turn data into Cartesian coordinates
+var coord = function(){
+  //Get data points
+  var data = ode();
+  
+  //Copy data to arrays to plot it
+  var t = [];
+  var phi0 = 0,
+      chi0 = 0,
+      thetaMin = Math.PI/6,
+      zM = Math.cos(thetaMin);
+  var chi = [],
+      theta = [],
+      phi = [],
+      r = [],
+      xCoord = [],
+      yCoord = [],
+      zCoord = [];
+  for(var i = 0; i < data.length; i++) {
+    //get times psi is plotted t[i] = data[i][1];
+    
+    //reparameterize with chi
+    chi[i] = chi0 + data[i][0];
+    
+    //get spherical coordinates
+    theta[i] = Math.acos( zM * Math.cos( chi[i] ) );
+    phi[i] = phi0 + Math.atan2( Math.sin( chi[i] ) / Math.sin(thetaMin), Math.cos( chi[i] ));
+    r[i] = p/(1 + e*Math.cos( data[i][0] ));
+  }
+  //Get Cartesian coordinates
+  for(var k = 0; k < phi.length; k++) {
+      xCoord[k] = r[k] * Math.sin( theta[k] ) * Math.cos( phi[k] );
+      yCoord[k] = r[k] * Math.sin( theta[k] ) * Math.sin( phi[k] );
+      zCoord[k] = r[k] * Math.cos( theta[k] );
+  }
+  
+  return [xCoord, yCoord, zCoord];
+}
+
+var xCoord = coord()[0],
+    yCoord = coord()[1],
+    zCoord = coord()[2];
+
+var x1 = [],
+    y1 = [],
+    z1 = [];
+
+var orbit = Plotly.plot('graph', [{
+  type: 'scatter3d',
+  mode: 'lines',
+   x: xCoord,
+   y: yCoord,
+   z: zCoord
+}, {type: 'scatter3d',
+  mode: 'markers',
+   x: x1,
+   y: y1,
+   z: z1}], {
+  xaxis: {range: [-26, 6]},
+  yaxis: {range: [-5, 5]},
+  zaxis: {range: [0, 1]}
+})
+
+var a = 0;
+function compute() {
+  x1[0] = xCoord[a];
+  y1[0] = yCoord[a];
+  z1[0] = zCoord[a];
+  if(a < xCoord.length-30)
+    {
+      a += 30;
+    }
+  else
+    {
+      a = 120;
+    }
+}
+
+function update() {
+  compute();
+
+  Plotly.animate('graph', {
+    data: [{x: xCoord, y: yCoord, z:zCoord}, {x: x1, y: y1, z: z1}]
+  }, {
+    transition: {
+      duration: 0
+    },
+    frame: {
+      duration: 0,
+      redraw: false
+    }
+  });
+
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
+  </script>
+</body>
+</html>

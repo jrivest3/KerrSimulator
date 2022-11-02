@@ -1,0 +1,147 @@
+<!--
+  plotly, no buttons or sliders
+-->
+<html>
+<head>
+<meta name="description" content="[Schwarzschild plotly]">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ <script src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+</head>
+<body>
+  <div id="graph"></div>
+  <script>
+//Constants
+var G = 1,
+    M = 1,
+    c = 1;
+
+var p = 10,
+    e = 0.6;
+var thetaM = Math.PI/6,
+    zM = Math.cos(thetaM);
+
+var Ehat = Math.sqrt(Math.pow(p,2) - 4*G*M*p + 4*Math.pow(G*M,2)*(1 - Math.pow(e,2))) / Math.sqrt(p*(p - G*M*(3 + Math.pow(e,2))));
+
+//Initialize ODEs and solve with JXG.Math.Numerics.rungeKutta()
+//x = [psi, phi]
+//initial value = [0,0,0]; 
+function ode() { 
+  //Evaluation interval
+  var I = [0, 2*2*Math.PI*Math.pow(p,3/2)/Math.pow((1 - e),3/2)];
+  
+  //Number of steps 
+  var N = 10000;
+  
+  //Right hand side of ODE, dx/dt = f(t,x)
+  var f = function(t,x){
+    var y = [];
+    //dpsi/dt
+    y[0] = Math.sqrt(G*M/Math.pow(p,3))*(Math.pow(1 + e*Math.cos( x[0] ),2)/Ehat)*(1 - (1 + e*Math.cos( x[0] ))*2*G*M/p)*(Math.sqrt((p - (6 + 2*e*Math.cos( x[0] ))*G*M)/(Math.pow(c,2)*p - (3 + Math.pow(e,2))*G*M)));
+    //dphi/dt
+    y[1] = Math.sqrt(G*M/Math.pow(p,3))*(Math.pow(1 + e*Math.cos( x[0] ),2)/Ehat)*(1 - (1 + e*Math.cos( x[0] ))*2*G*M/p)*(Math.sqrt(p/(Math.pow(c,2)*p - (3 + Math.pow(e,2))*G*M)))*Math.sqrt(1 - Math.pow(zM,2))/(1 - Math.pow(zM*Math.cos( x[2] ),2));
+    //dchi/dt
+    y[2] = Math.sqrt(G*M/Math.pow(p,3))*(Math.pow(1 + e*Math.cos( x[0] ),2)/Ehat)*(1 - (1 + e*Math.cos( x[0] ))*2*G*M/p)*(Math.sqrt(p/(Math.pow(c,2)*p - (3 + Math.pow(e,2))*G*M)));
+    
+   return y;
+  }
+
+  //Use 4th order Runge Kutta to solve ode
+  return JXG.Math.Numerics.rungeKutta('rk4', [0,0,0], I, N, f);
+ }
+
+
+//turn data into Cartesian coordinates
+var coord = function(){
+  var data = ode();
+  var psiData = [],
+      phiData = [],
+      chiData = [];
+  
+  //Copy data to arrays to plot it
+  var r = [],
+      theta = [],
+      xCoord = [],
+      yCoord = [],
+      zCoord = [];
+  for(var i = 0; i < data.length; i++) {
+    //get psi, phi, and chi
+    psiData[i] = data[i][0];
+    phiData[i] = data[i][1];
+    chiData[i] = data[i][2];
+    
+    //get spherical coordinates
+    theta[i] = Math.acos( zM * Math.cos( chiData[i] ) );
+    r[i] = p/(1 + e*Math.cos( psiData[i] ));
+  }
+  
+  //Get Cartesian coordinates
+  for(var k = 0; k < phiData.length; k++) {
+      xCoord[k] = r[k] * Math.sin( theta[k] ) * Math.cos( phiData[k] );
+      yCoord[k] = r[k] * Math.sin( theta[k] ) * Math.sin( phiData[k] );
+      zCoord[k] = r[k] * Math.cos( theta[k] );
+  }
+
+  return [xCoord, yCoord, zCoord];
+}
+
+var xCoord = coord()[0],
+    yCoord = coord()[1],
+    zCoord = coord()[2];
+
+var x1 = [],
+    y1 = [],
+    z1 = [];
+
+var orbit = Plotly.plot('graph', [{
+  type: 'scatter3d',
+  mode: 'lines',
+   x: xCoord,
+   y: yCoord,
+   z: zCoord
+}, {type: 'scatter3d',
+  mode: 'markers',
+   x: x1,
+   y: y1,
+   z: z1}], {
+  xaxis: {range: [-26, 6]},
+  yaxis: {range: [-5, 5]},
+  zaxis: {range: [0, 1]}
+})
+
+var a = 0;
+function compute() {
+  x1[0] = xCoord[a];
+  y1[0] = yCoord[a];
+  z1[0] = zCoord[a];
+  if(a < xCoord.length-30)
+    {
+      a += 30;
+    }
+  else
+    {
+      a = 120;
+    }
+}
+
+function update() {
+  compute();
+
+  Plotly.animate('graph', {
+    data: [{x: xCoord, y: yCoord, z:zCoord}, {x: x1, y: y1, z: z1}]
+  }, {
+    transition: {
+      duration: 0
+    },
+    frame: {
+      duration: 0,
+      redraw: false
+    }
+  });
+
+  requestAnimationFrame(update);
+}
+
+requestAnimationFrame(update);
+  </script>
+</body>
+</html>
