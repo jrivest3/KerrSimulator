@@ -150,7 +150,7 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
       </tr></tbody></table>
     </td>
     <td>
-    <label for="MatchFreqQ"> Try to match this ratio? </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
+    <label for="MatchFreqQ"> Find this Ratio </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
     </td>
     <td>
     <input type="button" id="UpdateRC" value="Update" onclick="let curveappears=toy.updateResCurve(RatioMenu.value);if(!curveappears){MatchFreqQ.checked=false; MatchFreqQ.disabled=true;}else if(MatchFreqQ.disabled==true){MatchFreqQ.disabled=false;}" disabled/>
@@ -238,6 +238,12 @@ Further down the page are various time controls. Adjusting these can affect the 
 The Animation Speed controls the frame rate of the animation, while $$\Delta$$T is the (approximate) amount of B-L time per frame. The slowest frame rate is 10 fps and the fastest is 100 fps. To make one B-L second pass over one second in real time (almost -- it can be a bit slower than real seconds), set the Animation and $$\Delta$$T (and  d$$\tau$$, ideally) to their minimum values (10 frames/sec and 0.1 B-L sec/frame). If $$\Delta$$T is too small compared to d$$\tau$$, the integrator will stop, and the red path will gradually disappear. Another side effect of adjusting $$\Delta$$T is scaling the length of the trajectory 'history' displayed. d$$\tau$$ is the amount of proper-time passed per integration step; in other words, it's the step-size used by the integrator. Making this smaller increases both the precision of the trajectory and the number of computations per frame. Note, however, that the amount of proper time, or number of steps, per frame varies to maintain a constant passage of B-L time. This means that the passage of time as seen in the animation is more representative of what an observer at infinity would see, rather than the passage of time experienced by an object following the trajectory -- that is, the proper time.
 
 ### Resonance Controls
+
+* On/Off Switch: Draws/Undraws a curve on the Orbit Controller graph representing values of $p$ and $e$ for the given $a$ and $x$ that will result in a resonance between two selected orbital frequencies. The 'Update' button and 'Find this Ratio' checkbox are enabled/disabled when Resonance curve in on/off.
+* Ratio Selection: Selection of which two directions of motion the user would like to be in resonance. This selection enables/disables the appropriate ratio integer entry boxes. Options in this list are also disabled when for special values of the orbital parameters.
+* Ratio Integers: Enter three integers representing the ratios of the respective orbital frequencies. Absolute values of frequencies are used for the case of retrograde orbits, so only positive integers are allowed. Polar and azimuthal frequencies are are required to be greater than the radial frequency for all bound orbits.
+* 'Find this Ratio': Checking the the checkbox will convert the draggable dot on the Controller graph into a glider that clings to the resonance curve, when it is drawn on the graph. Un-checking the box will free the controller dot from the curve.
+* Update: Changes made to the resonance ratio will not alter the resonance curve seen in the controller graph until the 'Update' button is clicked. Any choices of ratios that result in no solution will cause the resonance curve to disappear. Some resonance curves only have solutions for some values of $e$ and not others; in these cases, only the points with a solution will be plotted.
 
 ### Introduction
 
@@ -345,7 +351,7 @@ $$\begin{aligned}
 R(r) &= - \beta r^4 + 2r^3 - (a^2\beta + L_z^2)r^2+ 2(aE - L_z)^2r - Q\Delta \\
 \Theta(\theta) &= Q - \cos^2\theta\left(a^2\beta + \frac{L_z^2}{\sin^2\theta}\right)
 \end{aligned}$$  
-and $$\beta = (1 - E^2)$$. In the above equations and hereafter $$E$$, $$L_z$$, and $$Q$$ denote the _specific_ energy, angular momentum and Carter constant, respectively.
+and $$\beta = (1 - E^2)$$. In the above equations and hereafter $$E$$, $$L_z$$, and $$Q$$ denote the_specific_ energy, angular momentum and Carter constant, respectively.
 
 #### Solutions in Cyclical Coordinates
 
