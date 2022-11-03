@@ -101,7 +101,7 @@ class GeodCont {
         this.ctrlbrd = JXG.JSXGraph.initBoard('sepbox', { boundingbox: [0, 1.2, 22, -0.1], axis: false});
     this.xaxis = this.ctrlbrd.create('axis', [[0, 0], [1, 0]],
         {
-            name: ('p').bold(),
+            name: 'p',
             withLabel: true,
             label: {
                 position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
@@ -112,13 +112,13 @@ class GeodCont {
    
     this.yaxis = this.ctrlbrd.create('axis', [[0, 0], [0, 1]],
         {
-            name: ('e').bold(),
+            name: 'e',
             withLabel: true,
             label: {
                 position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
                 offset: [5, -57],   // (in pixels)
                 fontSize: 16
-                //style: 'bold'
+                //fontStyle: 'bold' //how to I make it bold?
             }
         });
         this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0.9, .99]], { name: 'spin' });
