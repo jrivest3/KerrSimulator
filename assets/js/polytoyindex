@@ -1,0 +1,715 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Complex polynomial roots toy - Leo C. Stein</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Leo C. Stein">
+<meta property="og:title" content="Complex polynomial roots toy">
+
+
+  <link rel="canonical" href="https://duetosymmetry.com/tool/polynomial-roots-toy/">
+  <meta property="og:url" content="https://duetosymmetry.com/tool/polynomial-roots-toy/">
+
+
+
+  <meta property="og:description" content="Interactive toy for visualizing relationship between polynomial roots and coefficients">
+
+
+
+  <meta name="twitter:site" content="@duetosymmetry">
+  <meta name="twitter:title" content="Complex polynomial roots toy">
+  <meta name="twitter:description" content="Interactive toy for visualizing relationship between polynomial roots and coefficients">
+  <meta name="twitter:url" content="https://duetosymmetry.com/tool/polynomial-roots-toy/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="https://duetosymmetry.com/images/apple-eye.jpg">
+    
+  
+
+  
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="https://duetosymmetry.com/images/apple-eye.jpg">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2017-12-15T00:00:00+00:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "https://duetosymmetry.com",
+      "logo": "https://duetosymmetry.com/images/apple-eye.jpg"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Leo C. Stein",
+      "url" : "https://duetosymmetry.com",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://duetosymmetry.com/feed.xml" type="application/atom+xml" rel="alternate" title="Leo C. Stein Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://duetosymmetry.com/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    <!-- start custom head snippets -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<!-- JSXGraph -->
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/vendor/jsxgraphcore.js"></script>
+<link rel="stylesheet" href="https://duetosymmetry.com/assets/css/vendor/jsxgraph.css">
+
+<!-- Academicons -->
+<link rel="stylesheet" href="https://duetosymmetry.com/assets/css/academicons.min.css"/>
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://duetosymmetry.com/">Leo C. Stein</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/about/">About</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/LeoCStein.pdf" title="Curriculum Vitae">CV</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/pubs/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/posts/">All Posts</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://duetosymmetry.com/links/">Links</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://duetosymmetry.com/images/leo-color-head-shot.jpg" class="author__avatar" alt="Leo C. Stein">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Leo C. Stein</h3>
+    <p class="author__bio">Asst. Professor, Ole Miss. Black holes, gravitational waves, general relativity and beyond.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Oxford, MS</li>
+      
+      
+      
+        <li><a href="mailto:lcstein@olemiss.edu"><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i> Email</a></li>
+      
+      
+        <li><a href="https://arxiv.org/a/stein_l_1"><i class="ai ai-fw ai-arxiv" aria-hidden="true"></i> arXiv</a></li>
+      
+      
+        <li><a href="https://orcid.org/0000-0001-7559-9597"><i class="ai ai-fw ai-orcid" aria-hidden="true"></i> ORCiD</a></li>
+      
+      
+        <li><a href="https://inspirehep.net/author/profile/L.C.Stein.2"><i class="ai ai-fw ai-inspire" aria-hidden="true"></i> Inspire</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6wuRRmcAAAAJ"><i class="ai ai-fw ai-google-scholar-square" aria-hidden="true"></i> Google Scholar</a></li>
+      
+      
+      
+        <li><a href="https://twitter.com/duetosymmetry"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+      
+      
+        <li><a href="https://www.facebook.com/leo.stein"><i class="fa fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+      
+      
+        <li><a href="https://plus.google.com/+LeoStein"><i class="fa fa-fw fa-google-plus-square" aria-hidden="true"></i> Google+</a></li>
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/duetosymmetry"><i class="fa fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Complex polynomial roots toy">
+    <meta itemprop="description" content="Interactive toy for visualizing relationship between polynomial roots and coefficients">
+    <meta itemprop="datePublished" content="December 15, 2017">
+    <meta itemprop="dateModified" content="June 08, 2019">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Complex polynomial roots toy
+</h1>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <!------------------------------------------------------------>
+
+<style>
+.mybox {
+width: 360px;
+height: 360px;
+margin-bottom: 1em;
+display: inline-block;
+}
+
+.myDegInput {
+width: 4em;
+}
+
+.myLabel {
+display: inline-block;
+}
+
+.myBoxTitle {
+padding: 10px;
+text-decoration: underline;
+}
+</style>
+
+<p>Grab the red dots and play around! Or jump to the
+<a href="#explanation">explanation</a>, or <a href="#things-to-try">try this</a>.</p>
+
+<div id="coeffbox" class="jxgbox mybox" style="">
+</div>
+<div id="rootbox" class="jxgbox mybox" style="">
+</div>
+
+<form onsubmit="return false;">
+<div>
+<label for="degView" class="myLabel">Degree of polynomial (change me!):</label>
+<input type="number" name="degView" id="degView" class="myDegInput" min="1" max="7" step="1" value="4" />
+</div>
+
+<div>
+<label for="viewDisc" class="myLabel">View discriminant's roots?</label>
+<input type="checkbox" name="viewDisc" id="viewDisc" />
+</div>
+</form>
+
+<!------------------------------------------------------------>
+<!-- CODE -->
+
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/fraction.min.js"></script>
+
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/complex.min.js"></script>
+
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/quaternion.min.js"></script>
+
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/polynomial.min.js"></script>
+
+<script type="text/javascript" src="https://duetosymmetry.com/assets/js/poly-root-toy.js"></script>
+
+<script type="text/javascript">
+  var controller = new PolyRootController("rootbox","coeffbox", "degView", "viewDisc");
+</script>
+
+<h2 id="explanation">Explanation</h2>
+
+<p>A <a href="https://en.wikipedia.org/wiki/Polynomial">polynomial</a> in <em>x</em> of
+<em>degree n</em> has the form</p>
+<div>
+\begin{align}
+P(x) = \sum_{i=0}^n a_i x^i .
+\end{align}
+</div>
+<p>From the <a href="https://en.wikipedia.org/wiki/Fundamental_theorem_of_algebra">fundamental theorem of
+algebra</a>,
+there are exactly <em>n</em> roots <script type="math/tex">z_i \in \mathbb{C}</script> in the complex
+plane.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>  The same polynomial can be written as</p>
+<div>
+\begin{align}
+\label{eq:factored}
+P(x) = a_n (x-z_1)(x-z_2)\cdots(x-z_n) .
+\end{align}
+</div>
+<p>Let’s set <script type="math/tex">a_n=1</script> for simplicity (this is called a monic
+polynomial).</p>
+
+<p>Now, if you have the roots, finding the values of the coefficients
+<script type="math/tex">a_i</script> is straightforward: just expand out the product in Eq. \eqref{eq:factored}.
+The functions <script type="math/tex">a_i(z_1, z_2, \ldots, z_n)</script> are known as <a href="https://en.wikipedia.org/wiki/Elementary_symmetric_polynomial">elementary
+symmetric
+polynomials</a>
+(up to a sign).  If you move a root, you can see how all the
+coefficients change.</p>
+
+<p>Solving for the <script type="math/tex">z_i</script>’s from the <script type="math/tex">a_i</script>’s with some algebraic
+formula is possible for <script type="math/tex">n\le 4</script> but generally impossible for higher
+degrees.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> Nonetheless, we can numerically solve for roots
+with <a href="https://en.wikipedia.org/wiki/Category:Root-finding_algorithms">various numerical
+algorithms</a>.<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>
+If you move a coefficient, your computer will solve for the
+new locations of the roots, and you can see how they respond.</p>
+
+<h2 id="things-to-try">Things to try</h2>
+
+<p>Grab a coefficient <script type="math/tex">a_i</script> and move it around in a closed loop.  If it
+comes back to where it started, then the <em>set</em> of roots <script type="math/tex">\{ z_j \}</script>
+have to return to the starting set.</p>
+
+<p>But we can also talk about each individual root’s trajectory as
+<script type="math/tex">a_i</script> is varied.  If <script type="math/tex">a_i</script> moves in a very small loop, so does
+each <script type="math/tex">z_j</script>.</p>
+
+<p>Now try to find a larger loop for some <script type="math/tex">a_i</script> so that some <script type="math/tex">z_j</script>’s
+swap places!</p>
+
+<p>Hint (spoiler): a really simple choice is to move <script type="math/tex">a_0</script> around the
+unit circle, if all the other <script type="math/tex">a_i</script>’s are close to the origin.  Then
+you should see the <em>n</em> roots <script type="math/tex">z_j</script> each shift one spot to the
+left/right around their unit circle.  This is an n-cycle.</p>
+
+<p>Try to find a 2-cycle (two roots swap places) or other more
+complicated types of <em>permutations</em>.</p>
+
+<p>What we have here is a map from closed loops in <em>a</em>-space to
+<a href="https://en.wikipedia.org/wiki/Permutation_group">permutations</a> of the
+<em>n</em> roots.</p>
+
+<p>Question: What determines the type of permutation (cycle structure or
+conjugacy class)?
+Hint: It has something to do with the zeros of the
+<a href="https://en.wikipedia.org/wiki/Discriminant">discriminant</a>.
+To understand the relationship, check <a href="#viewDisc">the box</a> to view the
+discriminant’s roots.  When you drag a coefficient <script type="math/tex">a_i</script>, you will
+see the roots of the discriminant (treated as univariate, holding fixed
+all other <script type="math/tex">a_{j\neq i}</script>).</p>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>This toy was somewhat inspired by <a href="https://plus.google.com/+johncbaez999/posts/81M1B5TCmhb">John Baez’s
+post</a>, which
+in turn was discussing <a href="http://twocubes.tumblr.com/post/140680223428/same-polynomials-but-this-time-im-letting-t-vary">this tumblr
+post</a>.</p>
+
+<p>This toy makes use of <a href="http://jsxgraph.uni-bayreuth.de/wp/">JSXGraph</a>
+and my extended version of
+<a href="https://github.com/infusion/Polynomial.js">Polynomial.js</a>.<sup id="fnref:3:1"><a href="#fn:3" class="footnote">3</a></sup></p>
+
+<p>Suggestions welcome!</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>I’m only considering <script type="math/tex">a_i \in \mathbb{C}</script>; things like
+polynomials over finite fields are trickier! <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Proved by <a href="https://en.wikipedia.org/wiki/%C3%89variste_Galois">Évariste
+Galois</a> before
+his death in a duel at age 20. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>For root-finding, I implemented the <a href="https://en.wikipedia.org/wiki/Aberth_method">Aberth-Ehrlich
+method</a> into the
+javascript package
+<a href="https://github.com/infusion/Polynomial.js">Polynomial.js</a>,
+following <a href="https://doi.org/10.1007/BF02207694">Dario Bini’s paper</a>
+and his <a href="http://www.netlib.org/numeralgo/na10">FORTRAN
+implementation</a>.
+To evaluate the discriminant, I compute the determinant of the
+<a href="https://en.wikipedia.org/wiki/Bézout_matrix">Bézout matrix</a>. <a href="#fnref:3" class="reversefootnote">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://duetosymmetry.com/tags/#algebra" class="page__taxonomy-item" rel="tag">algebra</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://duetosymmetry.com/tags/#interactive" class="page__taxonomy-item" rel="tag">interactive</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://duetosymmetry.com/tags/#polynomial" class="page__taxonomy-item" rel="tag">polynomial</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://duetosymmetry.com/tags/#roots" class="page__taxonomy-item" rel="tag">roots</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://duetosymmetry.com/categories/#tool" class="page__taxonomy-item" rel="tag">tool</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-06-08">June 08, 2019</time></p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=duetosymmetry&text=Complex polynomial roots toy https://duetosymmetry.com/tool/polynomial-roots-toy/" class="btn btn--twitter" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://duetosymmetry.com/tool/polynomial-roots-toy/" class="btn btn--facebook" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=https://duetosymmetry.com/tool/polynomial-roots-toy/" class="btn btn--google-plus" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://duetosymmetry.com/tool/polynomial-roots-toy/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fa fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://duetosymmetry.com/code/simple-slow-rot-NS-solver/" class="pagination--pager" title="Simple slow-rotation neutron star structure solver
+">Previous</a>
+    
+    
+      <a href="https://duetosymmetry.com/pubs/NHEK-stringy/" class="pagination--pager" title="Deformation of extremal black holes from stringy interactions
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://duetosymmetry.com/pubs/qnm-package/" rel="permalink">qnm: A Python package for calculating Kerr quasinormal modes, separation constants, and spherical-spheroidal mixing coefficients
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">qnm is an open-source Python package for computing the Kerr quasinormal mode frequencies, angular separation constants, and spherical-spheroidal mixing coeff...</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://duetosymmetry.com/news/Titanium-Physicists-podcast-episode-80/" rel="permalink">Titanium Physicists podcast episode 80
+</a>
+        <a href="http://titaniumphysicists.brachiolopemedia.com/2019/08/21/episode-80-picturing-the-bach-hole-with-adal-rifai/"><i class="fa fa-link" aria-hidden="true" title="external link"></i><span class="sr-only">External link</span></a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Hear me, Katie Bouman, and friends talk about how to snap a picture of a black hole with the Event Horizon Telescope!
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://duetosymmetry.com/pubs/DCS-head-on/" rel="permalink">Numerical binary black hole collisions in dynamical Chern-Simons gravity
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">The first numerical beyond-GR binary black hole merger simulation.
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://duetosymmetry.com/notes/a-family-of-ramp-functions-and-the-Beta-function/" rel="permalink">Notes: A family of ramp functions and the Beta function
+</a>
+      
+    </h2>
+    
+    <p class="archive__item-excerpt" itemprop="description">Sometimes in a numerical method, you need to be able to continuously turn a calculation on or off in space or time.
+</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+</div>
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/duetosymmetry"><i class="fa fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://facebook.com/leo.stein"><i class="fa fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="http://github.com/duetosymmetry"><i class="fa fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://duetosymmetry.com/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2015-2019 Leo C. Stein. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>. <a href="https://github.com/duetosymmetry/web-site/tree/customization" rel="nofollow">Visit the repo for this site here</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://duetosymmetry.com/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64041100-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+  </body>
+</html>

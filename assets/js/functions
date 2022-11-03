@@ -1,0 +1,70 @@
+//Everything written out so far in order of dependence.
+M=1;
+state.a=a; state.x=x;
+    
+// some of the math takes zm, which depends only on x.
+var zm=  Math.sqrt(1 - x**2);
+    
+// The first two of the four radial roots
+function r1(p,e){return p/(1 - e);}
+function r2(p,e){return p/(1 + e);}
+	
+//These are support functions used to shorten the math.
+//They are sometimes called using r1 and sometimes with r2, and that is why there are two versions of each.
+//(there may be a more efficient way to write/use them.)
+function Delta1(p,e){return r1(p,e)**2 - 2* r1(p,e) + a**2;}
+function Delta2(p,e){return r2(p,e)**2 - 2* r2(p,e) + a**2;}
+let g1,d1,h1,f1,g2,d2,h2,f2;
+function dfghSetter(p,e){
+    let r=r1(p,e);let rr=r2(p,e);let Del1=Delta1(p,e);let Del2=Delta2(p,e);
+    d1= (r**2 + a**2 * zm**2)* Del1;
+    d2= (rr**2 + a**2 * zm**2)* Del2;
+    f1= r**4 + a**2 *(r *(r + 2) + zm**2 * Del1);
+    f2= rr**4 + a**2 *(rr *(rr + 2) + zm**2 * Del2);
+    g1= 2* a* r;
+    g2= 2* a* rr;
+    h1= r*(r - 2) + zm**2/(1 - zm**2)*Del1;
+    h2= rr*(rr - 2) + zm**2/(1 - zm**2)*Del2;
+}
+
+//Constants of Motion
+var En,L,Q;
+function consSetter(p,e){
+	//This is another group of support functions that calls the earlier ones. This group could be re-written as a single function with more arguments.
+		dfghSetter(p,e);
+        let Kappa = d1* h2 - h1* d2;
+        let Epsilon = d1* g2 - g1* d2;
+        let Rho = f1* h2 - h1* f2;
+        let Eta = f1* g2 - g1* f2;
+        let Sigma = g1* h2 - h1* g2;
+	
+	//Here are the equations for En, L, and Q. Note that L depends on En and Q depends on En and L.	
+    En= Math.sqrt((Kappa * Rho + 2* Epsilon * Sigma - x * 2* Math.sqrt(Sigma * (Sigma * Epsilon**2 + Rho * Epsilon * Kappa - Eta * Kappa**2)/x**2))/(Rho**2 + 4* Eta * Sigma))
+    
+    
+    L= (-En*g1 + x*Math.sqrt((-d1*h1 + En**2 *(g1**2 + f1*h1))/x**2))/h1
+    
+    
+    Q= zm**2 *(a**2 * (1 - En**2) + L**2/(1 - zm**2))
+
+}
+
+// Support functions for r3 and r4.  Note that En and Q depend on p and e and are undefined until consSetter(p,e) is called.
+function AplusB(p,e){return (2*M)/(1 - En**2) - (r1(p,e) + r2(p,e));}
+function AB(p,e){return (a**2 *Q)/((1 - En**2) *r1(p,e) *r2(p,e));}
+
+//The last two radial roots.
+function r3(p,e) {return (AplusB(p,e) + Math.sqrt(AplusB(p,e)**2 - 4*AB(p,e)))/2;}//(*Eq.(11)*)
+function r4(p,e) {return AB(p,e)/r3(p,e);}
+    
+
+//From the root finder file:
+//bisection(function,leftbound,rightbound){...}
+
+//Returns the minimum allowed value of p for a given value of e
+function separatrix(e){
+	let MINIMUM= M + Math.sqrt(M*M - a*a);//outer Event Horizon?
+    return bisection(function(p){consSetter(p,e); return r3(p,e)-r2(p,e);},MINIMUM,12)
+}
+
+//Once state.e and state.p are set, r1,r2,r3,r4, and consSetter will be called again and passed to the integrator function.
