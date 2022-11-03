@@ -70,7 +70,7 @@ G_{ab} = 8\pi T_{ab}
 Here is a 2D Schwarzschild orbit: -->
 
 <label for="sepbox">Orbit Controller</label>
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" ></div>
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
 <div style="width: 100%; overflow: hidden;">
   <div id="animbox" style="width:350px; height:300px; float:left;"></div>
   <div id="animbox2" style="width:350px; height:300px; float:right;"></div>

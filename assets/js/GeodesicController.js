@@ -98,29 +98,29 @@ class GeodCont {
     constructor() {
         const that = this; //Something to help keep track of what 'this' is. 
 
-        this.ctrlbrd = JXG.JSXGraph.initBoard('sepbox', { boundingbox: [0, 1.2, 22, -0.1], axis: false});
-    this.xaxis = this.ctrlbrd.create('axis', [[0, 0], [1, 0]],
-        {
-            name: 'p',
-            withLabel: true,
-            label: {
-                position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
-                offset: [-4, 13],   // (in pixels)
-                fontSize: 16
-            }
-        });
-   
-    this.yaxis = this.ctrlbrd.create('axis', [[0, 0], [0, 1]],
-        {
-            name: 'e',
-            withLabel: true,
-            label: {
-                position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
-                offset: [5, -57],   // (in pixels)
-                fontSize: 16
-                //fontStyle: 'bold' //how to I make it bold?
-            }
-        });
+        this.ctrlbrd = JXG.JSXGraph.initBoard('sepbox', { boundingbox: [0, 1.2, 22, -0.1], axis: false });
+        this.xaxis = this.ctrlbrd.create('axis', [[0, 0], [1, 0]],
+            {
+                name: 'p',
+                withLabel: true,
+                label: {
+                    position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
+                    offset: [-4, 13],   // (in pixels)
+                    fontSize: 16
+                }
+            });
+
+        this.yaxis = this.ctrlbrd.create('axis', [[0, 0], [0, 1]],
+            {
+                name: 'e',
+                withLabel: true,
+                label: {
+                    position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
+                    offset: [5, -57],   // (in pixels)
+                    fontSize: 16
+                    //fontStyle: 'bold' //how to I make it bold?
+                }
+            });
         this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0.9, .99]], { name: 'spin' });
         this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0.6, 1]], { name: 'inclination', snapWidth: .01 });
 
@@ -130,17 +130,17 @@ class GeodCont {
         //that.point.attractors[0]=SepCurve.curve;
         this.userpoint = this.ctrlbrd.create('point', [9, .5]);
         this.userpoint.setAttribute({
-            hasLabel: true, label: { 
+            hasLabel: true, label: {
                 offset: [0, 10],
                 anchorX: 'middle',
-                anchorY: 'bottom',},
+                anchorY: 'bottom',
+            },
             snapToGrid: true,
             snapSizeX: .01, snapSizeY: .01
         }); //,hasLabel=false,snaptoPoints=true,attractorDistance=24,snatchDistance=210
         this.userpoint.setLabelText('(Drag the red dot)');
 
         this.ctrlbrd.on('update', function () {
-            if(that.userpoint.hasLabel==true){that.userpoint.hasLabel=false;that.userpoint.setLabelText('');}
             var o;
             if (typeof that.ctrlbrd.touches != 'undefined' && that.ctrlbrd.touches.length > 0) {
                 o = brd.touches[0].obj;
@@ -234,7 +234,7 @@ class GeodCont {
                 if (ResGlider) {
                     //if(document.getElementById('MatchFreqQ').checked)
                     that.userpoint.moveTo([ResCurve.findResSurface(this.Value(), state.e, state.x), that.userpoint.Y()]);
-                    that.userpoint.makeGlider(ResCurve.curve);that.ctrlbrd.update();
+                    that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update();
                 }
             }
             that.GeodesicReConstructor(state.p, this.Value(), state.e, state.x, dtau);
@@ -270,7 +270,7 @@ class GeodCont {
                 ResCurve.updateDisplay();
                 if (ResGlider) {
                     that.userpoint.moveTo([ResCurve.findResSurface(state.a, state.e, this.Value()), that.userpoint.Y()]);
-                    that.userpoint.makeGlider(ResCurve.curve);that.ctrlbrd.update();
+                    that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update();
                 }
             }
             that.GeodesicReConstructor(that.userpoint.X(), state.a, state.e, this.Value(), dtau);
@@ -1074,9 +1074,9 @@ class GeodCont {
                 if (worked) {
                     if (ResGlider) { that.userpoint.free(); }
                     ResCurve.updateDisplay();
-                    if (ResGlider) { that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update();}
+                    if (ResGlider) { that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update(); }
                 }
-                else { ResCurve.undraw(); that.ctrlbrd.update();}//'Update' can only be clicked when ResCurveOn is true
+                else { ResCurve.undraw(); that.ctrlbrd.update(); }//'Update' can only be clicked when ResCurveOn is true
             }
             return worked
         }
@@ -1089,9 +1089,9 @@ class GeodCont {
             that.ctrlbrd.update();
         }
 
-        this.toggleRotatingFrame=function(checkbox){
-            Corotating_Frame_Traj_On= checkbox.checked;   
-            if(checkbox.checked && document.getElementById("cameraSwitcher").value!="fixed"){console.log("Camera must be 'Fixed' for Coratation to work.")}
+        this.toggleRotatingFrame = function (checkbox) {
+            Corotating_Frame_Traj_On = checkbox.checked;
+            if (checkbox.checked && document.getElementById("cameraSwitcher").value != "fixed") { console.log("Camera must be 'Fixed' for Coratation to work.") }
         }
 
         this.switchRefFrame = function (option) {
@@ -1128,7 +1128,7 @@ class GeodCont {
                     FixedCamera = true;
                     FixedTarget = true;
                     ZAMOcam = false;
-if(Corotating_Frame_Traj_On){document.getElementById('Corotate').checked=false;} 
+                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
                     //document.getElementById("switchRefFrame").disabled = false;
 
                     if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
@@ -1146,7 +1146,7 @@ if(Corotating_Frame_Traj_On){document.getElementById('Corotate').checked=false;}
                     FixedCamera = false;
                     FixedTarget = true;
                     ZAMOcam = false;
-                    if(Corotating_Frame_Traj_On){document.getElementById('Corotate').checked=false;} 
+                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
                     //document.getElementById("switchRefFrame").disabled = true;
                     if (Corotating_Frame_Traj_On) {
                         Corotating_Frame_Traj_On = false;
@@ -1168,7 +1168,7 @@ if(Corotating_Frame_Traj_On){document.getElementById('Corotate').checked=false;}
                     FixedCamera = false;
                     FixedTarget = false;
                     ZAMOcam = false;
-                    if(Corotating_Frame_Traj_On){document.getElementById('Corotate').checked=false;} 
+                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
                     //document.getElementById("switchRefFrame").disabled = true;
                     if (Corotating_Frame_Traj_On) {
                         Corotating_Frame_Traj_On = false;
