@@ -98,7 +98,29 @@ class GeodCont {
     constructor() {
         const that = this; //Something to help keep track of what 'this' is. 
 
-        this.ctrlbrd = JXG.JSXGraph.initBoard('sepbox', { boundingbox: [0, 1.2, 22, -0.1], axis: true });
+        this.ctrlbrd = JXG.JSXGraph.initBoard('sepbox', { boundingbox: [0, 1.2, 22, -0.1], axis: false});
+    this.xaxis = this.ctrlbrd.create('axis', [[0, 0], [1, 0]],
+        {
+            name: ('p').bold(),
+            withLabel: true,
+            label: {
+                position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
+                offset: [-4, 13],   // (in pixels)
+                fontSize: 16
+            }
+        });
+   
+    this.yaxis = this.ctrlbrd.create('axis', [[0, 0], [0, 1]],
+        {
+            name: ('e').bold(),
+            withLabel: true,
+            label: {
+                position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
+                offset: [5, -57],   // (in pixels)
+                fontSize: 16
+                //style: 'bold'
+            }
+        });
         this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0.9, .99]], { name: 'spin' });
         this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0.1, 1]], { name: 'inclination', snapWidth: .01 });
 
