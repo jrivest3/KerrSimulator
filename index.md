@@ -70,7 +70,7 @@ G_{ab} = 8\pi T_{ab}
 Here is a 2D Schwarzschild orbit: -->
 
 <label for="sepbox">Orbit Controller</label>
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" onmouseenter="console.log('turned label off');if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
 <div style="width: 100%; overflow: hidden;">
   <div id="animbox" style="width:350px; height:300px; float:left;"></div>
   <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
@@ -78,7 +78,7 @@ Here is a 2D Schwarzschild orbit: -->
 
 <div class="box">
   <div>
-  <input type="button" id="playpause" value="Pause" onclick="toy.togglePlayState();" style="width:4em;margin:0.5em" />
+  <input type="button" id="playpause" value="Pause" onclick="console.log('clicked');toy.togglePlayState();" style="width:4em;margin:0.5em" />
   <input type="button" id="showZAMOPoints" value="Show ZAMOs" onclick="toy.toggleZAMOs();" style="width:9em;margin:0.5em" />
   </div>
 
