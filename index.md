@@ -171,22 +171,22 @@ dtau: <input id="accuslide" type="number"
  name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" />
 </div><br/>  
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/fraction.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/complex.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/quaternion.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/polynomial.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/fraction.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/complex.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/quaternion.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/polynomial.min.js"></script>
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/three.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/threestrap.min.js"></script>
-<!--<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/OrbitControls.js"></script>-->
-<script type="text/javascript" src="{{ site.url }}/assets/js/elliptic.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/KerrFrequencies.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/three.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/threestrap.min.js"></script>
+<!--<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/OrbitControls.js"></script>-->
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/elliptic.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrFrequencies.js"></script>
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/integrator.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/findroots.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/KerrB.js"> </script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/SepController.js"> </script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/GeodesicController.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/integrator.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/findroots.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrB.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/SepController.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/GeodesicController.js"> </script>
 
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
