@@ -257,9 +257,9 @@ proper time: step size Δτ = <span id="ptime:1"></span>, accumulated τ = <span
       <td>   &Omega;<sub>r</sub> </td> <td>:   &Omega;<sub>&theta;</sub> </td> <td>:   &Omega;<sub>&phi;</sub> </td>
       </tr>
       <tr>
-      <td><input type="number" id="RforRatio" style="width:3em" value="2" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}if(parseInt(TforRatio.value)&lt;=parseInt(this.value)){TforRatio.value=parseInt(this.value)+1;}if(parseInt(PforRatio.value)&lt;=parseInt(this.value)){PforRatio.value=parseInt(this.value)+1;}" /> :</td> <td>
-      <input type="number" id="TforRatio" style="width:3em" value="3" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}if(parseInt(this.value)&lt;=parseInt(RforRatio.value)){this.value=parseInt(RforRatio.value)+1;}" /> :</td> <td>
-      <input type="number" id="PforRatio" style="width:3em" value="3" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}else if(parseInt(this.value)&lt;=parseInt(RforRatio.value)){this.value=parseInt(RforRatio.value)+1;}" disabled="" /></td>
+      <td><input type="number" id="RforRatio" style="width:3em" value="2" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}if(parseInt(TforRatio.value)<=parseInt(this.value)){TforRatio.value=parseInt(this.value)+1;}if(parseInt(PforRatio.value)<=parseInt(this.value)){PforRatio.value=parseInt(this.value)+1;}" /> :</td> <td>
+      <input type="number" id="TforRatio" style="width:3em" value="3" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}if(parseInt(this.value)<=parseInt(RforRatio.value)){this.value=parseInt(RforRatio.value)+1;}" /> :</td> <td>
+      <input type="number" id="PforRatio" style="width:3em" value="3" step="1" onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}else if(parseInt(this.value)<=parseInt(RforRatio.value)){this.value=parseInt(RforRatio.value)+1;}" disabled="" /></td>
       </tr></tbody></table>
     </td>
     <td>
