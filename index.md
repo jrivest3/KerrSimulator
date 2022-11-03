@@ -69,6 +69,7 @@ G_{ab} = 8\pi T_{ab}
     var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
 Here is a 2D Schwarzschild orbit: -->
 
+<label for="sepbox">Orbit Controller</label>
 <div id="sepbox" class="jxgbox" style="width:320px; height:300px;" ></div>
 <div style="width: 100%; overflow: hidden;">
   <div id="animbox" style="width:350px; height:300px; float:left;"></div>
@@ -108,10 +109,10 @@ Here is a 2D Schwarzschild orbit: -->
   </div>-->
 </div>
 
-History: <output name="x" form="player" for="histslide Tstepslide">50</output>
+History: <output name="x" form="player" for="histslide Tstepslide">250</output>
 <form id="player" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
 <input id="histslide" type="range"
- name="history" min="10" max="3000" step="10" value="50"
+ name="history" min="10" max="3000" step="10" value="250"
      onchange="
        toy.historyPoints = parseFloat(this.value);
        toy.historyLength = parseFloat(Tstepslide.value)*parseFloat(this.value);

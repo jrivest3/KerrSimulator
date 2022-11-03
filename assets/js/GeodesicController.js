@@ -122,7 +122,7 @@ class GeodCont {
             }
         });
         this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0.9, .99]], { name: 'spin' });
-        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0.1, 1]], { name: 'inclination', snapWidth: .01 });
+        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0.6, 1]], { name: 'inclination', snapWidth: .01 });
 
         this.SepCurve = new SepController(this.ctrlbrd);
         const SepCurve = that.SepCurve;
@@ -130,13 +130,17 @@ class GeodCont {
         //that.point.attractors[0]=SepCurve.curve;
         this.userpoint = this.ctrlbrd.create('point', [9, .5]);
         this.userpoint.setAttribute({
-            hasLabel: false,
+            hasLabel: true, label: { 
+                offset: [0, 10],
+                anchorX: 'middle',
+                anchorY: 'bottom',},
             snapToGrid: true,
             snapSizeX: .01, snapSizeY: .01
         }); //,hasLabel=false,snaptoPoints=true,attractorDistance=24,snatchDistance=210
-        this.userpoint.setLabelText('');
+        this.userpoint.setLabelText('(Drag the red dot)');
 
         this.ctrlbrd.on('update', function () {
+            if(that.userpoint.hasLabel==true){that.userpoint.hasLabel=false;that.userpoint.setLabelText('');}
             var o;
             if (typeof that.ctrlbrd.touches != 'undefined' && that.ctrlbrd.touches.length > 0) {
                 o = brd.touches[0].obj;
@@ -175,7 +179,7 @@ class GeodCont {
         let dtau = 0.05; //This value is for the initialization of the controller, and will be adjusted by the user.
 
         //B-L time per frame.
-        let delT = 1; //This value is for the initialization of the controller, and will be adjusted by the user.
+        let delT = 1.5; //This value is for the initialization of the controller, and will be adjusted by the user.
         this.historyPoints = document.getElementById("histslide").value;
         this.historyLength = delT * this.historyPoints; //how long the idisplayed solution should be. This is now a BL time interval.
         let tickTime = 35; // in milliseconds.//This value is for the initialization of the controller, and will be adjustable for the user.
