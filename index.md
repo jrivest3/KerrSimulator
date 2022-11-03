@@ -1,6 +1,6 @@
 ---
 layout: page
-title: #"Our playground"
+title: "Simulator for Bound Geodesics in Kerr Spacetime"
 modified:
 categories:
 excerpt:
