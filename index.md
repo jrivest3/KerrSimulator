@@ -211,7 +211,7 @@ dtau: <input id="accuslide" type="number"
 * $$x$$: gives the orbital inclination, $$x=\cos(i)$$, and is controlled by the second slider. For a pro-grade, equatorial orbit, $$x=1$$, $$i=0^{\circ}$$, $$\theta_{\min}=\pi/2$$, and the Cartesian $$z_{m}=\cos(\theta_{\min})=0$$. Similarly, $$x=0$$ corresponds to polar orbits --- $$i=90^{\circ}$$, $$\theta_ {\min}=0$$, $$z_{m}=1$$ --- and $$x=-1$$ corresponds to retrograde, equatorial orbits --- $$i=180^{\circ}$$, $$\theta_ {\min}=\pi/2$$, $$z_{m}=0$$. $$z_m$$ can also be expressed as $$z_m=\sqrt{1 - x^2}$$.
 * $$e$$: is the orbital eccentricity. This ranges from 0 to .99 on the y-axis of the graph and is controlled by dragging the red dot.
 * $$p$$: is the semi-latus rectum (the 'size' of the orbit). $$p$$ and $$e$$ together give the minimum and maximum radius of the orbit, $$r_{\min}=\frac{p}{1 + e}$$ and $$r_{\max}=\frac{p}{1 - e}$$.  
- This is also controlled by dragging the red dot. The largest value of $$p$$ allowed is the right edge of the graph. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
+ This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
 
 ### Camera Controls
 
@@ -239,11 +239,11 @@ The Animation Speed controls the frame rate of the animation, while $$\Delta$$T 
 
 ### Resonance Controls
 
-* On/Off Switch: Draws/Undraws a curve on the Orbit Controller graph representing values of $p$ and $e$ for the given $a$ and $x$ that will result in a resonance between two selected orbital frequencies. The 'Update' button and 'Find this Ratio' checkbox are enabled/disabled when Resonance curve in on/off.
+* On/Off Switch: Draws/Undraws a curve on the Orbit Controller graph representing values of $$p$$ and $$e$$ for the given $$a$$ and $$x$$ that will result in a resonance between two selected orbital frequencies. The 'Update' button and 'Find this Ratio' checkbox are enabled/disabled when Resonance curve in on/off.
 * Ratio Selection: Selection of which two directions of motion the user would like to be in resonance. This selection enables/disables the appropriate ratio integer entry boxes. Options in this list are also disabled when for special values of the orbital parameters.
 * Ratio Integers: Enter three integers representing the ratios of the respective orbital frequencies. Absolute values of frequencies are used for the case of retrograde orbits, so only positive integers are allowed. Polar and azimuthal frequencies are are required to be greater than the radial frequency for all bound orbits.
 * 'Find this Ratio': Checking the the checkbox will convert the draggable dot on the Controller graph into a glider that clings to the resonance curve, when it is drawn on the graph. Un-checking the box will free the controller dot from the curve.
-* Update: Changes made to the resonance ratio will not alter the resonance curve seen in the controller graph until the 'Update' button is clicked. Any choices of ratios that result in no solution will cause the resonance curve to disappear. Some resonance curves only have solutions for some values of $e$ and not others; in these cases, only the points with a solution will be plotted.
+* Update: Changes made to the resonance ratio will not alter the resonance curve seen in the controller graph until the 'Update' button is clicked. Any choices of ratios that result in no solution will cause the resonance curve to disappear. Some resonance curves only have solutions for some values of $$e$$ and not others; in these cases, only the points with a solution will be plotted.
 
 ### Introduction
 
