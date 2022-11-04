@@ -1,6 +1,6 @@
 ---
 layout: page
-title: #"Our playground"
+title: "Simulator for Bound Geodesics in Kerr Spacetime"
 modified:
 categories:
 excerpt:
@@ -69,7 +69,8 @@ G_{ab} = 8\pi T_{ab}
     var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
 Here is a 2D Schwarzschild orbit: -->
 
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" ></div>
+<label for="sepbox">Orbit Controller</label>
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
 <div style="width: 100%; overflow: hidden;">
   <div id="animbox" style="width:350px; height:300px; float:left;"></div>
   <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
@@ -108,10 +109,10 @@ Here is a 2D Schwarzschild orbit: -->
   </div>-->
 </div>
 
-History: <output name="x" form="player" for="histslide Tstepslide">50</output>
+History: <output name="x" form="player" for="histslide Tstepslide">250</output>
 <form id="player" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
 <input id="histslide" type="range"
- name="history" min="10" max="3000" step="10" value="50"
+ name="history" min="10" max="3000" step="10" value="250"
      onchange="
        toy.historyPoints = parseFloat(this.value);
        toy.historyLength = parseFloat(Tstepslide.value)*parseFloat(this.value);
@@ -150,7 +151,7 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
       </tr></tbody></table>
     </td>
     <td>
-    <label for="MatchFreqQ"> Try to match this ratio? </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
+    <label for="MatchFreqQ"> Find this Ratio </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
     </td>
     <td>
     <input type="button" id="UpdateRC" value="Update" onclick="let curveappears=toy.updateResCurve(RatioMenu.value);if(!curveappears){MatchFreqQ.checked=false; MatchFreqQ.disabled=true;}else if(MatchFreqQ.disabled==true){MatchFreqQ.disabled=false;}" disabled/>
@@ -166,27 +167,27 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
 Animation speed: <input id="framerate" type="range"
  name="playspeed" min="0" max="90" step="5" value="30" /><!-- 0 corresponds with 10 frames/second, 90 gives 100 frames/second -->
 Delta T: <input id="Tstepslide" type="number"
- name="dT" min="0.1" max="5.0" step="0.1" value="1.5" />
+ name="dT" min="0.1" max="5.0" step="0.1" value="1" />
 dtau: <input id="accuslide" type="number"
  name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" />
 </div><br/>  
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/fraction.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/complex.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/quaternion.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/polynomial.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/fraction.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/complex.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/quaternion.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/polynomial.min.js"></script>
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/three.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/threestrap.min.js"></script>
-<!--<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/OrbitControls.js"></script>-->
-<script type="text/javascript" src="{{ site.url }}/assets/js/elliptic.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/KerrFrequencies.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/three.min.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/threestrap.min.js"></script>
+<!--<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/OrbitControls.js"></script>-->
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/elliptic.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrFrequencies.js"></script>
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/integrator.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/findroots.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/KerrB.js"> </script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/SepController.js"> </script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/GeodesicController.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/integrator.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/findroots.js"></script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrB.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/SepController.js"> </script>
+<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/GeodesicController.js"> </script>
 
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -210,8 +211,7 @@ dtau: <input id="accuslide" type="number"
 * $$x$$: gives the orbital inclination, $$x=\cos(i)$$, and is controlled by the second slider. For a pro-grade, equatorial orbit, $$x=1$$, $$i=0^{\circ}$$, $$\theta_{\min}=\pi/2$$, and the Cartesian $$z_{m}=\cos(\theta_{\min})=0$$. Similarly, $$x=0$$ corresponds to polar orbits --- $$i=90^{\circ}$$, $$\theta_ {\min}=0$$, $$z_{m}=1$$ --- and $$x=-1$$ corresponds to retrograde, equatorial orbits --- $$i=180^{\circ}$$, $$\theta_ {\min}=\pi/2$$, $$z_{m}=0$$. $$z_m$$ can also be expressed as $$z_m=\sqrt{1 - x^2}$$.
 * $$e$$: is the orbital eccentricity. This ranges from 0 to .99 on the y-axis of the graph and is controlled by dragging the red dot.
 * $$p$$: is the semi-latus rectum (the 'size' of the orbit). $$p$$ and $$e$$ together give the minimum and maximum radius of the orbit, $$r_{\min}=\frac{p}{1 + e}$$ and $$r_{\max}=\frac{p}{1 - e}$$.  
-
-This is also controlled by dragging the red dot. The largest value of $$p$$ allowed is the right edge of the graph. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
+ This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
 
 ### Camera Controls
 
@@ -238,6 +238,12 @@ Further down the page are various time controls. Adjusting these can affect the 
 The Animation Speed controls the frame rate of the animation, while $$\Delta$$T is the (approximate) amount of B-L time per frame. The slowest frame rate is 10 fps and the fastest is 100 fps. To make one B-L second pass over one second in real time (almost -- it can be a bit slower than real seconds), set the Animation and $$\Delta$$T (and  d$$\tau$$, ideally) to their minimum values (10 frames/sec and 0.1 B-L sec/frame). If $$\Delta$$T is too small compared to d$$\tau$$, the integrator will stop, and the red path will gradually disappear. Another side effect of adjusting $$\Delta$$T is scaling the length of the trajectory 'history' displayed. d$$\tau$$ is the amount of proper-time passed per integration step; in other words, it's the step-size used by the integrator. Making this smaller increases both the precision of the trajectory and the number of computations per frame. Note, however, that the amount of proper time, or number of steps, per frame varies to maintain a constant passage of B-L time. This means that the passage of time as seen in the animation is more representative of what an observer at infinity would see, rather than the passage of time experienced by an object following the trajectory -- that is, the proper time.
 
 ### Resonance Controls
+
+* On/Off Switch: Draws/Undraws a curve on the Orbit Controller graph representing values of $$p$$ and $$e$$ for the given $$a$$ and $$x$$ that will result in a resonance between two selected orbital frequencies. The 'Update' button and 'Find this Ratio' checkbox are enabled/disabled when Resonance curve in on/off.
+* Ratio Selection: Selection of which two directions of motion the user would like to be in resonance. This selection enables/disables the appropriate ratio integer entry boxes. Options in this list are also disabled when for special values of the orbital parameters.
+* Ratio Integers: Enter three integers representing the ratios of the respective orbital frequencies. Absolute values of frequencies are used for the case of retrograde orbits, so only positive integers are allowed. Polar and azimuthal frequencies are are required to be greater than the radial frequency for all bound orbits.
+* 'Find this Ratio': Checking the the checkbox will convert the draggable dot on the Controller graph into a glider that clings to the resonance curve, when it is drawn on the graph. Un-checking the box will free the controller dot from the curve.
+* Update: Changes made to the resonance ratio will not alter the resonance curve seen in the controller graph until the 'Update' button is clicked. Any choices of ratios that result in no solution will cause the resonance curve to disappear. Some resonance curves only have solutions for some values of $$e$$ and not others; in these cases, only the points with a solution will be plotted.
 
 ### Introduction
 
@@ -345,7 +351,7 @@ $$\begin{aligned}
 R(r) &= - \beta r^4 + 2r^3 - (a^2\beta + L_z^2)r^2+ 2(aE - L_z)^2r - Q\Delta \\
 \Theta(\theta) &= Q - \cos^2\theta\left(a^2\beta + \frac{L_z^2}{\sin^2\theta}\right)
 \end{aligned}$$  
-and $$\beta = (1 - E^2)$$. In the above equations and hereafter $$E$$, $$L_z$$, and $$Q$$ denote the _specific_ energy, angular momentum and Carter constant, respectively.
+and $$\beta = (1 - E^2)$$. In the above equations and hereafter $$E$$, $$L_z$$, and $$Q$$ denote the_specific_ energy, angular momentum and Carter constant, respectively.
 
 #### Solutions in Cyclical Coordinates
 
