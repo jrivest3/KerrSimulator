@@ -121,8 +121,8 @@ class GeodCont {
                     //fontStyle: 'bold' //how to I make it bold?
                 }
             });
-        this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0.9, .99]], { name: 'spin' });
-        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0.6, 1]], { name: 'inclination', snapWidth: .01 });
+        this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0, .99]], { name: 'spin' });
+        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, -1, 1]], { name: 'inclination', snapWidth: .01 });
 
         this.SepCurve = new SepController(this.ctrlbrd);
         const SepCurve = that.SepCurve;
