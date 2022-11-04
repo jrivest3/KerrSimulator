@@ -167,7 +167,7 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
 Animation speed: <input id="framerate" type="range"
  name="playspeed" min="0" max="90" step="5" value="30" /><!-- 0 corresponds with 10 frames/second, 90 gives 100 frames/second -->
 Delta T: <input id="Tstepslide" type="number"
- name="dT" min="0.1" max="5.0" step="0.1" value="1.5" />
+ name="dT" min="0.1" max="5.0" step="0.1" value="1" />
 dtau: <input id="accuslide" type="number"
  name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" />
 </div><br/>  

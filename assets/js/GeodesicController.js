@@ -179,7 +179,7 @@ class GeodCont {
         let dtau = 0.05; //This value is for the initialization of the controller, and will be adjusted by the user.
 
         //B-L time per frame.
-        let delT = 1.5; //This value is for the initialization of the controller, and will be adjusted by the user.
+        let delT = 1; //This value is for the initialization of the controller, and will be adjusted by the user.
         this.historyPoints = document.getElementById("histslide").value;
         this.historyLength = delT * this.historyPoints; //how long the idisplayed solution should be. This is now a BL time interval.
         let tickTime = 35; // in milliseconds.//This value is for the initialization of the controller, and will be adjustable for the user.
