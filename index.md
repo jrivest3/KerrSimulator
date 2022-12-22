@@ -47,7 +47,9 @@ jsxgraph: true
   margin-right: -0.15em;
 }
 </style> -->
+
 <style>
+
       .box div {
         display: inline-block;
         vertical-align: middle;
@@ -56,7 +58,28 @@ jsxgraph: true
         margin-top: 0.25rem;
         margin-bottom: 0.5rem;
       }
+      
 </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ site.url }}/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script language="javascript">
+  jQuery('.info').popover();
+
+  jQuery(':not(#anything)').on('click', function (e) {
+      jQuery('.info').each(function () {
+          //the 'is' for buttons that trigger popups
+          //the 'has' for icons and other elements within a button that triggers a popup
+          if (!jQuery(this).is(e.target) && jQuery(this).has(e.target).length === 0 && jQuery('.popover').has(e.target).length === 0) {
+              jQuery(this).popover('hide');
+              return;
+          }
+      });
+  });
+</script>
+
 <!-- Here is the "safe" way to write LaTeX, without fear of kramdown
 clobbering something:
 <div>
@@ -69,8 +92,20 @@ G_{ab} = 8\pi T_{ab}
     var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
 Here is a 2D Schwarzschild orbit: -->
 
-<label for="sepbox">Orbit Controller</label>
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
+<details markdown="1" open>
+<summary markdown="1">
+
+### Introduction
+{: style="display:inline"}
+</summary>
+
+In General Relativity (GR), massive objects distort the spacetime around them. This can be seen in the metric tensor, $$g_{\alpha\beta}$$, which is a set of numbers that determines how relative distances between points are measured in different directions. To see how this dictates paths objects may take, we can construct combinations of derivatives of the metric components, or 'connections', a useful example being the Christoffel connection coefficients, or Christoffel symbols, $$\Gamma^{\gamma}{}_{\alpha\beta}$$, which gives the difference between connections/derivatives. Gravity arises from constructing a combination of second derivatives of the metric, or 'curvature', which can be encoded in the Riemann curvature tensor, $$R^{\rho}{}_{\sigma\alpha\beta}$$.
+
+The extreme limits of gravity exist near black holes. The prominent effect of a central gravitating body is to warp the surrounding spacetime in such a way that nearby masses tend to 'fall inward' directly towards the gravitating body. However, when a massive body spins, it can be thought of as slightly 'dragging' the surrounding spacetime around with it, which influences nearby test masses to 'fall' slightly _around_ the central body as it falls inward. This effect of general relativity is small enough to go unnoticed in everyday life, but in extreme environments, as in near a black hole, the effect can become much more pronounced.
+
+When a stationary black hole is spinning, it is called a Kerr black hole, and the characteristic spacetime distortion it generates is called Kerr spacetime.
+</details>
+
 <div style="width: 100%; overflow: hidden;">
   <div id="animbox" style="width:350px; height:300px; float:left;"></div>
   <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
@@ -83,7 +118,8 @@ Here is a 2D Schwarzschild orbit: -->
   </div>
 
   <div>
-  <label for="cameraSwitcher" style="display: inline;text-align:left;margin:0.5em">Camera:</label>
+  <label for="cameraSwitcher" style="display: inline;text-align:left;margin:0.5em">Camera:
+  </label>
     <select name="options" id="cameraSwitcher" onChange="toy.switchCamera(cameraSwitcher.value);">
       <option value="fixed">Fixed</option>
       <option value="orbitting">Orbitting</option>
@@ -109,8 +145,17 @@ Here is a 2D Schwarzschild orbit: -->
   </div>-->
 </div>
 
-History: <output name="x" form="player" for="histslide Tstepslide">250</output>
-<form id="player" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
+<mytooltip class="info" data-toggle="popover" data-placement="top" data-content="blab" >Info</mytooltip>
+<label for="sepbox">Orbit Controller</label>
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px; float:right;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
+
+<span id="Constants"></span>  
+B-L time T = <span id="BLtime" ></span>  
+proper time: step size &Delta;&tau; = <span id="ptime:1"></span>  
+accumulated &tau; = <span id="ptime:2"></span>
+
+Path Length: <output name="x" form="player" for="histslide Tstepslide">250</output>
+<form id="player" style="display: flex" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
 <input id="histslide" type="range"
  name="history" min="10" max="3000" step="10" value="250"
      onchange="
@@ -120,13 +165,9 @@ History: <output name="x" form="player" for="histslide Tstepslide">250</output>
        " />
 </form>
 
-<p id="Constants" style="display:block"></p>
-B-L time T = <span id="BLtime" ></span> <br>
-proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &tau; = <span id="ptime:2"></span>
-
 <p id="Freq" style="display:block"></p>
 <label for="ResCtrlPanel">Resonance Surface Controls: </label>
-<form id="ResCtrlPanel">
+<form id="ResCtrlPanel" style="display:inline-flex">
  <table style="display:inline-block; margin-bottom:0em;"><tbody>
   <tr>
     <td>
@@ -140,7 +181,7 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
     </select>
     </td>
     <td>
-      <table style="display:inline-block; margin-bottom:0em;"><tbody>
+      <table style="display:block; margin-bottom:0em;"><tbody>
       <tr>
       <td>   &Omega;<sub>r</sub> </td> <td>:   &Omega;<sub>&theta;</sub> </td> <td>:   &Omega;<sub>&phi;</sub> </td>
       </tr>
@@ -150,11 +191,12 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
       <input type="number" id="PforRatio" style="width:3em" value=3 step=1 onchange="this.value = parseInt(this.value);if(parseInt(this.value)==0){this.value=1;}else if(parseInt(this.value)<=parseInt(RforRatio.value)){this.value=parseInt(RforRatio.value)+1;}" disabled/></td>
       </tr></tbody></table>
     </td>
-    <td>
-    <label for="MatchFreqQ"> Find this Ratio </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
+    </tr>
+    <tr><td colspan="2">
+    <label for="MatchFreqQ" style="display:inline-block"> Find this Ratio </label><input type="checkbox" id="MatchFreqQ" style="margin:0.5em" onchange="toy.toggleGliderAttribute(this.checked);" disabled>
     </td>
     <td>
-    <input type="button" id="UpdateRC" value="Update" onclick="let curveappears=toy.updateResCurve(RatioMenu.value);if(!curveappears){MatchFreqQ.checked=false; MatchFreqQ.disabled=true;}else if(MatchFreqQ.disabled==true){MatchFreqQ.disabled=false;}" disabled/>
+    <input type="button" id="UpdateRC" style="float:right" value="Update Graph" onclick="let curveappears=toy.updateResCurve(RatioMenu.value);if(!curveappears){MatchFreqQ.checked=false; MatchFreqQ.disabled=true;}else if(MatchFreqQ.disabled==true){MatchFreqQ.disabled=false;}" disabled/>
     </td>
     <!-- <td>
     <input type="number" id="DeltaPhiOver2piDesired" style="width:5em;margin:0.5em" onchange="processMatchFreqUI()" value="1.333" readonly="" step="any" />
@@ -162,7 +204,14 @@ proper time: step size &Delta;&tau; = <span id="ptime:1"></span>, accumulated &t
   </tr>
  </tbody>
  </table></form>
-###### Animation Controls:
+
+<!--###### Animation Controls:-->
+<details markdown="1">
+<summary markdown="1">
+
+###### Advance Options
+{: style="display:inline"}
+  </summary>
 <div id="sliders">
 Animation speed: <input id="framerate" type="range"
  name="playspeed" min="0" max="90" step="5" value="30" /><!-- 0 corresponds with 10 frames/second, 90 gives 100 frames/second -->
@@ -170,32 +219,8 @@ Delta T: <input id="Tstepslide" type="number"
  name="dT" min="0.1" max="5.0" step="0.1" value="1" />
 dtau: <input id="accuslide" type="number"
  name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" />
-</div><br/>  
-
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/fraction.min.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/complex.min.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/quaternion.min.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/polynomial.min.js"></script>
-
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/three.min.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/threestrap.min.js"></script>
-<!--<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/vendor/OrbitControls.js"></script>-->
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/elliptic.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrFrequencies.js"></script>
-
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/integrator.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/findroots.js"></script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/KerrB.js"> </script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/SepController.js"> </script>
-<script type="text/javascript" src="https://jrivest3.github.io/KerrSimulator/assets/js/GeodesicController.js"> </script>
-
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
- Version 2 
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>-->
-<!-- Version 3 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+</div>
+</details><br/>  
 
 <!--  <form oninput="brd.suspendUpdate();[ppoints,epoints]=updateSeparatrix(a.value,x.value,epoints,ppoints,numPoints);brd.update();brd.unsuspendUpdate();">
   <input type="range" name="a" min="0" max=".99" step=".01" value=".9" />
@@ -205,7 +230,38 @@ dtau: <input id="accuslide" type="number"
 
 <!-- <form><input type="button" value="test point" onClick="query();"></form> -->
 
+<script type="text/javascript" src="{{ site.url }}/assets/js/fraction.min.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/complex.min.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/quaternion.min.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/polynomial.min.js"></script>
+
+<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/three.min.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/threestrap.min.js"></script>
+<!--<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/OrbitControls.js"></script>-->
+
+<script type="text/javascript" src="{{ site.url }}/assets/js/elliptic.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/KerrFrequencies.js"></script>
+
+<script type="text/javascript" src="{{ site.url }}/assets/js/integrator.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/findroots.js"></script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/KerrB.js"> </script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/SepController.js"> </script>
+<script type="text/javascript" src="{{ site.url }}/assets/js/GeodesicController.js"> </script>
+
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ Version 2 
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>-->
+<!-- Version 3 
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+
+<details markdown="1">
+<summary markdown="1">
+
 ### Orbit Controls
+{: style="display:inline"}
+</summary>
 
 * $$a$$: represents the spin of the black hole. This is controlled with the first slider and ranges from 0 to .99, where $$a=0$$ means no rotation (Schwarzschild case) and $$a=1$$ is the upper limit allowed by GR. Changing the spin of the black hole also changes the shape of both the Event Horizon (presented as a black surface) and the Ergosphere (presented as a light blue surface).
 * $$x$$: gives the orbital inclination, $$x=\cos(i)$$, and is controlled by the second slider. For a pro-grade, equatorial orbit, $$x=1$$, $$i=0^{\circ}$$, $$\theta_{\min}=\pi/2$$, and the Cartesian $$z_{m}=\cos(\theta_{\min})=0$$. Similarly, $$x=0$$ corresponds to polar orbits --- $$i=90^{\circ}$$, $$\theta_ {\min}=0$$, $$z_{m}=1$$ --- and $$x=-1$$ corresponds to retrograde, equatorial orbits --- $$i=180^{\circ}$$, $$\theta_ {\min}=\pi/2$$, $$z_{m}=0$$. $$z_m$$ can also be expressed as $$z_m=\sqrt{1 - x^2}$$.
@@ -213,8 +269,14 @@ dtau: <input id="accuslide" type="number"
 * $$p$$: is the semi-latus rectum (the 'size' of the orbit). $$p$$ and $$e$$ together give the minimum and maximum radius of the orbit, $$r_{\min}=\frac{p}{1 + e}$$ and $$r_{\max}=\frac{p}{1 - e}$$.  
  This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
 
-### Camera Controls
+ </details>
 
+<details markdown="1">
+<summary markdown="1">
+
+### Camera Controls
+{: id="Camera Controls" style="display:inline"}
+</summary>
 Two displays appear viewing the black hole and trajectory from different camera perspectives. The viewing angle and position of each display window can be manipulated directly by standard dragging and zooming (mouse clicks or finger swipes). A yellow dot in the scene shows the location of the first camera and a green dot shows the position of the second camera.  
 A 'Zoom' slider is placed at the bottom of the separatrix graph. Both the zoom and the max value of the zoom slider are adjusted to the size of the orbit. So as the orbit is adjusted, the zoom adjusts with it, unless altered manually. The effect of 'Zooming' with the slider is different for each camera setting.  
 The drop-down list of Camera settings only controls the secondary display. The primary camera is always a 'Fixed' camera.
@@ -226,32 +288,37 @@ The options for the second display are:
 * ZAMO Camera: Wherever the camera is currently located, it will begin orbiting along the worldline of a Zero Angular Momentum Observer. Because the orbital velocity of ZAMOs diverges and becomes unphysical inside the black hole, the rotation is disabled if the camera is too close to the center of the black hole.
 
 Next to the Play/Pause button is the Show/Hide ZAMOs button. This adds to the scene a spinning spherical grid of blue cubes representing Zero Angular Momentum Observers (ZAMOs). An explanation of ZAMOs can be found below.
+</details>
 <!--A ZAMO is an observer that follows a circular path around the spin axis of a Kerr black hole with an orbital velocity equal to the 'frame-dragging' rate of the Kerr spacetime at the radius and polar angle of the observer, thus the observer has no angular momentum around the axis parallel to the spin of the black hole. A very distant observer viewing a ZAMO close to the black hole sees that ZAMO moving around the black hole and would measure a mass following that observer to have orbital momentum. But in the reference frame of the ZAMO, it doesn't have any orbital momentum, because its frame is being 'dragged' at the same rate as its motion. This makes ZAMOs useful for illustrating the 'frame dragging' effect. \\
 A more detailed discussion of ZAMOs can be found in section \ref{ZAMOs}.-->
 
+<details markdown="1">
+<summary markdown="1">
+
 ### Time and Animation
+{: style="display:inline"}
+</summary>
 
 The Boyer-Lindquist (B-L) coordinate time of the trajectory is tracked and displayed. The proper time of the geodesic is also visible, both the accumulated proper time and the average amount of proper time per frame that is passing at the head of the trajectory. When the eccentricity is high, you can see that the rate at which proper time passes becomes similar to that of the B-L time when the trajectory gets further from the central black hole and shrinks when it gets closer.  
 The 'History' slide controls length, or 'memory', of the path displayed. The number represents the number of $$\Delta$$T steps recorded, so the actual length of the path that appears will vary over time as the velocity varies.
 
 Further down the page are various time controls. Adjusting these can affect the performance of the integrator, and they can typically be left at their default values:  
 The Animation Speed controls the frame rate of the animation, while $$\Delta$$T is the (approximate) amount of B-L time per frame. The slowest frame rate is 10 fps and the fastest is 100 fps. To make one B-L second pass over one second in real time (almost -- it can be a bit slower than real seconds), set the Animation and $$\Delta$$T (and  d$$\tau$$, ideally) to their minimum values (10 frames/sec and 0.1 B-L sec/frame). If $$\Delta$$T is too small compared to d$$\tau$$, the integrator will stop, and the red path will gradually disappear. Another side effect of adjusting $$\Delta$$T is scaling the length of the trajectory 'history' displayed. d$$\tau$$ is the amount of proper-time passed per integration step; in other words, it's the step-size used by the integrator. Making this smaller increases both the precision of the trajectory and the number of computations per frame. Note, however, that the amount of proper time, or number of steps, per frame varies to maintain a constant passage of B-L time. This means that the passage of time as seen in the animation is more representative of what an observer at infinity would see, rather than the passage of time experienced by an object following the trajectory -- that is, the proper time.
+</details>
+
+<details markdown="1">
+<summary markdown="1">
 
 ### Resonance Controls
+{: style="display:inline"}
+</summary>
 
 * On/Off Switch: Draws/Undraws a curve on the Orbit Controller graph representing values of $$p$$ and $$e$$ for the given $$a$$ and $$x$$ that will result in a resonance between two selected orbital frequencies. The 'Update' button and 'Find this Ratio' checkbox are enabled/disabled when Resonance curve in on/off.
 * Ratio Selection: Selection of which two directions of motion the user would like to be in resonance. This selection enables/disables the appropriate ratio integer entry boxes. Options in this list are also disabled when for special values of the orbital parameters.
 * Ratio Integers: Enter three integers representing the ratios of the respective orbital frequencies. Absolute values of frequencies are used for the case of retrograde orbits, so only positive integers are allowed. Polar and azimuthal frequencies are are required to be greater than the radial frequency for all bound orbits.
 * 'Find this Ratio': Checking the the checkbox will convert the draggable dot on the Controller graph into a glider that clings to the resonance curve, when it is drawn on the graph. Un-checking the box will free the controller dot from the curve.
 * Update: Changes made to the resonance ratio will not alter the resonance curve seen in the controller graph until the 'Update' button is clicked. Any choices of ratios that result in no solution will cause the resonance curve to disappear. Some resonance curves only have solutions for some values of $$e$$ and not others; in these cases, only the points with a solution will be plotted.
-
-### Introduction
-
-In General Relativity (GR), massive objects distort the spacetime around them. This can be seen in the metric tensor, $$g_{\alpha\beta}$$, which is a set of numbers that determines how relative distances between points are measured in different directions. To see how this dictates paths objects may take, we can construct combinations of derivatives of the metric components, or 'connections', a useful example being the Christoffel connection coefficients, or Christoffel symbols, $$\Gamma^{\gamma}{}_{\alpha\beta}$$, which gives the difference between connections/derivatives. Gravity arises from constructing a combination of second derivatives of the metric, or 'curvature', which can be encoded in the Riemann curvature tensor, $$R^{\rho}{}_{\sigma\alpha\beta}$$.
-
-The extreme limits of gravity exist near black holes. The prominent effect of a central gravitating body is to warp the surrounding spacetime in such a way that nearby masses tend to 'fall inward' directly towards the gravitating body. However, when a massive body spins, it can be thought of as slightly 'dragging' the surrounding spacetime around with it, which influences nearby test masses to 'fall' slightly _around_ the central body as it falls inward. This effect of general relativity is small enough to go unnoticed in everyday life, but in extreme environments, as in near a black hole, the effect can become much more pronounced.
-
-When a stationary black hole is spinning, it is called a Kerr black hole, and the characteristic spacetime distortion it generates is called Kerr spacetime.
+</details>
 
 <!-- <!-- basic explanation of Kerr spacetime and the constants of motion
 

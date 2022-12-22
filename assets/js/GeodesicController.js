@@ -121,8 +121,8 @@ class GeodCont {
                     //fontStyle: 'bold' //how to I make it bold?
                 }
             });
-        this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0, .99]], { name: 'spin' });
-        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, -1, 1]], { name: 'inclination', snapWidth: .01 });
+        this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, .9, .99]], { name: 'spin' });
+        this.inc = this.ctrlbrd.create('slider', [[.8, 1.05], [17, 1.05], [-1, 0, 1]], { name: 'inclination', snapWidth: .01 });
 
         this.SepCurve = new SepController(this.ctrlbrd);
         const SepCurve = that.SepCurve;
@@ -510,8 +510,8 @@ class GeodCont {
                         }
                         this.Q = zm ** 2 * (a ** 2 * (1 - this.En ** 2) + this.Lz ** 2 / (1 - zm ** 2));
                     }
-                    //console.log('E='+this.En+' Lz='+this.Lz+' Q='+this.Q);
-                    document.getElementById("Constants").innerHTML = 'E = ' + this.En + ', Lz = ' + this.Lz + ', Q = ' + this.Q;
+                    //console.log('E='+this.En.toFixed(4)+' Lz='+this.Lz.toPrecision(6)+' Q='+this.Q);
+                    document.getElementById("Constants").innerHTML = 'E = ' + this.En.toFixed(6) + ', Lz = ' + this.Lz.toFixed(6) + ', Q = ' + this.Q.toFixed(6);
                     this.CoMs = [this.En, this.Lz, this.Q];
                 },
                 set Roots([a, x]) {

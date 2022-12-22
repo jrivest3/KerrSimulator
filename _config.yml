@@ -5,9 +5,9 @@ locale: en_US
 description: See instructions and explanations below.
 logo: #site-logo.png
 search: true
-baseurl: "KerrSimulator"
-#url: http://localhost:4000
-url: https://jrivest3.github.io/KerrSimulator
+#baseurl: "KerrSimulator"
+url: http://localhost:4000
+#url: https://jrivest3.github.io/KerrSimulator
 
 # Jekyll configuration
 
@@ -38,7 +38,7 @@ exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.
 
 # Site owner
 owner:
-  name: Joe Rivest and Leo Stein
+  name: Joe Rivest
   avatar: #bio-photo.jpg
   email: #you@email.com
   disqus-shortname:

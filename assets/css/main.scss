@@ -53,3 +53,57 @@ sitemap: false
 
 @import "page"; /* layout and styles that apply to posts and pages */
 @import "archives"; /* archive pages (post/tag lists, etc) */
+
+/* Popovers For Tooltips
+   added by Joe Rivest (forked from codepen.io/nwalton3/pen/DmwPJe )
+   ========================================================================== */
+
+//@import "compass/css3";
+
+   mytooltip.info {
+      vertical-align: bottom;
+      position:relative; /* Anything but static */
+      width: 1.5em;
+      height: 1.5em;
+      text-indent: -9999em;
+      display: inline-block;
+      color: grey/*white*/;
+      font-weight:bold;
+      font-size:1em;
+      line-height:1em;
+      background-color: white/*#91b2d2*/;
+      margin-left: .25em;
+      border: .05em solid grey;
+      -webkit-border-radius:.75em;
+      -moz-border-radius:.75em;
+      border-radius:.75em;
+   }
+   mytooltip.info:hover {
+      color: black;
+      border: .15em solid black;
+      /*background-color:#628cb6;*/
+      cursor: hand; 
+      cursor: pointer;
+   }
+   mytooltip.info:before {
+      content:"?";
+      position: absolute;
+      top: .25em;
+      left:0;
+      text-indent: 0;
+      display:block;
+      width:1.5em;
+      text-align:center;
+   }
+   
+   .popover {white-space:pre-wrap;}
+   .popover-title {
+      font-weight:bold;
+   }
+   
+   mytooltip.info, 
+   div.popover.fade.in { 
+      -webkit-transition: opacity 0.2s ease;
+      -moz-transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease;
+   }
