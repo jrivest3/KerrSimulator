@@ -53,6 +53,7 @@ jsxgraph: true
       .box div {
         display: inline-block;
         vertical-align: middle;
+        position:relative;
       }
       p {
         margin-top: 0.25rem;
@@ -60,25 +61,6 @@ jsxgraph: true
       }
       
 </style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{{ site.url }}/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-<script language="javascript">
-  jQuery('.info').popover();
-
-  jQuery(':not(#anything)').on('click', function (e) {
-      jQuery('.info').each(function () {
-          //the 'is' for buttons that trigger popups
-          //the 'has' for icons and other elements within a button that triggers a popup
-          if (!jQuery(this).is(e.target) && jQuery(this).has(e.target).length === 0 && jQuery('.popover').has(e.target).length === 0) {
-              jQuery(this).popover('hide');
-              return;
-          }
-      });
-  });
-</script>
 
 <!-- Here is the "safe" way to write LaTeX, without fear of kramdown
 clobbering something:
@@ -106,29 +88,52 @@ The extreme limits of gravity exist near black holes. The prominent effect of a 
 When a stationary black hole is spinning, it is called a Kerr black hole, and the characteristic spacetime distortion it generates is called Kerr spacetime.
 </details>
 
+<!-- Display and Controls -->
 <div style="width: 100%; overflow: hidden;">
-  <div id="animbox" style="width:350px; height:300px; float:left;"></div>
+  <div id="animbox" style="width:350px; height:300px; float:left;" ></div>
   <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
 </div>
 
-<div class="box">
-  <div>
-  <input type="button" id="playpause" value="Pause" onclick="toy.togglePlayState();" style="width:4em;margin:0.5em" />
-  <input type="button" id="showZAMOPoints" value="Show ZAMOs" onclick="toy.toggleZAMOs();" style="width:9em;margin:0.5em" />
-  </div>
+<div id="play buttons" class="box">
+<div>
+<input type="button" id="playpause" value="Pause" onclick="toy.togglePlayState();" style="width:4em;margin:0.5em" />
 
-  <div>
-  <label for="cameraSwitcher" style="display: inline;text-align:left;margin:0.5em">Camera:
-  </label>
-    <select name="options" id="cameraSwitcher" onChange="toy.switchCamera(cameraSwitcher.value);">
-      <option value="fixed">Fixed</option>
-      <option value="orbitting">Orbitting</option>
-      <option value="trailing">Trailing</option>
-      <option value="ZAMO">ZAMO</option>
-    </select>
-  </div>
+<input type="button" id="showZAMOPoints" value="Show ZAMOs" onclick="toy.toggleZAMOs();" style="width:9em;margin:0.5em" />
+</div>
+<tooltip for="showZAMOPoints" position="right" data-position="right down" data-content='showZAMO-TT'>
+</tooltip>
+<div id='showZAMO-TT' markdown="1" style='display:none'>
+### How Do _I_ Look? show ZAMO
 
-  <!--<div style="margin:0.5em">
+Do I look good?
+
+[See Explanations Below](#zamos)
+</div>
+
+<div>
+<label for="cameraSwitcher" style="display: inline;text-align:left;margin:0.5em">Camera:</label>
+  <select name="options" id="cameraSwitcher" onChange="toy.switchCamera(cameraSwitcher.value);">
+    <option value="fixed">Fixed</option>
+    <option value="orbitting">Orbitting</option>
+    <option value="trailing">Trailing</option>
+    <option value="ZAMO">ZAMO</option>
+  </select>
+</div>
+<tooltip for="cameraSwitcher" position="right" data-position="right down" data-content="cameraSwitcher-TT">
+</tooltip>
+<div id="cameraSwitcher-TT" markdown="1" style='display:none'>
+### How Do _I_ Look? Cameras
+
+* Do
+  * I
+* look **good**?
+
+[See Explanations Below](#camera-controls)
+</div>
+<div>
+<input type="button" id="Toggle2ndDisplay" value="2nd Display" onclick="" style="width:9em;margin:0.5em" />
+</div>
+<!--<div style="margin:0.5em">
   <label for="frameSwitcher" style="display: inline;text-align:left;margin:0.5em">Reference Frame:</label>
     <select name="options" id="frameSwitcher" onChange="toy.switchRefFrame(frameSwitcher.value);">
       <option value="static">Static</option>
@@ -143,18 +148,85 @@ When a stationary black hole is spinning, it is called a Kerr black hole, and th
     Requires 'Fixed' Camera
   </form>
   </div>-->
+
+<tooltip for="play buttons" icon-position="right" data-position="right down" data-content="playBtns-TT">
+</tooltip>
+<div id="playBtns-TT" markdown="1" style='display:none'>
+...
+</div>
 </div>
 
-<mytooltip class="info" data-toggle="popover" data-placement="top" data-content="blab" >Info</mytooltip>
-<label for="sepbox">Orbit Controller</label>
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px; float:right;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}"></div>
+<div class='box' markdown='1'>
 
-<span id="Constants"></span>  
-B-L time T = <span id="BLtime" ></span>  
-proper time: step size &Delta;&tau; = <span id="ptime:1"></span>  
+##### Orbit Controller
+{: style="display:inline-block; margin-top: .25rem; margin-bottom: 0.5rem; width:50%;"}
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px; float:right;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}">
+</div>
+
+<tooltip for="sepbox" style='float:right; padding-right:10px;' data-position="down left" data-content='orbitControls-TT'>
+</tooltip>
+<div id='orbitControls-TT' style='width:35%; max-width: calc(100% - 324px); display:none' markdown="1">
+<b><u>Orbit Controller Graph</u></b>
+
+* **spin**: How fast the black hole spins affects the how things orbit it.
+* **inclination**: How far off from the equator of the black hole the trajectory points. 1 send the orbit in the direction of the black hole is spinning. -1 sends it in the opposite direction.
+* **e** *(y-axis for red dot)*: eccentricity -- how oval-shaped the orbit is. 0 is circular (unchanging distance from the black hole).
+* **p** *(x-axis for red dot)*: semi-latus rectum -- Distance from the black hole when $$e=0$$.
+
+[See Explanations Below](#orbit-controls)
+</div>
+<!-- <div class="box">
+<div id="sepbox" class="jxgbox" style="width:320px; height:300px; float:right;position: relative; left: inherit; top: inherit;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}">
+</div>
+<tooltip for="sepbox" data-position="down" data-content='orbitControls-TT' style='position: relative; left: 95%; top: inherit; float:right;'>
+</tooltip>
+</div>
+<div id='orbitControls-TT' markdown="1">
+### How Do _I_ Look? Orbit Controls
+Do I look good?
+</div> -->
+
+<div class='box'>
+<details style='float:left'>
+<summary>
+Details:
+</summary>
+<span id="Constants"></span>
+<tooltip for="Constants" style='float:right' icon-position="right" data-position="down left" data-content='constants-TT'>
+</tooltip> 
+<div id ='constants-TT' style='width:100%; display:none' markdown="1">
+**Constants of Motion:**  
+E -- Energy,  
+Lz -- Orbital Momentum in direction of spin (z-component),  
+Q -- Carter's Constant
+</div>
+<br/>
+<div class='box' style="vertical-align: top">
+B-L time T = <span id="BLtime" ></span><br/>
+proper time: step size &Delta;&tau; = <span id="ptime:1"></span><br/>
 accumulated &tau; = <span id="ptime:2"></span>
+</div>
+<tooltip for="Clocks" icon-position="right" data-position="down right" data-content='Clocks-TT'>
+</tooltip> 
+<div id ='Clocks-TT' style='width:125%; display:none' markdown="1">
+**Clocks:**
 
-Path Length: <output name="x" form="player" for="histslide Tstepslide">250</output>
+* Total Boyer-Lindquist time that has passed for the trajectory. This represents elapsed time as recorded by a distant observer.  
+* "Proper Time" is how time is passing in the reference frame of the orbit, i.e. the head of the displayed trajectory. 
+  * The 'step size' displayed approximates how much time a clock orbitting the black hole experiences in one second of B-L time. 
+  * The accumulated or total proper time passed is displayed for comparison with the total B-L time.
+
+[See Explanations Below](#time-and-animation)
+</div>
+</details>
+</div>
+<div class='box' style='width:53%'>
+<p style='display:inline'>Path Length: </p><output name="x" form="player" for="histslide Tstepslide">250</output>
+<tooltip for="player" position="right" data-position="right up" data-content='player-TT'>
+</tooltip>
+<div id='player-TT' style="width:max-content; display:none" markdown='1'>
+How many B-L seconds of the trajectory are displayed
+</div>
 <form id="player" style="display: flex" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
 <input id="histslide" type="range"
  name="history" min="10" max="3000" step="10" value="250"
@@ -164,9 +236,24 @@ Path Length: <output name="x" form="player" for="histslide Tstepslide">250</outp
        toy.GeodesicReConstructor(toy.state.p,toy.state.a,toy.state.e,toy.state.x,parseFloat(accuslide.value));
        " />
 </form>
+</div>
+</div>
 
+<!----- Resonace Tool ----->
+<!--<label for="ResCtrlPanel">Resonance Surface Controls: </label>-->
+
+###### Resonance Surface Controls
+{: style="display:inline-block; margin-top: 0.5rem; margin-bottom: 0.5rem;"}
+
+<tooltip for="Freq" position="right" data-position="right up" data-content='freq-TT'>
+</tooltip>
+<div id='freq-TT' markdown="1" style='display:none'>
+# How Do _I_ Look? Freq
+
+Do I look good?
+</div>
+<div class="box">
 <p id="Freq" style="display:block"></p>
-<label for="ResCtrlPanel">Resonance Surface Controls: </label>
 <form id="ResCtrlPanel" style="display:inline-flex">
  <table style="display:inline-block; margin-bottom:0em;"><tbody>
   <tr>
@@ -204,31 +291,56 @@ Path Length: <output name="x" form="player" for="histslide Tstepslide">250</outp
   </tr>
  </tbody>
  </table></form>
+ </div>
 
 <!--###### Animation Controls:-->
+<div class="box" style="display:inline">
 <details markdown="1">
 <summary markdown="1">
 
 ###### Advance Options
-{: style="display:inline"}
-  </summary>
-<div id="sliders">
+{: style="display:inline-block; margin-top: 1.25rem; margin-bottom: 0.5rem;"}
+
+</summary>
+<div class="box" id="sliders" style="width:50%">
 Animation speed: <input id="framerate" type="range"
  name="playspeed" min="0" max="90" step="5" value="30" /><!-- 0 corresponds with 10 frames/second, 90 gives 100 frames/second -->
-Delta T: <input id="Tstepslide" type="number"
- name="dT" min="0.1" max="5.0" step="0.1" value="1" />
-dtau: <input id="accuslide" type="number"
- name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" />
+<div class="box" style="width:110%">
+<div class="box" style="width:25%">
+&Delta;T: <input id="Tstepslide" type="number"
+ name="dT" min="0.1" max="5.0" step="0.1" value="1" style="display:inline"/>
+ </div>
+<div class="box" style="width:25%">
+d&tau;: <input id="accuslide" type="number"
+ name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" style="display:inline"/>
+ </div>
+<div class="box" style="float:right">
+<tooltip for="Advanced Options" icon-position="right" data-position="right up" data-content='advOptions-TT'>
+</tooltip>
+<div id='advOptions-TT' markdown="1" style='display:none'>
+# How Do _I_ Look? AdvOpt
+
+Do I look good?
+
+[See Explanations Below](#time-and-animation)
 </div>
-</details><br/>  
+</div>
+</div>
+</div>
+</details>
+</div>
+<br/>  
 
 <!--  <form oninput="brd.suspendUpdate();[ppoints,epoints]=updateSeparatrix(a.value,x.value,epoints,ppoints,numPoints);brd.update();brd.unsuspendUpdate();">
   <input type="range" name="a" min="0" max=".99" step=".01" value=".9" />
   <br/>
   <input type="range" name="x" min="-1" max="1" step=".01" value="0" /> 
 </form> -->
-
+<tooltip style='display:none' data-content='dummy-TT'></tooltip>
+<div style='display:none' id='dummy-TT'></div>
 <!-- <form><input type="button" value="test point" onClick="query();"></form> -->
+
+<script type="text/javascript" src="{{ site.url }}/assets/js/tooltips.js"> </script>
 
 <script type="text/javascript" src="{{ site.url }}/assets/js/fraction.min.js"></script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/complex.min.js"></script>
@@ -267,7 +379,7 @@ dtau: <input id="accuslide" type="number"
 * $$x$$: gives the orbital inclination, $$x=\cos(i)$$, and is controlled by the second slider. For a pro-grade, equatorial orbit, $$x=1$$, $$i=0^{\circ}$$, $$\theta_{\min}=\pi/2$$, and the Cartesian $$z_{m}=\cos(\theta_{\min})=0$$. Similarly, $$x=0$$ corresponds to polar orbits --- $$i=90^{\circ}$$, $$\theta_ {\min}=0$$, $$z_{m}=1$$ --- and $$x=-1$$ corresponds to retrograde, equatorial orbits --- $$i=180^{\circ}$$, $$\theta_ {\min}=\pi/2$$, $$z_{m}=0$$. $$z_m$$ can also be expressed as $$z_m=\sqrt{1 - x^2}$$.
 * $$e$$: is the orbital eccentricity. This ranges from 0 to .99 on the y-axis of the graph and is controlled by dragging the red dot.
 * $$p$$: is the semi-latus rectum (the 'size' of the orbit). $$p$$ and $$e$$ together give the minimum and maximum radius of the orbit, $$r_{\min}=\frac{p}{1 + e}$$ and $$r_{\max}=\frac{p}{1 - e}$$.  
- This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller. A second, red dot will follow the mouse past the separatrix, but the red dot determining the orbital parameters will remain on the right side.
+ This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', (see the discussion about the separatrix below). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller.
 
  </details>
 
@@ -275,7 +387,7 @@ dtau: <input id="accuslide" type="number"
 <summary markdown="1">
 
 ### Camera Controls
-{: id="Camera Controls" style="display:inline"}
+{: style="display:inline"}
 </summary>
 Two displays appear viewing the black hole and trajectory from different camera perspectives. The viewing angle and position of each display window can be manipulated directly by standard dragging and zooming (mouse clicks or finger swipes). A yellow dot in the scene shows the location of the first camera and a green dot shows the position of the second camera.  
 A 'Zoom' slider is placed at the bottom of the separatrix graph. Both the zoom and the max value of the zoom slider are adjusted to the size of the orbit. So as the orbit is adjusted, the zoom adjusts with it, unless altered manually. The effect of 'Zooming' with the slider is different for each camera setting.  
@@ -300,9 +412,9 @@ A more detailed discussion of ZAMOs can be found in section \ref{ZAMOs}.-->
 </summary>
 
 The Boyer-Lindquist (B-L) coordinate time of the trajectory is tracked and displayed. The proper time of the geodesic is also visible, both the accumulated proper time and the average amount of proper time per frame that is passing at the head of the trajectory. When the eccentricity is high, you can see that the rate at which proper time passes becomes similar to that of the B-L time when the trajectory gets further from the central black hole and shrinks when it gets closer.  
-The 'History' slide controls length, or 'memory', of the path displayed. The number represents the number of $$\Delta$$T steps recorded, so the actual length of the path that appears will vary over time as the velocity varies.
+The 'Path Length' slide controls length, or 'memory', of the path displayed. The number represents the number of $$\Delta$$T steps recorded, so the actual length of the path that appears will vary over time as the velocity varies.
 
-Further down the page are various time controls. Adjusting these can affect the performance of the integrator, and they can typically be left at their default values:  
+Under the 'Advanced Options' are various time controls. Adjusting these can affect the performance of the integrator, and they can typically be left at their default values:  
 The Animation Speed controls the frame rate of the animation, while $$\Delta$$T is the (approximate) amount of B-L time per frame. The slowest frame rate is 10 fps and the fastest is 100 fps. To make one B-L second pass over one second in real time (almost -- it can be a bit slower than real seconds), set the Animation and $$\Delta$$T (and  d$$\tau$$, ideally) to their minimum values (10 frames/sec and 0.1 B-L sec/frame). If $$\Delta$$T is too small compared to d$$\tau$$, the integrator will stop, and the red path will gradually disappear. Another side effect of adjusting $$\Delta$$T is scaling the length of the trajectory 'history' displayed. d$$\tau$$ is the amount of proper-time passed per integration step; in other words, it's the step-size used by the integrator. Making this smaller increases both the precision of the trajectory and the number of computations per frame. Note, however, that the amount of proper time, or number of steps, per frame varies to maintain a constant passage of B-L time. This means that the passage of time as seen in the animation is more representative of what an observer at infinity would see, rather than the passage of time experienced by an object following the trajectory -- that is, the proper time.
 </details>
 
@@ -342,9 +454,10 @@ The Animation Speed controls the frame rate of the animation, while $$\Delta$$T 
 <!-- g_{ij}&=\delta_{ij}-\frac{1}{3}R_{ipjq}(\tau)\xi^p\xi^q) +O(s^3)
 <!-- \end{align} -->
 
-### Calculating Trajectories from Orbital Parameters
+<div markdown="1">### Calculating Trajectories from Orbital Parameters
 
 Details and further explanation of this math can be found in many sources. Some include \cite{Schmidt:2002qk,Drasco:2003ky,Fujita:2009bp}.
+</div>
 
 #### B-L coord
 
@@ -551,7 +664,7 @@ A Zero Angular Momentum Observer (ZAMO) is an observer that follows a circular p
 >>\cite{Hughes:2001gg}
 
 A very distant observer viewing a ZAMO close to the black hole sees that ZAMO moving around the black hole and would measure a mass following that observer to have orbital momentum. But in the reference frame of the ZAMO, it doesn't have any orbital momentum, because its frame is being 'dragged' at the same rate as its motion.
-This makes a ZAMO a helpful reference point to see how a given trajectory is moving relative to the axial component of the flow of its local spacetime. For example, one useful demonstration with the ZAMOs displayed is to set $e=0$, $x=0$, and $p$ set to place the trajectory at the radius of the inner sphere of ZAMOs, and play the animation with the second camera in Trailing mode. This will show that geodesic with invariant $L_z=0$ runs along side the ZAMOs.
+This makes a ZAMO a helpful reference point to see how a given trajectory is moving relative to the axial component of the flow of its local spacetime. For example, one useful demonstration with the ZAMOs displayed is to set $$e=0$$, $$x=0$$, and $$p$$ set to place the trajectory at the radius of the inner sphere of ZAMOs, and play the animation with the second camera in Trailing mode. This will show that geodesic with invariant $$L_z=0$$ runs along side the ZAMOs.
 
 For a ZAMO located at $$(r_Z,\theta_Z)$$, its orbital velocity as measured from a distant observer (using Boyer-Lindquist coordinates) is
 $$\Omega_{ZAMO}(r_Z,\theta_Z)=\frac{2Mr_Za}{\Sigma[r_Z,\theta_Z](r_Z^2+a^2)+2Mr_Z a^2\sin^2\theta_Z}$$.
