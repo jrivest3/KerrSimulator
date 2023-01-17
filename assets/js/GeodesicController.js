@@ -1089,32 +1089,33 @@ class GeodCont {
             that.ctrlbrd.update();
         }
 
-        this.toggleRotatingFrame = function (checkbox) {
-            Corotating_Frame_Traj_On = checkbox.checked;
-            if (checkbox.checked && document.getElementById("cameraSwitcher").value != "fixed") { console.log("Camera must be 'Fixed' for Coratation to work.") }
-        }
+        // // Not Implemented
+        // this.toggleRotatingFrame = function (checkbox) {
+        //     Corotating_Frame_Traj_On = checkbox.checked;
+        //     if (checkbox.checked && document.getElementById("cameraSwitcher").value != "fixed") { console.log("Camera must be 'Fixed' for Coratation to work.") }
+        // }
 
-        this.switchRefFrame = function (option) {
-            if (document.getElementById("cameraSwitcher").value = "fixed") {
-                switch (option) {
-                    case "static":
-                        Corotating_Frame_Traj_On = false;
-                        that.RefFrame_Omega = 0;
-                        break;
-                    case "resonant":
-                        Corotating_Frame_Traj_On = true;
-                        that.RefFrame_Omega = that.Geodesic.Frequencies[2];
-                        break;
-                    case "ZAMO":
-                        Corotating_Frame_Traj_On = true;
-                        that.RefFrame_Omega = that.dispbrdR.camera.Omega;
-                        break;
+        // this.switchRefFrame = function (option) {
+        //     if (document.getElementById("cameraSwitcher").value = "fixed") {
+        //         switch (option) {
+        //             case "static":
+        //                 Corotating_Frame_Traj_On = false;
+        //                 that.RefFrame_Omega = 0;
+        //                 break;
+        //             case "resonant":
+        //                 Corotating_Frame_Traj_On = true;
+        //                 that.RefFrame_Omega = that.Geodesic.Frequencies[2];
+        //                 break;
+        //             case "ZAMO":
+        //                 Corotating_Frame_Traj_On = true;
+        //                 that.RefFrame_Omega = that.dispbrdR.camera.Omega;
+        //                 break;
 
-                }
-            } else { console.log("Camera must be 'Fixed' for Coratation to work."); }
+        //         }
+        //     } else { console.log("Camera must be 'Fixed' for Coratation to work."); }
 
-            that.GeodesicReConstructor(state.p, state.a, state.e, state.x, dtau);
-        };
+        //     that.GeodesicReConstructor(state.p, state.a, state.e, state.x, dtau);
+        // };
 
         this.switchCamera = function (option, dolly_scalar) {
             let currentCameraPos = new THREE.Vector3();
