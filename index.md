@@ -89,9 +89,9 @@ When a stationary black hole is spinning, it is called a Kerr black hole, and th
 </details>
 
 <!-- Display and Controls -->
-<div style="width: 100%; overflow: hidden;">
-  <div id="animbox" style="width:350px; height:300px; float:left;" ></div>
-  <div id="animbox2" style="width:350px; height:300px; float:right;"></div>
+<div class="container" style="width: 100%; overflow: hidden;">
+  <div id="animbox" style="position:relative; width:350px; height:300px;" ></div><!-- THREE.Bootstrap creates a canvas element within this div element with it's own dimensions, so altering the div after the canvas has loaded doesn't alter the canvas. I can hide/unhide one display, but both the div size and the canvas size of the other need to be simultaneously updated. After pages loads, set anibox h and w to 0px. then animbox 2 and its canvas can have style size altered. Don't change the canvas's h and w properties (separate from the style h/w) without finding an easy way to recenter the viewport, (note that the larger canvas makes everything appear dimmer.)-->
+  <div id="animbox2" style="position:relative; width:700px; height:600px; z-index:1;"></div>
 </div>
 
 <div id="play buttons" class="box">
@@ -130,7 +130,7 @@ This illustrates the rate at which spacetime 'flows' around the black hole due t
 [More Details Below](#camera-controls)
 </div>
 <div>
-<input type="button" id="Toggle2ndDisplay" value="2nd Display" onclick="" style="width:9em;margin:0.5em;margin-left:1.5em;margin-right:0em;" />
+<input type="button" id="Toggle2ndDisplay" value="2nd Display" onclick="toy.toggleDisplay();" style="width:9em;margin:0.5em;margin-left:1.5em;margin-right:0em;" />
 </div>
 <!--<div style="margin:0.5em">
   <label for="frameSwitcher" style="display: inline;text-align:left;margin:0.5em">Reference Frame:</label>
@@ -148,12 +148,11 @@ This illustrates the rate at which spacetime 'flows' around the black hole due t
   </form>
   </div>-->
 
-<tooltip for="play buttons" icon-position="right" data-position="right down" data-content="playBtns-TT">
+<!-- <tooltip for="play buttons" icon-position="right" data-position="right down" data-content="playBtns-TT">
 </tooltip>
 <div id="playBtns-TT" markdown="1" style='display:none'>
-Toggle Secondary Display  
-(Not yet available)
-</div>
+Toggle Secondary Display
+</div> -->
 </div>
 
 <div class='box' markdown='1'>
@@ -366,6 +365,12 @@ d&tau;: <input id="accuslide" type="number"
 <script type="text/javascript" src="{{ site.url }}/assets/js/SepController.js"> </script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/GeodesicController.js"> </script>
 
+<!-- This allows animbox2 to cover animbox without the animbox canvas disappearing. -->
+<script> 
+document.getElementById('animbox').style.height='0px';
+document.getElementById('animbox').style.width='0px';
+</script>
+
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
  Version 2 
@@ -396,10 +401,11 @@ d&tau;: <input id="accuslide" type="number"
 ### Camera Controls
 {: style="display:inline"}
 </summary>
-Two displays appear viewing the black hole and trajectory from different camera perspectives. The viewing angle and position of each display window can be manipulated directly by standard dragging and zooming (mouse clicks or finger swipes). A yellow dot in the scene shows the location of the first camera and a green dot shows the position of the second camera.  
-A 'Zoom' slider is placed at the bottom of the separatrix graph. Both the zoom and the max value of the zoom slider are adjusted to the size of the orbit. So as the orbit is adjusted, the zoom adjusts with it, unless altered manually. The effect of 'Zooming' with the slider is different for each camera setting.  
-The drop-down list of Camera settings only controls the secondary display. The primary camera is always a 'Fixed' camera.
-The options for the second display are:
+One large display, or two smaller displays when '2nd Display' is on, appear viewing the black hole and trajectory from different camera perspectives. By default, camera position can be manipulated via standard dragging and scrolling on the display window.
+When '2nd Display' is on, the large display becomes the right display. A yellow dot in the scene on the right shows the location of the left display's camera and a green dot in the scene to the left shows the position of the right display's camera.  
+A 'Zoom' slider is placed at the bottom of the separatrix graph. Both the zoom and the max value of the zoom slider are adjusted to the size of the orbit; so as the orbit is adjusted, the zoom adjusts with it. The effect of 'Zooming' with the slider is different for each camera setting.  
+The drop-down list of Camera settings only controls the secondary display. The left camera, or 2nd Display, is always a 'Fixed' camera.
+The options for the right/main display are:
 
 * Fixed Camera: The camera orientation remains static unless moved by the user. The 'Zoom' is the radial distance of the camera from the central black hole. This is identical to the effect of 'scrolling' with a mouse or fingers, except that, if the user has manually moved the camera, then adjusting the slider (or any orbital parameter) will reset the camera to a default position. (Currently, this zooming behavior for a fixed camera only affects the primary display. One can reset the second camera position by switching to another camera setting and then switching back to 'Fixed'.)
 * Orbiting Camera: While the camera continues targeting the central black hole, the camera position orbits alongside the head of the trajectory. In this setting, manual control of the camera is only possible when the animation is Paused, and the effect of the Zoom slider can only be seen when the animation is playing. Zoom still adjusts the radial distance of the camera, but the range is limited so that the minimum is the radial position of the head of the trajectory. The maximum is also smaller than for Fixed Camera.
