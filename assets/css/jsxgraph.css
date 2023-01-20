@@ -40,8 +40,8 @@
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    -ms-touch-action: none;
-    touch-action: none;
+    -ms-touch-action: auto;/*Will this allow touch screens?*/
+    touch-action: auto;    /*These were changed from 'none'*/
 }
 
 .JXGtext {
