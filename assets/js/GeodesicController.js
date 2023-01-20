@@ -360,7 +360,7 @@ class GeodCont {
         this.dispbrdR.camera.Dot = new THREE.Points(dotGeometry, dotMaterial);
         this.dispbrdR.camera.Dot.position.copy(this.dispbrdR.camera.position);
         this.dispbrdL.scene.add(this.dispbrdR.camera.Dot);
-        let doton = true;
+        //let doton = true;
         //Dot for Camera 1
         var dotGeometry1 = new THREE.Geometry();
         dotGeometry1.vertices.push(new THREE.Vector3());
@@ -944,7 +944,7 @@ class GeodCont {
             that.Geodesic.updateTrajGeom(that.Geodesic.currentSolution);
 
             if (Corotating_Frame_Traj_On) { that.helper.rotateY(-1 * that.RefFrame_Omega * delT); }
-            //let Cam2Pos= that.dispbrdR.camera.position;
+            
             if (!FixedCamera) { //adjusts camera position.
 
                 let currentDefaultCameraPos = new THREE.Vector3();
@@ -955,9 +955,9 @@ class GeodCont {
                 if (FixedTarget) { //Orbitting Camera
 
                     Cam2Pos.copy(currentTarget); //end of trajectory   
-                    that.dispbrdR.controls.update();
                     that.dispbrdR.controls.dollyOut(1.0 + .02 * that.zoom.Value());
-                    //For some reason, doing it with dollyOut doesn't update the camera position until some point later.
+                    that.dispbrdR.controls.update();
+
                 } else { //Trailing Camera
 
                     currentDefaultCameraPos.multiplyScalar(1.0 + .001 * that.zoom.Value());
@@ -1132,7 +1132,7 @@ class GeodCont {
                     if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
                     //document.getElementById("switchRefFrame").disabled = false;
 
-                    if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
+                    //if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
 
                     break;
                 case "orbitting":
@@ -1154,7 +1154,7 @@ class GeodCont {
                         //document.getElementById('switchRefFrame').value = "static";
                     }
 
-                    if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
+                    //if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
                     break;
                 case "trailing":
                     currentCameraPos.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - followingdistance]);
@@ -1176,7 +1176,7 @@ class GeodCont {
                         //document.getElementById('switchRefFrame').value = "static";
                     }
 
-                    if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
+                    //if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
                     break;
                 case "ZAMO":
                     that.dispbrdR.controls.target.copy(that.dispbrdR.controls.target0); // reset target
@@ -1192,12 +1192,42 @@ class GeodCont {
                         //document.getElementById('switchRefFrame').value = "static";
                     }
 
-                    if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
+                    //if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
                     break;
             }
         };
 
-
+        let onedisp = true;
+        that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
+        //if (doton) { 
+            that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); 
+            //doton = false; }
+        this.toggleDisplay = function(){
+            if(onedisp){
+                onedisp=false;
+                document.getElementById('animbox2').style.float='right';
+                document.getElementById('animbox2').style.height='300px';
+                document.getElementById('animbox2').style.width='350px';
+                document.querySelector('div#animbox2 canvas').style.height='300px';
+                document.querySelector('div#animbox2 canvas').style.width='350px';
+                that.dispbrdR.scene.add(that.dispbrdL.camera.Dot);
+                //if (!doton) { 
+                    that.dispbrdL.scene.add(that.dispbrdR.camera.Dot);
+                    //doton = true; }
+            }
+            else{
+                onedisp=true;
+                document.getElementById('animbox2').style.float='none';
+                document.getElementById('animbox2').style.height='600px';
+                document.getElementById('animbox2').style.width='700px';
+                document.querySelector('div#animbox2 canvas').style.height='600px';
+                document.querySelector('div#animbox2 canvas').style.width='700px';
+                that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
+                //if (doton) { 
+                    that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); 
+                    //doton = false; }
+            }
+        };
 
         // Hit play!
         this.togglePlayState();
