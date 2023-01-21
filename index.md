@@ -220,19 +220,19 @@ accumulated &tau; = <span id="ptime:2"></span>
 </details>
 </div>
 <div class='box' style='width:53%'>
-<p style='display:inline'>Path Length: </p><output name="x" form="player" for="histslide Tstepslide">250</output>
+<p style='display:inline'>Path Length: </p><output name="x" form="player" for="histslide Tstepsizer">250</output>
 <tooltip for="player" position="right" data-position="right up" data-content='player-TT'>
 </tooltip>
 <div id='player-TT' style="width:max-content; display:none" markdown='1'>
 How many B-L seconds of the trajectory are displayed
 </div>
-<form id="player" style="display: flex" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepslide.value)">
+<form id="player" style="display: flex" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepsizer.value)">
 <input id="histslide" type="range"
  name="history" min="10" max="3000" step="10" value="250"
      onchange="
        toy.historyPoints = parseFloat(this.value);
-       toy.historyLength = parseFloat(Tstepslide.value)*parseFloat(this.value);
-       toy.GeodesicReConstructor(toy.state.p,toy.state.a,toy.state.e,toy.state.x,parseFloat(accuslide.value));
+       toy.historyLength = parseFloat(Tstepsizer.value)*parseFloat(this.value);
+       toy.GeodesicReConstructor(toy.state.p,toy.state.a,toy.state.e,toy.state.x,parseFloat(taustepsizer.value));
        " />
 </form>
 </div>
@@ -311,11 +311,11 @@ Animation Speed: <input id="framerate" type="range"
  name="playspeed" min="0" max="90" step="5" value="30" /><!-- 0 corresponds with 10 frames/second, 90 gives 100 frames/second -->
 <div class="box" style="width:110%">
 <div class="box" style="width:25%">
-&Delta;T: <input id="Tstepslide" type="number"
+&Delta;T: <input id="Tstepsizer" type="number"
  name="dT" min="0.1" max="5.0" step="0.1" value="1" style="display:inline"/>
  </div>
 <div class="box" style="width:25%">
-d&tau;: <input id="accuslide" type="number"
+d&tau;: <input id="taustepsizer" type="number"
  name="dtau" min="0.01" max="0.5" step="0.01" value="0.05" style="display:inline"/>
  </div>
 <div class="box" style="float:right">
@@ -407,9 +407,9 @@ A 'Zoom' slider is placed at the bottom of the separatrix graph. Both the zoom a
 The drop-down list of Camera settings only controls the secondary display. The left camera, or 2nd Display, is always a 'Fixed' camera.
 The options for the right/main display are:
 
-* Fixed Camera: The camera orientation remains static unless moved by the user. The 'Zoom' is the radial distance of the camera from the central black hole. This is identical to the effect of 'scrolling' with a mouse or fingers, except that, if the user has manually moved the camera, then adjusting the slider (or any orbital parameter) will reset the camera to a default position. (Currently, this zooming behavior for a fixed camera only affects the primary display. One can reset the second camera position by switching to another camera setting and then switching back to 'Fixed'.)
-* Orbiting Camera: While the camera continues targeting the central black hole, the camera position orbits alongside the head of the trajectory. In this setting, manual control of the camera is only possible when the animation is Paused, and the effect of the Zoom slider can only be seen when the animation is playing. Zoom still adjusts the radial distance of the camera, but the range is limited so that the minimum is the radial position of the head of the trajectory. The maximum is also smaller than for Fixed Camera.
-* Trailing Camera: The camera is turned to target the head of the trajectory while trailing closely behind. In this way, the viewer 'rides' the trajectory in roller-coaster fashion. Again, manual control of the camera is only possible when the animation is Paused, and the effect of the Zoom slider can only be seen when the animation is playing. Zooming out swings the camera away from the central black hole so that the camera -- still targeting the head of the trajectory -- is turned more towards the black hole. When zoomed out enough, this setting may resemble the Orbiting Camera setting. Note that a segment of the trajectory becomes invisible when it is too close to the camera, and this especially affects what is seen by the trailing camera.
+* Fixed Camera: The camera orientation remains static unless moved by the user. The 'Zoom' is the radial distance of the camera from the central black hole. This is identical to the effect of 'scrolling' with a mouse or fingers, except that, if the user has manually moved the camera, then adjusting the slider (or any orbital parameter) will reset the camera to a default position. 
+* Orbiting Camera: While the camera continues targeting the central black hole, the camera position orbits alongside the head of the trajectory. In this setting, manual control of the camera is only possible when the animation is Paused. Zoom still adjusts the radial distance of the camera, but the range is limited so that the minimum is the radial position of the head of the trajectory. The maximum is also smaller than for Fixed Camera.
+* Trailing Camera: The camera is turned to target the head of the trajectory while trailing closely behind. In this way, the viewer 'rides' the trajectory in roller-coaster fashion. Again, manual control of the camera is only possible when the animation is Paused. Zooming out swings the camera away from the central black hole so that the camera -- still targeting the head of the trajectory -- is turned more towards the black hole. When zoomed out enough, this setting may resemble the Orbiting Camera setting. Note that a segment of the trajectory becomes invisible when it is too close to the camera, and this especially affects what is seen by the trailing camera.
 * ZAMO Camera: Wherever the camera is currently located, it will begin orbiting along the worldline of a Zero Angular Momentum Observer. Because the orbital velocity of ZAMOs diverges and becomes unphysical inside the black hole, the rotation is disabled if the camera is too close to the center of the black hole.
 
 Next to the Play/Pause button is the Show/Hide ZAMOs button. This adds to the scene a spinning spherical grid of blue cubes representing Zero Angular Momentum Observers (ZAMOs). An explanation of ZAMOs can be found below.
