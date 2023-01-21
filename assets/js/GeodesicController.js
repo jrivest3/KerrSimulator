@@ -443,7 +443,7 @@ class GeodCont {
                         }
                         this.Q = zm ** 2 * (a ** 2 * (1 - this.En ** 2) + this.Lz ** 2 / (1 - zm ** 2));
                     }
-                    document.getElementById("Constants").innerHTML = 'E = ' + this.En + ', Lz = ' + this.Lz + ', Q = ' + this.Q;
+                    document.getElementById("Constants").innerHTML = 'E = ' + this.En.toFixed(6) + ', Lz = ' + this.Lz.toFixed(6) + ', Q = ' + this.Q.toFixed(6);
                     this.CoMs = [this.En, this.Lz, this.Q];
                 },
                 set Roots([a, x]) {
