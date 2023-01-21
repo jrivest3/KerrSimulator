@@ -140,7 +140,7 @@ accumulated &tau; = <span id="ptime:2"></span>
 </details>
 </div>
 <div class='box' style='width:53%'>
-<p style='display:inline'>Path Length: </p><output name="x" form="player" for="histslide Tstepsizer">250</output>
+<p style='display:inline'>Path Length: </p><output name="x" form="player" for="histslide Tstepsizer">600</output>
 <tooltip for="player" position="right" data-position="right up" data-content='player-TT'>
 </tooltip>
 <div id='player-TT' style="width:max-content; display:none" markdown='1'>
@@ -148,7 +148,7 @@ How many B-L seconds of the trajectory are displayed
 </div>
 <form id="player" style="display: flex" oninput="x.value=parseFloat(histslide.value)+parseFloat(Tstepsizer.value)">
 <input id="histslide" type="range"
- name="history" min="10" max="3000" step="10" value="250"
+ name="history" min="10" max="3000" step="10" value="600"
      onchange="
        toy.historyPoints = parseFloat(this.value);
        toy.historyLength = parseFloat(Tstepsizer.value)*parseFloat(this.value);
