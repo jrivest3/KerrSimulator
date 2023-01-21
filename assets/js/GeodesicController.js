@@ -2,98 +2,8 @@
 function fmod(x, m) {
     return ((x < 0) ? Math.abs(m) : 0) + (x % m);
 };
-/*
-//Object Form
-const GeodCont = {
-    ctrlbrd: JXG.JSXGraph.initBoard('sepbox', {boundingbox:[0,1.2,13,-0.1], axis:true}),
-    spin: ctrlbrd.create('slider',[[1,1.15],[9,1.15],[0,0.9,.99]],{name:'spin'}),
-    inc: ctrlbrd.create('slider',[[1,1.05],[9,1.05],[-1,0,1]],{name:'inclination'}),
-    point: brd.create('point',[9,.5]),
-    
-    state:{
-    a:(function(){spin.Value() })()
-    x:inc.Value(),
-    p:point.X(),
-        e: point.Y(),
-        set update(){}
-    },
-    SepCurve: new SepController(spin.Value(),inc.Value()),
-    
-    line: SepCurve.draw(),
 
-    
-    dispbrdL: ,
-    Geodesic:{
-        p: point.X(),
-        e: point.Y(),
-        a: .a.Value(),//needs to update
-        x: ,
-        set orbelems(){
-            this.p=this.point.X();
-            this.e=point.Y();
-            this.a=SepCurve.spin;
-            this.x=SepCurve.inc;
-        }
-        
-        mu: -1,
-        En : 0.935179,
-        Lz : 2.37176,
-        Q : 3.82514,
-        set Constants(p,a,e,x){let p=this.p,a=this.a,e=this.e,x=this.x;
-                               const G = 1, M = 1, c = 1;
-                               
-                               let zm=  Math.sqrt(1 - x**2);
-                               
-                               function r1(p){return p/(1 - e);}
-                               function r2(p){return p/(1 + e);}
-                               function Delta1(p){return r1(p)**2 - 2* r1(p) + a**2;}
-                               function Delta2(p){return r2(p)**2 - 2* r2(p) + a**2;}
-                               
-                               
-                               let g1,d1,h1,f1,g2,d2,h2,f2;
-                               //function dfghSetter(p){
-                               let r=r1(p);let rr=r2(p);let Del1=Delta1(p);let Del2=Delta2(p);
-                               d1= (r**2 + a**2 * zm**2)* Del1;
-                               d2= (rr**2 + a**2 * zm**2)* Del2;
-                               f1= r**4 + a**2 *(r *(r + 2) + zm**2 * Del1);
-                               f2= rr**4 + a**2 *(rr *(rr + 2) + zm**2 * Del2);
-                               g1= 2* a* r;
-                               g2= 2* a* rr;
-                               h1= r*(r - 2) + zm**2/(1 - zm**2)*Del1;
-                               h2= rr*(rr - 2) + zm**2/(1 - zm**2)*Del2;
-                               //}
-                               
-                               
-                               //function consSetter(p){
-                               let Kappa = d1* h2 - h1* d2;
-                               let Epsilon = d1* g2 - g1* d2;
-                               let Rho = f1* h2 - h1* f2;
-                               let Eta = f1* g2 - g1* f2;
-                               let Sigma = g1* h2 - h1* g2;
 
-                               this.En= Math.sqrt((Kappa * Rho + 2* Epsilon * Sigma - x * 2* Math.sqrt(Sigma * (Sigma * Epsilon**2 + Rho * Epsilon * Kappa - Eta * Kappa**2)/x**2))/(Rho**2 + 4* Eta * Sigma))
-                               
-                               this.Lz= (-En*g1 + x*Math.sqrt((-d1*h1 + En**2 *(g1**2 + f1*h1))/x**2))/h1
-                               
-                               this.Q= zm**2 *(a**2 * (1 - En**2) + Lz**2/(1 - zm**2))
-                               
-                               //}
-                               
-                               /*    //Bisection needs a function of p. r1 and r2 are left as function of p for this purpose, since they are simple calculations.
-                                     function AplusB(p){return (2*M)/(1 - En**2) - (r1(p) + r2(p));}//(*Eq.(11)*) 
-                                     function AB(p){return (a**2 *Q)/((1 - En**2) *r1(p) *r2(p));}//(*Eq.(11)*)
-                                     function r3(p) {return (AplusB(p) + Math.sqrt(AplusB(p)**2 - 4*AB(p)))/2;}//(*Eq.(11)*)
-                                     function r4(p) {return AB(p)/r3(p);}
-                               */
-/*                              }
-    },
-    
-    
-    set updateSpin(){a.on('drag',function(){SepCurve.spin=a.Value();SepCurve.updateGraph();SepCurve.updateDisplay();});},
-    set updateInc(){x.on('drag',function(){SepCurve.inc=x.Value();SepCurve.updateGraph();SepCurve.updateDisplay();});}
-}*/
-
-///Constructor Form
 class GeodCont {
     constructor() {
         const that = this; //Something to help keep track of what 'this' is. 
@@ -118,7 +28,7 @@ class GeodCont {
                     position: 'rt',  // possible values are 'lft', 'rt', 'top', 'bot'
                     offset: [5, -57],   // (in pixels)
                     fontSize: 16
-                    //fontStyle: 'bold' //how to I make it bold?
+                    
                 }
             });
         this.spin = this.ctrlbrd.create('slider', [[.8, 1.15], [17, 1.15], [0, 0, .99]], { name: 'spin' });
@@ -127,7 +37,7 @@ class GeodCont {
         this.SepCurve = new SepController(this.ctrlbrd);
         const SepCurve = that.SepCurve;
         SepCurve.updateGraph(this.spin.Value(), this.inc.Value()); SepCurve.updateDisplay();
-        //that.point.attractors[0]=SepCurve.curve;
+        
         this.userpoint = this.ctrlbrd.create('point', [9, .5]);
         this.userpoint.setAttribute({
             hasLabel: true, label: {
@@ -137,7 +47,7 @@ class GeodCont {
             },
             snapToGrid: true,
             snapSizeX: .01, snapSizeY: .01
-        }); //,hasLabel=false,snaptoPoints=true,attractorDistance=24,snatchDistance=210
+        }); 
         this.userpoint.setLabelText('(Drag the red dot)');
 
         this.ctrlbrd.on('update', function () {
@@ -150,31 +60,17 @@ class GeodCont {
                 return;
             }
 
-            // if (o==that.SepBarrier) {
-            //     that.SepBarrier.position = that.SepBarrier.position - 0.3;
-            //     that.SepBarrier.prepareUpdate().update(true).updateRenderer();
-
-            //     that.SepBarrier.setPositionDirectly(JXG.COORDS_BY_USER, [A.X()+3, C.Y()]); 
-            //     that.SepBarrier.prepareUpdate().update().updateRenderer();
-            // } else
             if (document.getElementById('MatchFreqQ').checked && o == that.userpoint) {
-                //   that.userpoint.position = that.userpoint.position + 0.3;
-                //  that.userpoint.prepareUpdate().update(true).updateRenderer();
-
+            
                 that.userpoint.setPositionDirectly(JXG.COORDS_BY_USER, [ResCurve.findResSurface(state.a, that.userpoint.Y(), state.x), that.userpoint.Y()]);
                 that.userpoint.prepareUpdate().update().updateRenderer();
             }
-            // else if (o==C) {
-            //   A.setPositionDirectly(JXG.COORDS_BY_USER, [C.X()-3, A.Y()]); 
-            //   A.prepareUpdate().update().updateRenderer();
-
-            //   B.position = A.position - 0.3;
-            //   B.prepareUpdate().update(true).updateRenderer();
-            // } 
+            
         });
 
-        // Make better names for everything
-        // stuff for running animation
+        
+        // ----- stuff for running animation -----
+
         //integrator proper time stepsize.
         let dtau = 0.05; //This value is for the initialization of the controller, and will be adjusted by the user.
 
@@ -190,7 +86,6 @@ class GeodCont {
         let FixedTarget = true; //Camera target is the origin, rather than the end of the trajectory.
         let ZAMOcam = false; // Camera orbits along the path of a ZAMO at it's current r and theta position.
         let followingdistance = 5; // Initial trailing distance for the orbiting camera behind the orbiting target. (number of integration steps along the tragectory) Adjustable by user.
-        let Corotating_Frame_Traj_On = false; //Draw a green trajectory showing the apparent path seen in a reference frame that co-rotates with the camera. (Camera2 must be motionless for proper trajectory to be shown.)
         //this.RefFrame_Omega = 0;
         let FermiWalkerCoords = false; //not implemented //convert entire scene into Fermi-Walker coordinates of the camera position. (Camera still targets the BH)
 
@@ -211,13 +106,11 @@ class GeodCont {
             //SepCurve.spin=that.spin.Value();
             SepCurve.updateGraph(this.Value(), state.x); SepCurve.updateDisplay();
             const pmin = findSeparatrix(this.Value(), state.e, state.x);
-            if (that.userpoint.X() <= pmin + 0.1 //that.SepBarrier.X()
+            if (that.userpoint.X() <= pmin + 0.1 
             ) {
-                that.userpoint.moveTo([pmin + 0.1, that.userpoint.Y()]); //that.SepBarrier.X() + 0.2;
+                that.userpoint.moveTo([pmin + 0.1, that.userpoint.Y()]); 
             }
-            //that.SepBarrier.moveTo([that.SepBarrier.X(),that.SepBarrier.Y()]);
-            //if(that.SepBarrier.crossedQ(that.userpoint)){that.userpoint.moveTo([that.SepBarrier.X() + 0.2, that.userpoint.Y()]);}
-            //that.point.attractors[0]=SepCurve.curve;
+            
             if (this.Value() == 0) {
                 document.getElementById('RatioMenu').options[2].innerHTML = '&Omega;<sub>&theta;</sub>/&Omega;<sub>&phi;</sub> =1';
                 document.getElementById('RatioMenu').options[2].disabled = true;
@@ -228,11 +121,11 @@ class GeodCont {
             }
             if (ResCurveOn) {
                 if (ResGlider) { that.userpoint.free(); }
-                //ResCurve.spin=that.spin.Value();
+                
                 ResCurve.updateGraph(this.Value(), state.x);//,...that.Geodesic.ParamArray)
                 ResCurve.updateDisplay();
                 if (ResGlider) {
-                    //if(document.getElementById('MatchFreqQ').checked)
+                    
                     that.userpoint.moveTo([ResCurve.findResSurface(this.Value(), state.e, state.x), that.userpoint.Y()]);
                     that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update();
                 }
@@ -244,13 +137,11 @@ class GeodCont {
             SepCurve.updateGraph(state.a, this.Value());//,...that.Geodesic.ParamArray); 
             SepCurve.updateDisplay();
             const pmin = findSeparatrix(state.a, state.e, this.Value());
-            if (that.userpoint.X() <= pmin + .1 //that.SepBarrier.X()
+            if (that.userpoint.X() <= pmin + .1 
             ) {
-                that.userpoint.moveTo([pmin + 0.1, that.userpoint.Y()]); //that.SepBarrier.X() + 0.2;
+                that.userpoint.moveTo([pmin + 0.1, that.userpoint.Y()]);
             }
-            //that.SepBarrier.moveTo([that.SepBarrier.X(),that.SepBarrier.Y()]);
-            //if(that.SepBarrier.crossedQ(that.userpoint)){that.userpoint.moveTo([that.SepBarrier.X() + 0.2, that.userpoint.Y()]);}
-            //that.point.attractors[0]=SepCurve.curve;
+            
             if (this.Value() == 0) {//Omega_phi is Indeterminate at x=0
                 document.getElementById('RatioMenu').options[1].innerHTML = '&Omega;<sub>&phi;</sub>=NaN';
                 document.getElementById('RatioMenu').options[1].disabled = true;
@@ -276,7 +167,6 @@ class GeodCont {
             that.GeodesicReConstructor(that.userpoint.X(), state.a, state.e, this.Value(), dtau);
         });
         this.userpoint.on('drag',
-            //console.log(state.p,state.e)
             function () {
                 var curp = this.X(), cure = this.Y(), passedbarrier = false;
                 if (cure >= 0.99) {
@@ -286,10 +176,10 @@ class GeodCont {
                     passedbarrier = true; cure = 0.;
                 }
                 const pmin = findSeparatrix(state.a, cure, state.x);
-                //that.SepBarrier.moveTo([that.SepBarrier.X(),cure]);
-                if (curp <= pmin + .1 //that.SepBarrier.X()
+                
+                if (curp <= pmin + .1 
                 ) {
-                    passedbarrier = true; curp = pmin + 0.1; //that.SepBarrier.X() + 0.2;
+                    passedbarrier = true; curp = pmin + 0.1; 
                 }
                 if (passedbarrier) {
                     that.userpoint.moveTo([curp, cure]);
@@ -525,7 +415,6 @@ class GeodCont {
                     this.Lz = KerrGeoAngularMomentum(a, p, e, x, this.En);
                     this.Q = KerrGeoCarterConstant(a, p, e, x, this.En, this.L);
 
-
                     /// these will return 'undefined' if no special cases apply.
                     if (this.Q == undefined) {
 
@@ -554,7 +443,6 @@ class GeodCont {
                         }
                         this.Q = zm ** 2 * (a ** 2 * (1 - this.En ** 2) + this.Lz ** 2 / (1 - zm ** 2));
                     }
-                    //console.log('E='+this.En+' Lz='+this.Lz+' Q='+this.Q);
                     document.getElementById("Constants").innerHTML = 'E = ' + this.En + ', Lz = ' + this.Lz + ', Q = ' + this.Q;
                     this.CoMs = [this.En, this.Lz, this.Q];
                 },
@@ -587,16 +475,10 @@ class GeodCont {
                 const U0sq = that.Geodesic.zm ** 2; //((a**2 + q + Phisq) - Math.sqrt((a**2 + q + Phisq)**2 - 4* a**2* q))/(2.* a**2);// this is zm^2, right?
                 const asqU1sq = ((a ** 2 + q + Phisq) + Math.sqrt((a ** 2 + q + Phisq) ** 2 - 4 * a ** 2 * q)) / (2.); //* a**2); //u0 and u1 just need to be swapped. now u1^2>1
 
-
-
-
-                //console.log('Phisq=',Phisq,'q=',q,'U0sq=',U0sq,'U1sq=',U1sq);
-                //console.log(r3,r4);
                 return function (zeta, position) {
                     //const time = position[3]; 
 
                     const xi = position[0], chi = position[1], phi = position[2];
-                    //console.log('position='+[xi,chi,phi]);
                     const r = p / (1 + e * Math.cos(xi)); //r2 +(r1-r2)*Math.cos(xi);
                     const Delt = Delta(r);
 
@@ -604,7 +486,6 @@ class GeodCont {
                     const sinchisq = sinchi * sinchi;
                     const usq = U0sq * sinchisq;
                     const Sig = Sigma(r, usq);
-                    //console.log('r=',r,'Delt=',Delt,'sinchi=',sinchi,'Sig=',Sig);
                     const tdot = (a * (Lz - a * En * (1. - usq)) + (r ** 2 + a ** 2) * ((r ** 2 + a ** 2) * En - Lz * a) / Delt) / Sig;
                     //const Rofr = (En* (r**2 + a**2) - a* Lz)**2 - Delt* (mu**2* r**2 + (Lz - a* En)**2 + Q);
                     const xidot = Math.sqrt((1 - En ** 2) * r1 * r2 * (r - r3) * (r - r4)) / Sig / r; //Math.sqrt((mu**2 - En**2)*Math.cos[xi]*(r - r3)*(r - r4))/Sig;
@@ -617,7 +498,7 @@ class GeodCont {
                         console.log(findSeparatrix(a, e, x));
                         throw new Error('got NaNs?');
                     }
-                    //console.log('Position='+[xidot,chidot, phidot]);
+                    
                     return [xidot, chidot, phidot, tdot];
                 };
             };
@@ -637,23 +518,15 @@ class GeodCont {
                     }
 
                     //This terminates integration after the specified BL time has passed.
-                    if (pos[3] - initialconditions[3] >= Tinterval) // < fmod( prevpos[3] , Tinterval))
-                    { //console.log('Tinterval reached',pos[3],initialconditions[3])
+                    if (pos[3] - initialconditions[3] >= Tinterval) 
+                    {
                         document.getElementById("ptime:1").innerHTML = ztot.toFixed(3);
                         document.getElementById("ptime:2").innerHTML = (parseFloat(document.getElementById("ptime:2").innerHTML) + ztot).toFixed(3);
                         return 0;
                     }
-                    //if(initialized){
-                    //console.log('Tinterval ',Tinterval,pos[3]-initialconditions[3])}
                     return pos[3];
                 }
-                /*let data = JXG.Math.Numerics.rungeKutta(
-                    'rk4',                                       // Butcher table
-                    initialconditions,//that.Geodesic.currentSolution[that.Geodesic.currentSolution.length - 1], // Initial conditions
-                    [0, zetaIntervalLength],                     // zeta interval
-                    numZetaPoints,                               // how many points
-                    makeRHS()//(zetaIntervalLength, numZetaPoints) // the RHS of the system
-                );*/
+                
                 let data = Integrator.rungeKutta(
                     'rk4',
                     initialconditions,
@@ -669,22 +542,16 @@ class GeodCont {
                 // make the replacement atomic
                 let newSolution = that.Geodesic.currentSolution.concat(data);
                 newSolution.splice(0, data.length);
-                //console.log(data.length);
-                that.Geodesic.currentSolution = newSolution; //might need to be that.Geodesic.currentSolution
+                that.Geodesic.currentSolution = newSolution; 
             };
 
             that.Geodesic.currentSolution = that.Geodesic.updateSolution([0., 0., 0., 0.], that.historyLength, null, taustep);
 
-            //Only needed if having two trajectories?
-            // that.Geodesic.Corotating_Frame=new Object();
-            // that.Geodesic.Corotating_Frame.currentSolution=new Array();
-            // // too much memory?
-            // if(Corotating_Frame_Traj_On){that.Geodesic.Corotating_Frame.currentSolution=that.Geodesic.currentSolution.map((x) => x);}
             that.Geodesic.solutionTo3D = function (solution) {
 
                 const zm = that.Geodesic.zm; //, r1=that.Geodesic.r1, r2=that.Geodesic.r2;//u0(a,r); using zm for now
                 let threeVectors = new Array(solution.length);
-                //let Corot_threeVectors
+                
                 for (let i = 0; i < solution.length; i++) {
                     let xi = solution[i][0], chi = solution[i][1], phi = solution[i][2];
                     let r = p / (1 + e * Math.cos(xi)); //r2 +(r1-r2)*Math.cos(xi);
@@ -692,39 +559,13 @@ class GeodCont {
                     let u = zm * Math.sin(chi); //u=cos(theta)
                     let cou = Math.sqrt(1. - u * u); //=sin(theta)
 
-
-
-
-
-                    // REMINDER: computer graphics people have a (different) convention for
-                    // their coordinate system. For them, z is out of the
-                    // screen. I want the default controls to work well, so I rotate
-                    // my threeVectors to work with their coordinate system.
-                    if (Corotating_Frame_Traj_On && document.getElementById("cameraSwitcher").value == "fixed") { //make sure it is off when ZAMOcam is off
-                        let t = solution[i][3];
-                        let Deltaphi = that.RefFrame_Omega * t;
-                        threeVectors[i] = new THREE.Vector3(
-                            xyR * cou * Math.sin(phi - Deltaphi),
-                            r * u,
-                            xyR * cou * Math.cos(phi - Deltaphi)); //x
-                    } else {
+                    // REMINDER: z is out of the screen. 
                         threeVectors[i] = new THREE.Vector3(
                             xyR * cou * Math.sin(phi),
                             r * u,
                             xyR * cou * Math.cos(phi)); //x
-                    }
-                    // threeVectors[i] = new THREE.Vector3(
-                    //     xyR * cou * Math.sin(phi),//y
-                    //     r * u,//z
-                    //     xyR * cou * Math.cos(phi));//x
-                    // if(ZAMOcam && Corotating_Frame_Traj_On){
-                    //     // let Deltaphi_per_T=;
-                    //     // let Deltaphi=
-                    //     different_threeVectors[i] = new THREE.Vector3(
-                    //     xyR * cou * Math.sin(phi),//y
-                    //     r * u,//z
-                    //     xyR * cou * Math.cos(phi));//x
-                    // } 
+                    
+                    
                 }
 
                 return threeVectors;
@@ -736,7 +577,6 @@ class GeodCont {
                     color: 0xff0000,
                     linewidth: 2
                 });
-                if (Corotating_Frame_Traj_On && document.getElementById("cameraSwitcher").value == "fixed") { it.material.color = 0x00db00; }
                 const trajGeom = new THREE.Geometry();
                 const threeVectors = that.Geodesic.solutionTo3D(that.Geodesic.currentSolution);
                 trajGeom.vertices = threeVectors;
@@ -746,7 +586,7 @@ class GeodCont {
                 that.dispbrdL.scene.add(it.object);
                 return it;
             })();
-            //let traj=that.Geodesic.traj;
+            
             that.Geodesic.updateTrajGeom = function (solution) {
                 const threeVectors = that.Geodesic.solutionTo3D(solution);
 
@@ -776,14 +616,12 @@ class GeodCont {
             ehGeom.scale(xyR, rplus, xyR);
             const newEhMesh = new THREE.Mesh(ehGeom, eh.material);
 
-
             // Remember the ridiculous coord system
             const dir = new THREE.Vector3(0., 1., 0.);
             const origin = new THREE.Vector3(0., rplus, 0.);
             const length = 0.75;
             const hexColor = 0x0000ff;
-            const newArrowHelper = new THREE.ArrowHelper(dir, origin, length,
-                hexColor);
+            const newArrowHelper = new THREE.ArrowHelper(dir, origin, length, hexColor);
 
             newArrowHelper.line.material.linewidth = 3;
             newArrowHelper.cone.geometry.scale(5, 1, 5); // why this needs to happen only once? No idea...
@@ -810,13 +648,11 @@ class GeodCont {
             eh.mesh.geometry = ehGeom;
 
             //ergo
-            // Remember the ridiculous coord system
             const dir = new THREE.Vector3(0., 1., 0.);
             const origin = new THREE.Vector3(0., rplus, 0.);
             const length = 0.75;
             const hexColor = 0x0000ff;
-            const newArrowHelper = new THREE.ArrowHelper(dir, origin, length,
-                hexColor);
+            const newArrowHelper = new THREE.ArrowHelper(dir, origin, length, hexColor);
 
             newArrowHelper.line.material.linewidth = 3;
 
@@ -828,9 +664,7 @@ class GeodCont {
             delete (eh.arrowhelper);
 
             that.dispbrdL.scene.add(newArrowHelper);
-
             eh.arrowhelper = newArrowHelper;
-
         };
 
         this.ergosphere = (function initErgo(a) {
@@ -875,8 +709,6 @@ class GeodCont {
             }
 
             const ergoGeom = new THREE.LatheGeometry(points, 32);
-
-
             //ehGeom.scale( xyR, rplus, xyR );
             const ergo = that.ergosphere;
             ergo.mesh.geometry.dispose();
@@ -886,7 +718,6 @@ class GeodCont {
 
 
         this.ZAMOGrid = (function initZAMOGrid() {
-            //Note that many methods and other things document in threejs.org appears not to exist for us or have different names. We might need to get more from src/core, or something.
             const zg = new Object;
             zg.group = new THREE.Group();
             zg.material = new THREE.PointsMaterial({
@@ -949,7 +780,6 @@ class GeodCont {
                         zg.Omegas[i][j] = that.Omega(a, that.find_rBL(zg.rho[i], z, a), z);
                     }
                 }
-
             };
 
             return zg;
@@ -960,11 +790,7 @@ class GeodCont {
             // the spin is used to update Omegas separately, so this only takes BLT
             for (let i in [...Array(that.ZAMOGrid.layers).keys()]) { //number of concentric spheres
                 for (let j in [...Array(that.ZAMOGrid.levels).keys()]) { //number of circles per sphere
-                    //console.log(that.Omega(a,that.ZAMOGrid.radii[i][j],that.ZAMOGrid.pos[i][j]));//wrong radii
-                    if (Corotating_Frame_Traj_On) { that.ZAMOGrid.circles[i][j].rotation.y = (that.ZAMOGrid.Omegas[i][j] - that.RefFrame_Omega) * BLT; }
-                    else { that.ZAMOGrid.circles[i][j].rotation.y = that.ZAMOGrid.Omegas[i][j] * BLT; } //radians
-
-                    //that.Omega(a,that.ZAMOGrid.rho[i],that.ZAMOGrid.pos[i][j])*BLT;
+                    that.ZAMOGrid.circles[i][j].rotation.y = that.ZAMOGrid.Omegas[i][j] * BLT;//radians
                 }
             }
 
@@ -973,7 +799,6 @@ class GeodCont {
 
         ////////////////////////////////////////////////////////////
         // Running the ODE integrator on a timer
-        //let switchViewport=false; //This method does not run fast enough to not appear blinking.
         function runTick() {
             
             let currentindex = that.Geodesic.currentSolution.length - 1;
@@ -986,8 +811,6 @@ class GeodCont {
 
             that.Geodesic.updateSolution(currentstep, delT, null, dtau);
             that.Geodesic.updateTrajGeom(that.Geodesic.currentSolution);
-
-            if (Corotating_Frame_Traj_On) { that.helper.rotateY(-1 * that.RefFrame_Omega * delT); }
 
             if (!FixedCamera) { //adjusts camera position.
 
@@ -1014,27 +837,6 @@ class GeodCont {
 
             }
 
-            // if(ZAMOcam){
-            // ZAMOcam_block:{
-            //     let sin_add, cos_add;
-            //     const a=state.a;
-            //     const rBL=that.find_rBL(Cam2Pos.length(),Cam2Pos.y,a);
-            //     const rotation=that.Omega(a,rBL,Cam2Pos.y)*delT;//if(!rotation){throw new Error('rotation = '+rotation)}
-            //     let current_x=Cam2Pos.x, current_z=Cam2Pos.z;
-            //     if(rotation<.5){
-            //     //Trig identities 
-            //     const sinph=Math.sin(rotation);const cosph=Math.cos(rotation);
-            //     sin_add=(x,y)=> (y * cosph + x * sinph);// Radius is multiplied in.
-            //     cos_add=(x,y)=> (x * cosph - y * sinph);
-            //     } else {//if(rotation>=1)console.log(rotation); 
-            //         break ZAMOcam_block;}//Deep inside the Event Horizon, Omega diverges/ becomes unphysical.
-            //     //The camera's position is in Cartesian coords, but Omega is in BLT coords.
-            //     //Delta y 
-            //     Cam2Pos.x = sin_add(current_z,current_x,rotation);if(isNaN(Cam2Pos.x)){throw new Error('Cam2Pos.x = '+Cam2Pos.x);}
-            //     //Delta x 
-            //     Cam2Pos.z = cos_add(current_z,current_x,rotation);if(isNaN(Cam2Pos.z)){throw new Error('Cam2Pos.z = '+Cam2Pos.z);}
-            // }
-            // }
             if (ZAMOcam) {
                 if (Cam2Pos.length() > 1.72) { //Deep inside the Event Horizon, Omega diverges/ becomes unphysical.
                     that.LieDrag(Cam2Pos, delT);
@@ -1084,12 +886,11 @@ class GeodCont {
                 if (ResCurve == undefined) {
                     that.ResCurve = new ResController(this.ctrlbrd);
                     ResCurve = that.ResCurve;
-                    ResCurve.updateGraph(state.a, state.x);//,...that.Geodesic.ParamArray); 
-                    //ResCurve.updateDisplay();
+                    ResCurve.updateGraph(state.a, state.x);
                 }
                 ResCurveOn = true;
                 if ((ResCurve.getEs()).length > 0) {
-                    ResCurve.updateGraph(state.a, state.x);//could benefit from an isDirty parameter
+                    ResCurve.updateGraph(state.a, state.x);
                     ResCurve.updateDisplay();
                 }
             }
@@ -1098,29 +899,17 @@ class GeodCont {
         this.updateResCurve = function (option) {
             let worked = false;
             if (ResCurveOn) {
-                // an isDirty attribute may be helpful here
-                // if (ResCurve == undefined) {
-                //     that.ResCurve = new ResController(this.ctrlbrd);
-                //     ResCurve=that.ResCurve;
-                // }
-                // else{
                 ResCurve.Controls.TargetR = document.getElementById('RforRatio').value;
                 ResCurve.Controls.TargetT = document.getElementById('TforRatio').value;
                 ResCurve.Controls.TargetP = document.getElementById('PforRatio').value;
 
                 ResCurve.Controls.SelectedRatio = option;
-                //ResCurve.Controls.TargetRes=
-                //may need a version of this here
-                //if (targ > 1) { alert('Choose a ratio that is less than or equal to 1. Omega_r <= Omega_theta <= Omega_phi');  }
-
-                //ResCurve.updateGraph(ResSwitch, ResTarget, state.a, state.x); ResCurve.updateDisplay();
-                worked = ResCurve.updateGraph(state.a, state.x);//,...that.Geodesic.ParamArray);
+                worked = ResCurve.updateGraph(state.a, state.x);
                 if (worked) {
                     if (ResGlider) { that.userpoint.free(); }
                     ResCurve.updateDisplay();
                     if (ResGlider) { that.userpoint.makeGlider(ResCurve.curve); that.ctrlbrd.update(); }
-                }
-                else { ResCurve.undraw(); that.ctrlbrd.update(); }//'Update' can only be clicked when ResCurveOn is true
+                } else { ResCurve.undraw(); that.ctrlbrd.update(); }//'Update' can only be clicked when ResCurveOn is true
             }
             return worked
         }
@@ -1128,38 +917,9 @@ class GeodCont {
             if (bool) {
                 that.userpoint.makeGlider(ResCurve.curve); ResGlider = true;
                 that.GeodesicReConstructor(state.p, state.a, state.e, state.x, dtau);
-            }
-            else { that.userpoint.free(); ResGlider = false; }
+            } else { that.userpoint.free(); ResGlider = false; }
             that.ctrlbrd.update();
         }
-
-        // // Not Implemented
-        // this.toggleRotatingFrame = function (checkbox) {
-        //     Corotating_Frame_Traj_On = checkbox.checked;
-        //     if (checkbox.checked && document.getElementById("cameraSwitcher").value != "fixed") { console.log("Camera must be 'Fixed' for Coratation to work.") }
-        // }
-
-        // this.switchRefFrame = function (option) {
-        //     if (document.getElementById("cameraSwitcher").value = "fixed") {
-        //         switch (option) {
-        //             case "static":
-        //                 Corotating_Frame_Traj_On = false;
-        //                 that.RefFrame_Omega = 0;
-        //                 break;
-        //             case "resonant":
-        //                 Corotating_Frame_Traj_On = true;
-        //                 that.RefFrame_Omega = that.Geodesic.Frequencies[2];
-        //                 break;
-        //             case "ZAMO":
-        //                 Corotating_Frame_Traj_On = true;
-        //                 that.RefFrame_Omega = that.dispbrdR.camera.Omega;
-        //                 break;
-
-        //         }
-        //     } else { console.log("Camera must be 'Fixed' for Coratation to work."); }
-
-        //     that.GeodesicReConstructor(state.p, state.a, state.e, state.x, dtau);
-        // };
 
         this.switchCamera = function (option, dolly_scalar) {
             let currentCameraPos = new THREE.Vector3();
@@ -1173,11 +933,6 @@ class GeodCont {
                     FixedCamera = true;
                     FixedTarget = true;
                     ZAMOcam = false;
-                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
-                    //document.getElementById("switchRefFrame").disabled = false;
-
-                    //if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
-
                     break;
                 case "orbitting":
                     currentCameraPos.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - followingdistance]);
@@ -1191,14 +946,6 @@ class GeodCont {
                     FixedCamera = false;
                     FixedTarget = true;
                     ZAMOcam = false;
-                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
-                    //document.getElementById("switchRefFrame").disabled = true;
-                    if (Corotating_Frame_Traj_On) {
-                        Corotating_Frame_Traj_On = false;
-                        //document.getElementById('switchRefFrame').value = "static";
-                    }
-
-                    //if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
                     break;
                 case "trailing":
                     currentCameraPos.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - followingdistance]);
@@ -1213,14 +960,6 @@ class GeodCont {
                     FixedCamera = false;
                     FixedTarget = false;
                     ZAMOcam = false;
-                    if (Corotating_Frame_Traj_On) { document.getElementById('Corotate').checked = false; }
-                    //document.getElementById("switchRefFrame").disabled = true;
-                    if (Corotating_Frame_Traj_On) {
-                        Corotating_Frame_Traj_On = false;
-                        //document.getElementById('switchRefFrame').value = "static";
-                    }
-
-                    //if (doton) { that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); doton = false; }
                     break;
                 case "ZAMO":
                     that.dispbrdR.controls.target.copy(that.dispbrdR.controls.target0); // reset target
@@ -1229,23 +968,13 @@ class GeodCont {
                     FixedCamera = true;
                     FixedTarget = true;
                     ZAMOcam = true;
-
-                    //document.getElementById("switchRefFrame").disabled = true;
-                    if (Corotating_Frame_Traj_On) {
-                        Corotating_Frame_Traj_On = false;
-                        //document.getElementById('switchRefFrame').value = "static";
-                    }
-
-                    //if (!doton) { that.dispbrdL.scene.add(that.dispbrdR.camera.Dot); doton = true; }
                     break;
             }
         };
 
         let onedisp = true;
         that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
-        //if (doton) { 
         that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot);
-        //doton = false; }
         this.toggleDisplay = function () {
             if (onedisp) {
                 onedisp = false;
@@ -1255,11 +984,8 @@ class GeodCont {
                 document.querySelector('div#animbox2 canvas').style.height = '300px';
                 document.querySelector('div#animbox2 canvas').style.width = '350px';
                 that.dispbrdR.scene.add(that.dispbrdL.camera.Dot);
-                //if (!doton) { 
                 that.dispbrdL.scene.add(that.dispbrdR.camera.Dot);
-                //doton = true; }
-            }
-            else {
+            } else {
                 onedisp = true;
                 document.getElementById('animbox2').style.float = 'none';
                 document.getElementById('animbox2').style.height = '600px';
@@ -1267,9 +993,7 @@ class GeodCont {
                 document.querySelector('div#animbox2 canvas').style.height = '600px';
                 document.querySelector('div#animbox2 canvas').style.width = '700px';
                 that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
-                //if (doton) { 
                 that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot);
-                //doton = false; }
             }
         };
 

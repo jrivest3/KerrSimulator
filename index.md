@@ -10,43 +10,6 @@ image:
 date: 2022-11-05T08:00:00-04:00
 jsxgraph: true
 ---
-<!-- https://github.com/mathjax/MathJax/issues/1988#issuecomment-384978927
-     Use plain Javascript to prevent the use of window.eval(). Then
-     'unsafe-eval' won't be needed to be added to script-src CSP.
-
-     Also move the mathjax config to a separate file from the inline script so
-     that 'unsafe-inline can also be removed from script-src CSP.
--->
-<!--#%{{ $$mathjax_js := resources.Get "js/mathjax-config.js" | minify | fingerprint }}
-<script src="{{ $$mathjax_js.RelPermalink }}"></script>
-<!-- Enable HTTP/2 Push -->
-<!--#%<link rel="preload" href="{{ $$mathjax_js.RelPermalink }}" as="script">
-
-<!-- https://gohugo.io/content-management/formats/#mathjax-with-hugo -->
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML"></script>
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-<!--<style>
-.tex, .latex, .tex sub, .latex sub, .xetex sub {
-  font-size: 1em;
-}
-
-.tex sub, .latex sub, .latex sup, .xetex sub {
-  text-transform: uppercase;
-}
-
-.tex sub, .latex sub, .xetex sub {
-  vertical-align: -0.5ex;
-  margin-left: -0.1667em;
-  margin-right: -0.125em;
-}
-
-.latex sup {
-  font-size: 0.85em;
-  vertical-align: 0.15em;
-  margin-left: -0.36em;
-  margin-right: -0.15em;
-}
-</style> -->
 
 <style>
 
@@ -61,18 +24,6 @@ jsxgraph: true
       }
       
 </style>
-
-<!-- Here is the "safe" way to write LaTeX, without fear of kramdown
-clobbering something:
-<div>
-\begin{align}
-G_{ab} = 8\pi T_{ab}
-\end{align}
-</div> -->
-<!--     let kgbo= KerrGeoBoundOrbitQ(a.Value(), q.X(), q.Y(), x.Value());
-    console.log(kgbo);
-    var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
-Here is a 2D Schwarzschild orbit: -->
 
 <details markdown="1" open>
 <summary markdown="1">
@@ -90,7 +41,7 @@ When a stationary black hole is spinning, it is called a Kerr black hole, and th
 
 <!-- Display and Controls -->
 <div class="container" style="width: 100%; overflow: hidden;">
-  <div id="animbox" style="position:relative; width:350px; height:300px;" ></div><!-- THREE.Bootstrap creates a canvas element within this div element with it's own dimensions, so altering the div after the canvas has loaded doesn't alter the canvas. I can hide/unhide one display, but both the div size and the canvas size of the other need to be simultaneously updated. After pages loads, set anibox h and w to 0px. then animbox 2 and its canvas can have style size altered. Don't change the canvas's h and w properties (separate from the style h/w) without finding an easy way to recenter the viewport, (note that the larger canvas makes everything appear dimmer.)-->
+  <div id="animbox" style="position:relative; width:350px; height:300px;" ></div>
   <div id="animbox2" style="position:relative; width:700px; height:600px; z-index:1;"></div>
 </div>
 
@@ -132,27 +83,6 @@ This illustrates the rate at which spacetime 'flows' around the black hole due t
 <div>
 <input type="button" id="Toggle2ndDisplay" value="2nd Display" onclick="toy.toggleDisplay();" style="width:9em;margin:0.5em;margin-left:1.5em;margin-right:0em;" />
 </div>
-<!--<div style="margin:0.5em">
-  <label for="frameSwitcher" style="display: inline;text-align:left;margin:0.5em">Reference Frame:</label>
-    <select name="options" id="frameSwitcher" onChange="toy.switchRefFrame(frameSwitcher.value);">
-      <option value="static">Static</option>
-      <option value="resonant">Resonant</option>
-      <option value="ZAMO">ZAMO</option>
-    </select>
-  <form id="Ref_Frames">
-  <label for="Corotate" > Co-rotating Reference Frames </label>
-    <input type="checkbox" id="Corotate"  style="vertical-align: middle; position: relative; float: right; left:2px;top:2px" onChange="toy.toggleRotatingFrame(this);"> 
-    <label style="font-weight: normal"><input type="radio" style="vertical-align: middle; position: relative; float: right; left:2px;top:2px" id="zamo_cam_pos" name="Frame" value="zamo_cam_pos"> ZAMO </label>
-    <label style="font-weight: normal"><input type="radio" style="vertical-align: middle; position: relative; float: right; left:2px;top:2px" id="Resonant_Freq" name="Frame" value="Resonant_Freq" checked> Resonant </label>
-    Requires 'Fixed' Camera
-  </form>
-  </div>-->
-
-<!-- <tooltip for="play buttons" icon-position="right" data-position="right down" data-content="playBtns-TT">
-</tooltip>
-<div id="playBtns-TT" markdown="1" style='display:none'>
-Toggle Secondary Display
-</div> -->
 </div>
 
 <div class='box' markdown='1'>
@@ -174,16 +104,6 @@ Toggle Secondary Display
 
 [See Explanations Below](#orbit-controls)
 </div>
-<!-- <div class="box">
-<div id="sepbox" class="jxgbox" style="width:320px; height:300px; float:right;position: relative; left: inherit; top: inherit;" onmouseenter="if(toy.userpoint.hasLabel == true) { toy.userpoint.hasLabel = false; toy.userpoint.setLabelText('');}">
-</div>
-<tooltip for="sepbox" data-position="down" data-content='orbitControls-TT' style='position: relative; left: 95%; top: inherit; float:right;'>
-</tooltip>
-</div>
-<div id='orbitControls-TT' markdown="1">
-### How Do _I_ Look? Orbit Controls
-Do I look good?
-</div> -->
 
 <div class='box'>
 <details style='float:left'>
@@ -239,7 +159,6 @@ How many B-L seconds of the trajectory are displayed
 </div>
 
 <!----- Resonace Tool ----->
-<!--<label for="ResCtrlPanel">Resonance Surface Controls: </label>-->
 
 ###### Resonance Controller
 {: style="display:inline-block; margin-top: 0.5rem; margin-bottom: 0.5rem;"}
@@ -268,7 +187,7 @@ How many B-L seconds of the trajectory are displayed
     <select type="dropbox" id="RatioMenu" name="RatioMenu" onchange="switch(this.value){case 'r/t':RforRatio.disabled=false;TforRatio.disabled=false;PforRatio.disabled=true;break; case 'r/p':RforRatio.disabled=false;TforRatio.disabled=true;PforRatio.disabled=false;break; case 't/p':RforRatio.disabled=true;TforRatio.disabled=false;PforRatio.disabled=false;break;}" style="width:5em">
     <option value="r/t" selected> &Omega;<sub>r</sub>/&Omega;<sub>&theta;</sub> </option>
     <option value="r/p" disabled> &Omega;<sub>r</sub>/&Omega;<sub>&phi;</sub> </option>
-    <option value="t/p" disabled> &Omega;<sub>&theta;</sub>/&Omega;<sub>&phi;</sub> </option> <!-- For now, the default is x=0 when the page loads, but it is the 'drag' function that enables/disables. -->
+    <option value="t/p" disabled> &Omega;<sub>&theta;</sub>/&Omega;<sub>&phi;</sub> </option>
     </select>
     </td>
     <td>
@@ -289,9 +208,6 @@ How many B-L seconds of the trajectory are displayed
     <td>
     <input type="button" id="UpdateRC" style="float:right" value="Update Graph" onclick="let curveappears=toy.updateResCurve(RatioMenu.value);if(!curveappears){MatchFreqQ.checked=false; MatchFreqQ.disabled=true;}else if(MatchFreqQ.disabled==true){MatchFreqQ.disabled=false;}" disabled/>
     </td>
-    <!-- <td>
-    <input type="number" id="DeltaPhiOver2piDesired" style="width:5em;margin:0.5em" onchange="processMatchFreqUI()" value="1.333" readonly="" step="any" />
-    </td>-->
   </tr>
  </tbody>
  </table></form>
@@ -336,14 +252,8 @@ d&tau;: <input id="taustepsizer" type="number"
 </div>
 <br/>  
 
-<!--  <form oninput="brd.suspendUpdate();[ppoints,epoints]=updateSeparatrix(a.value,x.value,epoints,ppoints,numPoints);brd.update();brd.unsuspendUpdate();">
-  <input type="range" name="a" min="0" max=".99" step=".01" value=".9" />
-  <br/>
-  <input type="range" name="x" min="-1" max="1" step=".01" value="0" /> 
-</form> -->
 <tooltip style='display:none' data-content='dummy-TT'></tooltip>
 <div style='display:none' id='dummy-TT'></div>
-<!-- <form><input type="button" value="test point" onClick="query();"></form> -->
 
 <script type="text/javascript" src="{{ site.url }}/assets/js/tooltips.js"> </script>
 
@@ -354,7 +264,6 @@ d&tau;: <input id="taustepsizer" type="number"
 
 <script type="text/javascript" src="{{ site.url }}/assets/js/vendor/three.min.js"></script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/vendor/threestrap.min.js"></script>
-<!--<script type="text/javascript" src="{{ site.url }}/assets/js/vendor/OrbitControls.js"></script>-->
 
 <script type="text/javascript" src="{{ site.url }}/assets/js/elliptic.js"></script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/KerrFrequencies.js"></script>
@@ -371,14 +280,6 @@ document.getElementById('animbox').style.height='0px';
 document.getElementById('animbox').style.width='0px';
 </script>
 
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
- Version 2 
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML"></script>-->
-<!-- Version 3 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
-
 <details markdown="1">
 <summary markdown="1">
 
@@ -391,7 +292,6 @@ document.getElementById('animbox').style.width='0px';
 * $$e$$: is the orbital eccentricity. This ranges from 0 to .99 on the y-axis of the graph and is controlled by dragging the red dot.
 * $$p$$: is the semi-latus rectum (the 'size' of the orbit). $$p$$ and $$e$$ together give the minimum and maximum radius of the orbit, $$r_{\min}=\frac{p}{1 + e}$$ and $$r_{\max}=\frac{p}{1 - e}$$.  
  This is also controlled by dragging the red dot. The minimum value for $$p$$ is represented by the calculated curve on the graph, called 'the separatrix', [(see the discussion about the separatrix below)](#separatrix). The separatrix is the boundary between stable orbits and plunging orbits. Setting the dot to the left of the curve shown would result in the trajectory falling into the black hole, and so is not allowed by the controller.
-
 
 </details>
 
@@ -414,8 +314,6 @@ The options for the right/main display are:
 
 Next to the Play/Pause button is the Show/Hide ZAMOs button. This adds to the scene a spinning spherical grid of blue cubes representing Zero Angular Momentum Observers (ZAMOs). An explanation of ZAMOs can be found below.
 </details>
-<!--A ZAMO is an observer that follows a circular path around the spin axis of a Kerr black hole with an orbital velocity equal to the 'frame-dragging' rate of the Kerr spacetime at the radius and polar angle of the observer, thus the observer has no angular momentum around the axis parallel to the spin of the black hole. A very distant observer viewing a ZAMO close to the black hole sees that ZAMO moving around the black hole and would measure a mass following that observer to have orbital momentum. But in the reference frame of the ZAMO, it doesn't have any orbital momentum, because its frame is being 'dragged' at the same rate as its motion. This makes ZAMOs useful for illustrating the 'frame dragging' effect. \\
-A more detailed discussion of ZAMOs can be found in section \ref{ZAMOs}.-->
 
 <details markdown="1">
 <summary markdown="1">
@@ -448,49 +346,9 @@ The Animation Speed controls the frame rate of the animation, while $$\Delta$$T 
 
 # Discussion
 
-<!-- <!-- basic explanation of Kerr spacetime and the constants of motion
-
-<!-- <!-- Wikipedia-->
-
-<!-- Particles on a Giant Hamster Ball
-<!-- Proper Time of the camera (with shift to Fermi-Walker coordinates (see  arxiv.org/abs/gr-qc/0510023)
-<!--<!--
-<!-- Kerr Frequencies (needs some fix): Resonances, shift to co-rotating frame phi-omegaphi_t*t
-<!--clean up code
-
-<!--The purpose of this web tool is to be an educational resource by providing visualization of the dynamics of test particles in Kerr spacetime. Many packages made to model Kerr geodesics do so by parameterizing the trajectory by the constants of motion: E, Lz, and Q. However, it can be difficult for a user to determine the combinations of values for these parameters that will result in interesting orbits. This Javascript program parameterizes trajectories in terms of the black hole spin a, semi-latus rectum p, eccentricity e, and inclination parameter x. The program dynamically calculates a parameter boundary for marginally-stable orbits. This allows the user to explore a range of stable, bound orbits. Additional features, such as Zero Angular Momentum Observers (ZAMOs), various camera options, fundamental orbital frequencies, and proper-time tracking, provide an engaging environment to help students gain intuition about geodesic motion including concepts such as frame-dragging.\\
-<!--<!--a visual similar to the one I made in Mathematica may be helpful here
-\\
-<!--
-<!-- ### FNC}
-<!-- $$ \xi^{j}=sn^{j} $$
-<!-- \begin{align}
-<!-- g_{00}&=-(1+\frac{1}{3}R_{0p0q}(\tau)\xi^p\xi^q) +O(s^3)\\
-<!-- g_{0j}&=\frac{2}{3}R_{jpq0}(\tau)\xi^p\xi^q +O(s^3)\\
-<!-- g_{ij}&=\delta_{ij}-\frac{1}{3}R_{ipjq}(\tau)\xi^p\xi^q) +O(s^3)
-<!-- \end{align} -->
-
 ### Outer Event Horizon and Outer Ergosphere
 
 Displayed in the scene is the Outer Event Horizon (black surface) surrounded by the Outer Ergosphere (pale blue surface).
-
-<!-- \cite{Visser2007}
-<!-- #### Horizons}
-<!--A horizon is a ...
-<!-- Location where positive (outward) radial velocity with respect to local spacetime would need to be greater than the speed of light in order for a distant observer to measure a positive radial velocity, i.e., to escape. In other words, at this surface, there are no outward-pointing time-like directions, and thus all worldlines that intersect this surface must travel inward.
-<!-- $$r_{\pm}=M\pm\sqrt{M^2+a^2}$$
-<!-- Notice that it does not appear spherical.
-<!-- See Eq. (117) of \cite{Visser2007}.
-<!-- $$r_{\text{OuterH}}(\theta=0)=r_+$$
-<!-- $$r_{\text{OuterH}}(\theta=\frac{\pi}{2})=\sqrt{r_+{}^2+a^2}$$
-
-<!-- #### Ergospheres}
-<!--An ergosphere is a ...
-<!-- Location where negative axial velocity (retrograde w.r.t the spin of the black hole) w.r.t. local spacetime would need to be greater than the speed of light in order for a distant observer to measure a negative axial velocity. The ergosurface is also called the stationary limit, because it is the closest an observer can be to a black hole before lightspeed w.r.t local spacetime is required to appear stationary to a distant observer. In other words, the coordinate 'time' direction is no longer time-like inside the stationary limit, but becomes space-like. Unlike the event horizon, there do exist time-like directions that worldines can follow to escape the ergosphere, but they are all also co-rotating with the black hole.
-
-<!-- $$r_{\text{Ergo}}=M\pm\sqrt{M^2-a^2\cos^2\theta}$$
-
-<!-- <!--Sec. \ref{ZAMOs} The place where ZAMOs would-->
 
 ### Separatrix
 
@@ -502,11 +360,6 @@ For arbitrary values of $$a$$, $$e$$, and $$x$$, $$S(p)$$ is a 12th-degree polyn
 
 For the code to numerically find the correct roots within a reasonable computation time and without producing errors for any combination of allowed parameter values, the algorithm alternates between various root-finding methods, many in series with or nested within others, depending on what region of the space of $$(a,e,x)$$ it is solving for.
 As the user drags the $$a$$ and $$x$$ sliders, the code takes a sufficient sampling of $$e$$ values to draw a reasonably accurate spline curve from the numerical roots of $$S(p)$$.
-
-<!-- However, the drawn line does not act as the barrier, but rather the sampling points do. So a balance between buffer size and sample density is necessary to prevent breaches while allowing for $$p$$-values that are reasonably close to the line.-->
-<!-- There is also a balance between the buffer size and tolerance values to prevent the rootfinders from crashing at more difficult parameter values.-->
-
-<!--\cite{Levin:2008yp}-->
 
 ### ZAMOs
 
@@ -521,19 +374,6 @@ This makes a ZAMO a helpful reference point to see how a given trajectory is mov
 For a ZAMO located at $$(r_Z,\theta_Z)$$, its orbital velocity as measured from a distant observer (using Boyer-Lindquist coordinates) is
 $$\Omega_{ZAMO}(r_Z,\theta_Z)=\frac{2Mr_Za}{\Sigma[r_Z,\theta_Z](r_Z^2+a^2)+2Mr_Z a^2\sin^2\theta_Z}$$.  
 
-<!-- The instantaneous phase velocities (in distant-observer coordinates, coordinate time) each have non-linear dependence on the radial and polar position.-->
-
-<!-- <!-- \textit{Unfinished Segment}
-
-<!-- <!-- Following \cite{Fujita:2009bp}, $$r$$ and $$\theta$$-motion are decoupled by converting to Mino time. The Mino-time frequencies
-<!-- <!-- <!--for $$r$$ and $$\theta$$
-<!-- <!-- are then found by integrating the equations of motion. Then they can convert back to coordinate time by dividing each by the time-coordinate's Mino-time frequency, labeled $$\Gamma$$. For example,
-
-<!-- <!-- $$\lambda_{Mino}=\int\frac{d\tau}{\Sigma}, \;\;\;\;
-<!-- <!-- \Upsilon_r= \pi \int_{r_ {\min}}^{r_ {\max}}\sqrt{R(r)}, \;\;\;\;
-<!-- <!-- \Omega_r=\frac{\Upsilon_r}{\Gamma}$$
-<!-- <!-- To define fundamental frequencies for a Kerr geodesic ... action-angle variable proper-time frequencies, Mino time, elliptic integrals,-->
-
 ### Orbital Frequencies
 
 In the Keplerian model, the orbit of a small mass around a much larger massive body will remain a simple ellipse, unless there is some perturbing force between the two bodies, and this elliptical path is repeatedly traversed over a consistent period, i.e., it has an orbital frequency. The trajectory may be decomposed into repeating motion in three spatial directions: radial, polar, and azimuthal. Other effects, like perturbing forces or effects from general relativity, can separate the cycles of motion in these three directions, so they occur with differing frequencies, resulting in more complex trajectories.
@@ -541,19 +381,6 @@ In the Keplerian model, the orbit of a small mass around a much larger massive b
 In Kerr spacetime, all three orbital periods are separated. When the ratios between these periods are rational, we say they are in resonance. Resonant orbits can also be called 'closed orbits', because they have the distinct characteristic of returning to a starting point and retracing the same path after some finite integer number of orbits. These are visibly distinct from generic Kerr geodesics, which never exactly retrace a previous orbit, but over an infinite time, the path will fill a torus around the central black hole and the trajectory will fill a torus in phase space.
 
 We have to be careful when talking about frequencies in this context, because the oscillations in these three directions do not generally follow simple harmonic motion in Cartesian coordinates. These frequencies are not necessarily identical to classical, instantaneous phase velocities. The phase growth rate in $$r$$ and $$\theta$$ are coupled, and the phase growth rates of $$\phi$$ and even coordinate time, $$t$$, are non-linear over proper time, $$\tau$$. Nevertheless, fundamental frequencies can be defined, and they can still exhibit resonances.
-
-<!-- The instantaneous phase velocities (in distant-observer coordinates, coordinate time) each have non-linear dependence on the radial and polar position.-->
-
-<!-- <!-- \textit{Unfinished Segment}
-
-<!-- <!-- Following \cite{Fujita:2009bp}, $$r$$ and $$\theta$$-motion are decoupled by converting to Mino time. The Mino-time frequencies
-<!-- <!-- <!--for $$r$$ and $$\theta$$
-<!-- <!-- are then found by integrating the equations of motion. Then they can convert back to coordinate time by dividing each by the time-coordinate's Mino-time frequency, labeled $$\Gamma$$. For example,
-
-<!-- <!-- $$\lambda_{Mino}=\int\frac{d\tau}{\Sigma}, \;\;\;\;
-<!-- <!-- \Upsilon_r= \pi \int_{r_ {\min}}^{r_ {\max}}\sqrt{R(r)}, \;\;\;\;
-<!-- <!-- \Omega_r=\frac{\Upsilon_r}{\Gamma}$$
-<!-- <!-- To define fundamental frequencies for a Kerr geodesic ... action-angle variable proper-time frequencies, Mino time, elliptic integrals,-->
 
 ### Calculating Trajectories from Orbital Parameters
 
@@ -575,31 +402,10 @@ with $$\Delta= r^2-2Mr+a^2$$ and $$\Sigma = r^2+a^2\cos^2(\theta)$$.
 The roots of this $$\Delta$$ give the locations of the inner and outer event horizons $$r_{H\pm}=M\pm\sqrt{M^2-a^2}$$.
 
 #### Equations of Motion
-<!-- Starting with the Hamiltonian,
-
-<!-- \[H(x^{\alpha},p_{\beta})=\frac{1}{2}g^{\mu\nu}p_{\mu}p_{\nu}\]
-<!-- \begin{equation*}
-<!--     \begin{split}
-<!--         H^{(BL)}(x^{\alpha},p_{\beta})= &
-<!-- -\frac{(r^2+a^2)^2-\Delta a^2 \sin^2\theta}{2\Delta\Sigma}(p_t)^2-\frac{2aMr}{\Delta\Sigma}p_t p_{\phi}\\
-<!-- &\qquad +\frac{\Delta-a^2\sin^2\theta}{2\Delta\Sigma\sin^2\theta}(p_{\phi})^2+\frac{\Delta}{2\Sigma}(p_r)^2+\frac{1}{2\Sigma}(p_{\theta})^2
-<!--     \end{split}
-<!-- \end{equation*}
-
-<!-- \textit{Unfinished Segment} Finding expressions for the constants of motion: Hamilton-Jacobi equation, the characteristic function, generalized (cyclical) coord, constants of integration -->
 
 The invariant, conserved quantities are the energy, $$E$$, the component of angular momentum parallel to the spin axis of the black hole, $$L_z$$, and what is known as the Carter's Constant, $$Q$$.
 The constants of motion are calculated here by converting and adapting the Mathematica code from the Black Hole Perturbation Toolkit \citep{BHPToolkit} to Javascript, as well as math from \cite{Schmidt:2002qk}.
 The code contains a series of equations for $$E$$, $$L_z$$, and $$Q$$ each written purely in terms of the orbital elements, $$(a,p,e,x)$$.
-
-<!-- \textit{Unfinished Segment} Then to equations of motion: generalized coord., Hamilton's equations
-
-<!-- \[\mu\frac{dX^{\alpha}}{d\tau}=\frac{\partial H^{(cyc)}}{\partial P_{\alpha}}=\textbf{J}^{\alpha}\]
-<!-- \[\dot q=\partial H/\partial p,\quad
-<!--      \dot p=-\partial H/\partial q \;\]
-<!-- \[p_{\mu}=(-E,\pm\sqrt{R}/\Delta,\pm\sqrt{\Theta},L_z)\]
-
-<!-- Raising the index on $$p$$, the equations of motion can be written as-->
 
 The constants of motion need to be computed, because they appear in the equations of motion.
 
@@ -717,4 +523,3 @@ A+B=\frac{2M}{1-E^2}-(r_1+r_2),\;\; AB=\frac{a^2Q}{(1-E^2)r_1r_2}.
 \end{split}
 \end{gather}
 $$  
-
