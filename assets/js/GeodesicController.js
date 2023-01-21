@@ -341,9 +341,54 @@ class GeodCont {
         // const BOX_WIDTH= document.getElementById('animbox').clientWidth;
         // const BOX_HEIGHT= document.getElementById('animbox').clientHeight;
         // const aspect = BOX_WIDTH / BOX_HEIGHT;
+        let Cam2Pos = this.dispbrdR.camera.position;
+        // functions to move cams and dots 
+        this.moveDotstoCams = function () {
+            that.dispbrdR.camera.Dot.position.copy(Cam2Pos);
+            that.dispbrdL.camera.Dot.position.copy(that.dispbrdL.camera.position);
+            //that.ctrlbrd.unsuspendUpdate();
+        };
+        this.moveCamsFixed = function () { that.dispbrdR.camera.position.set(6, 5, that.zoom.Value()); };
+        this.moveCamsOrbit = function () {
+            let currentDefaultCameraPos = new THREE.Vector3();
+            currentDefaultCameraPos.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - followingdistance]);
+            let currentTarget = new THREE.Vector3();
+            currentTarget.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - 1]);
+
+            Cam2Pos.copy(currentTarget); //end of trajectory   
+            that.dispbrdR.controls.dollyOut(1.0 + .02 * that.zoom.Value());
+            that.dispbrdR.controls.update();
+        };
+        this.moveCamsTrailing = function () {
+            let currentDefaultCameraPos = new THREE.Vector3();
+            currentDefaultCameraPos.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - followingdistance]);
+            let currentTarget = new THREE.Vector3();
+            currentTarget.copy(that.Geodesic.traj.object.geometry.vertices[that.Geodesic.traj.object.geometry.vertices.length - 1]);
+
+            currentDefaultCameraPos.multiplyScalar(1.0 + .001 * that.zoom.Value());
+            Cam2Pos.copy(currentDefaultCameraPos);
+
+            //adjusts camera target.
+            that.dispbrdR.controls.target.copy(currentTarget);
+            that.dispbrdR.controls.update();
+        };
+        //this.moveCamZAMO = function(){// used only by runTick
+        //     if (Cam2Pos.length() > 1.72) { //Deep inside the Event Horizon, Omega diverges/ becomes unphysical.
+        //         that.LieDrag(Cam2Pos, delT);
+        //     }
+        // }; 
+        this.moveCamsandDots = function () {// wrapper function. 
+            if (FixedCamera) { that.moveCamsFixed(); }
+            else {
+                if (FixedTarget) { that.moveCamsOrbit(); }
+                else { that.moveCamsTrailing(); }
+            }
+            that.moveDotstoCams();
+        };
+
         this.zoom = this.ctrlbrd.create('slider', [[1, 0.075], [15, 0.075], [0, 3 * state.p / (1 - state.e), 10 * state.p / (1 - state.e)]], { name: 'zoom' });
         this.zoom.on('drag', function () {
-            that.dispbrdL.camera.position.set(6, 5, that.zoom.Value());
+            that.moveCamsandDots();
         });
         that.dispbrdL.camera.position.set(-36, 25, that.zoom.Value());
         // that.dispbrdL.camera.aspect=.5*aspect;
@@ -429,7 +474,6 @@ class GeodCont {
             // return new_location
         };
 
-        let Cam2Pos = this.dispbrdR.camera.position;
         this.dispbrdR.camera.Omega = this.Omega(state.a, that.find_rBL(Cam2Pos.length(), Cam2Pos.y, state.a), Cam2Pos.y);
 
         this.GeodesicReConstructor = function (p, a, e, x, taustep) {
@@ -931,12 +975,12 @@ class GeodCont {
         // Running the ODE integrator on a timer
         //let switchViewport=false; //This method does not run fast enough to not appear blinking.
         function runTick() {
-            //that.ctrlbrd.suspendUpdate(); // Nothing in ctrlbrd is being updated.
+            
             let currentindex = that.Geodesic.currentSolution.length - 1;
             let currentstep = that.Geodesic.currentSolution[currentindex];
 
-            delT = Number(document.getElementById("Tstepslide").value);
-            dtau = Number(document.getElementById("accuslide").value); //for some reason, this seems to just make the splicing speed to be some ratio of the concat-ing speed
+            delT = Number(document.getElementById("Tstepsizer").value);
+            dtau = Number(document.getElementById("taustepsizer").value); //for some reason, this seems to just make the splicing speed to be some ratio of the concat-ing speed
 
             if (showZAMO) { that.updateZAMOPoints(currentstep[3] - that.historyLength); }
 
@@ -944,7 +988,7 @@ class GeodCont {
             that.Geodesic.updateTrajGeom(that.Geodesic.currentSolution);
 
             if (Corotating_Frame_Traj_On) { that.helper.rotateY(-1 * that.RefFrame_Omega * delT); }
-            
+
             if (!FixedCamera) { //adjusts camera position.
 
                 let currentDefaultCameraPos = new THREE.Vector3();
@@ -998,7 +1042,7 @@ class GeodCont {
             }
             that.dispbrdR.camera.Dot.position.copy(Cam2Pos);
             that.dispbrdL.camera.Dot.position.copy(that.dispbrdL.camera.position);
-            //that.ctrlbrd.unsuspendUpdate();
+            
             document.getElementById("BLtime").innerHTML = currentstep[3].toFixed(4);
             tickTime = 100 - document.getElementById("framerate").value; //100ms is the max. The values are reversed so that left on the slider is slower.
             if (playingstate)
@@ -1200,32 +1244,32 @@ class GeodCont {
         let onedisp = true;
         that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
         //if (doton) { 
-            that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); 
-            //doton = false; }
-        this.toggleDisplay = function(){
-            if(onedisp){
-                onedisp=false;
-                document.getElementById('animbox2').style.float='right';
-                document.getElementById('animbox2').style.height='300px';
-                document.getElementById('animbox2').style.width='350px';
-                document.querySelector('div#animbox2 canvas').style.height='300px';
-                document.querySelector('div#animbox2 canvas').style.width='350px';
+        that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot);
+        //doton = false; }
+        this.toggleDisplay = function () {
+            if (onedisp) {
+                onedisp = false;
+                document.getElementById('animbox2').style.float = 'right';
+                document.getElementById('animbox2').style.height = '300px';
+                document.getElementById('animbox2').style.width = '350px';
+                document.querySelector('div#animbox2 canvas').style.height = '300px';
+                document.querySelector('div#animbox2 canvas').style.width = '350px';
                 that.dispbrdR.scene.add(that.dispbrdL.camera.Dot);
                 //if (!doton) { 
-                    that.dispbrdL.scene.add(that.dispbrdR.camera.Dot);
-                    //doton = true; }
+                that.dispbrdL.scene.add(that.dispbrdR.camera.Dot);
+                //doton = true; }
             }
-            else{
-                onedisp=true;
-                document.getElementById('animbox2').style.float='none';
-                document.getElementById('animbox2').style.height='600px';
-                document.getElementById('animbox2').style.width='700px';
-                document.querySelector('div#animbox2 canvas').style.height='600px';
-                document.querySelector('div#animbox2 canvas').style.width='700px';
+            else {
+                onedisp = true;
+                document.getElementById('animbox2').style.float = 'none';
+                document.getElementById('animbox2').style.height = '600px';
+                document.getElementById('animbox2').style.width = '700px';
+                document.querySelector('div#animbox2 canvas').style.height = '600px';
+                document.querySelector('div#animbox2 canvas').style.width = '700px';
                 that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
                 //if (doton) { 
-                    that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot); 
-                    //doton = false; }
+                that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot);
+                //doton = false; }
             }
         };
 
