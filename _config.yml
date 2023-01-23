@@ -38,7 +38,7 @@ exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.
 
 # Site owner
 owner:
-  name: Joe Rivest and Leo Stein
+  name: Joe Rivest
   avatar: #bio-photo.jpg
   email: #you@email.com
   disqus-shortname:
