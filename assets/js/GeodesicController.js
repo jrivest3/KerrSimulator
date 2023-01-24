@@ -988,10 +988,10 @@ class GeodCont {
             } else {
                 onedisp = true;
                 document.getElementById('animbox2').style.float = 'none';
-                document.getElementById('animbox2').style.height = '600px';
-                document.getElementById('animbox2').style.width = '700px';
-                document.querySelector('div#animbox2 canvas').style.height = '600px';
-                document.querySelector('div#animbox2 canvas').style.width = '700px';
+                document.getElementById('animbox2').style.height = '450px';
+                document.getElementById('animbox2').style.width = '525px';
+                document.querySelector('div#animbox2 canvas').style.height = '450px';
+                document.querySelector('div#animbox2 canvas').style.width = '525px';
                 that.dispbrdR.scene.remove(that.dispbrdL.camera.Dot);
                 that.dispbrdL.scene.remove(that.dispbrdR.camera.Dot);
             }

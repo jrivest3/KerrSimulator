@@ -45,7 +45,7 @@ When a stationary black hole is spinning, it is called a Kerr black hole, and th
 <!-- Display and Controls -->
 <div class="container" style="width: 100%; overflow: hidden;">
   <div id="animbox" style="position:relative; width:350px; height:300px;" ></div>
-  <div id="animbox2" style="position:relative; width:700px; height:600px; z-index:1;"></div>
+  <div id="animbox2" style="position:relative; width:525px; height:450px; z-index:1;"></div>
 </div>
 
 <div id="play buttons" class="box">
