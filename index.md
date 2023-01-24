@@ -94,7 +94,7 @@ When a stationary black hole is spinning, it is called a Kerr black hole, and th
 <!-- Display and Controls -->
 <div class="container" style="width: 100%; overflow: hidden;">
   <div id="animbox" style="position:relative; width:350px; height:300px;" ></div><!-- THREE.Bootstrap creates a canvas element within this div element with it's own dimensions, so altering the div after the canvas has loaded doesn't alter the canvas. I can hide/unhide one display, but both the div size and the canvas size of the other need to be simultaneously updated. After pages loads, set anibox h and w to 0px. then animbox 2 and its canvas can have style size altered. Don't change the canvas's h and w properties (separate from the style h/w) without finding an easy way to recenter the viewport, (note that the larger canvas makes everything appear dimmer.)-->
-  <div id="animbox2" style="position:relative; width:700px; height:600px; z-index:1;"></div>
+  <div id="animbox2" style="position:relative; width:525px; height:450px; z-index:1;"></div>
 </div>
 
 <div id="play buttons" class="box">
