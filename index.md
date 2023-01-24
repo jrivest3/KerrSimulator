@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Simulator for Bound Geodesics in Kerr Spacetime"
+# title: "Simulator for Bound Geodesics in Kerr Spacetime"
 modified:
 categories:
 excerpt:
@@ -73,6 +73,8 @@ G_{ab} = 8\pi T_{ab}
     console.log(kgbo);
     var delta = brd.create('slider',[[9,.1],[9,.9],[0,0,Math.PI]],{name:'&delta;'});
 Here is a 2D Schwarzschild orbit: -->
+
+Plot and animate the trajectory of a test mass orbiting a Kerr black hole and its Ergosphere, based on user-defined parameters. A dynamically calculated parameter boundary allows the user to explore a range of stable, bound orbits. Additional features, such as ZAMOs, camera options, orbital frequencies, and proper-time tracking, provide an engaging environment to help users gain intuition about geodesic motion including concepts from General Relativity such as frame-dragging.
 
 <details markdown="1" open>
 <summary markdown="1">
