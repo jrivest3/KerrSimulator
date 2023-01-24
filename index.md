@@ -357,8 +357,8 @@ Displayed in the scene is the Outer Event Horizon (black surface) surrounded by 
 
 This code is made only to plot trajectories that don't end in either falling into the black hole or escaping to infinity. To ensure that the user only gives orbital parameter values that describe stable orbits, we must place a boundary on the input controller to separate plunging orbits from stable orbits. However, what the exact boundary for one parameter is depends on the chosen values of the others, and therefore must be calculated on the fly. The hypersurface in parameter space that defines this boundary of 'marginally stable orbits' is referred to as the _separatrix_.
 
-As explained in \cite{Stein:2019buj} and references therein, all stable orbits have a real value for $$r_3$$ such that $$r_2-r_3>0$$. One can construct a function $$p_{sep}(a,e,x)$$ that gives the minimum value of $$p$$ for a (marginally) stable orbit, $$r_2(p,a,e,x)-r_3(p,a,e,x)\simeq 0$$.
-\cite{Stein:2019buj} found what is currently the most efficient method to find and plot the separatrix. "We ... pursue an approach which yields the separatrix polynomial $$S(a, p, e, x)$$, where the separatrix lies along roots of the polynomial equation $$0 = S(a, p, e, x)$$."
+As explained in  Stein & Warburton (2020)<sup>1</sup>  and references therein, all stable orbits have a real value for $$r_3$$ such that $$r_2-r_3>0$$. One can construct a function $$p_{sep}(a,e,x)$$ that gives the minimum value of $$p$$ for a (marginally) stable orbit, $$r_2(p,a,e,x)-r_3(p,a,e,x)\simeq 0$$.
+ Stein & Warburton (2020)<sup>1</sup>  found what is currently the most efficient method to find and plot the separatrix. "We ... pursue an approach which yields the separatrix polynomial $$S(a, p, e, x)$$, where the separatrix lies along roots of the polynomial equation $$0 = S(a, p, e, x)$$."
 For arbitrary values of $$a$$, $$e$$, and $$x$$, $$S(p)$$ is a 12th-degree polynomial.
 
 For the code to numerically find the correct roots within a reasonable computation time and without producing errors for any combination of allowed parameter values, the algorithm alternates between various root-finding methods, many in series with or nested within others, depending on what region of the space of $$(a,e,x)$$ it is solving for.
@@ -369,7 +369,7 @@ As the user drags the $$a$$ and $$x$$ sliders, the code takes a sufficient sampl
 A Zero Angular Momentum Observer (ZAMO) is an observer that follows a circular path around the spin axis of a Kerr black hole with an orbital velocity equal to the 'frame-dragging' rate of the Kerr spacetime at the radius and polar angle of the observer, thus the observer has no angular momentum.
 
 >If one imagines spacetime to be dragged into a whirlpool-like flow by the black hole’s rotation, then the ZAMO is the observer who simply rides along with the flow.
->>\cite{Hughes:2001gg}
+>>Scott A. Hughes (2009)<sup>3</sup> 
 
 A very distant observer viewing a ZAMO close to the black hole sees that ZAMO moving around the black hole and would measure a mass following that observer to have orbital momentum. But in the reference frame of the ZAMO, it doesn't have any orbital momentum, because its frame is being 'dragged' at the same rate as its motion.
 This makes a ZAMO a helpful reference point to see how a given trajectory is moving relative to the axial component of the flow of its local spacetime. For example, one useful demonstration with the ZAMOs displayed is to set $$e=0$$, $$x=0$$, and $$p$$ set to place the trajectory at the radius of the inner sphere of ZAMOs, and play the animation with the second camera in Trailing mode. This will show that a geodesic with invariant $$L_z=0$$ runs along side the ZAMOs.
@@ -387,7 +387,8 @@ We have to be careful when talking about frequencies in this context, because th
 
 ### Calculating Trajectories from Orbital Parameters
 
-Details and further explanation of this math can be found in many sources. Some include \cite{Schmidt:2002qk,Drasco:2003ky,Fujita:2009bp}.
+Details and further explanation of this math can be found in many sources. Some include  Schmidt
+(2009)<sup>4</sup>; Drasco & Hughes (2004)<sup>1</sup>; Fujita & Hikida (2009)<sup>5</sup>.
 
 #### B-L Coordinates
 
@@ -407,7 +408,7 @@ The roots of this $$\Delta$$ give the locations of the inner and outer event hor
 #### Equations of Motion
 
 The invariant, conserved quantities are the energy, $$E$$, the component of angular momentum parallel to the spin axis of the black hole, $$L_z$$, and what is known as the Carter's Constant, $$Q$$.
-The constants of motion are calculated here by converting and adapting the Mathematica code from the Black Hole Perturbation Toolkit \citep{BHPToolkit} to Javascript, as well as math from \cite{Schmidt:2002qk}.
+The constants of motion are calculated here by converting and adapting the Mathematica code from the Black Hole Perturbation Toolkit<sup>2</sup> to Javascript, as well as math from Schmidt (2002)<sup>4</sup>.
 The code contains a series of equations for $$E$$, $$L_z$$, and $$Q$$ each written purely in terms of the orbital elements, $$(a,p,e,x)$$.
 
 The constants of motion need to be computed, because they appear in the equations of motion.
@@ -517,7 +518,7 @@ $$\begin{align}
 ##### Radial Roots
 
 $$R(r)=(1-E^2)(r_1-r)(r-r_2)(r-r_3)(r-r_4)$$  
-$$r_1$$ and $$r_2$$ are already known. To find $$r_3$$ and $$r_4$$, we follow the path of \cite{Fujita:2009bp}.  
+$$r_1$$ and $$r_2$$ are already known. To find $$r_3$$ and $$r_4$$, we follow the path of Fujita & Hikida (2009)<sup>5</sup>.  
 $$
 \begin{gather}
 \begin{split}
@@ -526,3 +527,14 @@ A+B=\frac{2M}{1-E^2}-(r_1+r_2),\;\; AB=\frac{a^2Q}{(1-E^2)r_1r_2}.
 \end{split}
 \end{gather}
 $$  
+
+### References
+
+1. Leo C. Stein and Niels Warburton. Location of the last stable orbit in Kerr spacetime. Phys. Rev. D, 101(6):064007, 2020. doi: 10.1103/PhysRevD.101.064007.
+2. Black Hole Perturbation Toolkit. [bhptoolkit.org](bhptoolkit.org)
+3. Scott A. Hughes. Nearly horizon skimming orbits of Kerr black holes. Phys. Rev. D, 63:064016,
+2001. doi: 10.1103/PhysRevD.63.064016.
+4. Wolfram Schmidt. Celestial mechanics in Kerr space-time. Class. Quant. Grav., 19:2743, 2002.
+doi: 10.1088/0264-9381/19/10/314.
+5. Ryuichi Fujita and Wataru Hikida. Analytical solutions of bound timelike geodesic orbits in Kerr
+spacetime. Class. Quant. Grav., 26:135002, 2009. doi: 10.1088/0264-9381/26/13/135002.
