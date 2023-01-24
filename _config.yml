@@ -2,7 +2,7 @@
 
 title: Kerr Spacetime
 locale: en_US
-description: See instructions and explanations below.
+description: A Web Tool for Visualizing Kerr Spacetime and Bound Geodesics
 logo: #site-logo.png
 search: true
 baseurl: "KerrSimulator"
