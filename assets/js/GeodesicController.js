@@ -1078,6 +1078,8 @@ class GeodCont {
 
         this.toggleResCurve = function () {
             if (ResCurveOn) {
+                document.getElementById('MatchFreqQ').checked=false;
+                that.toggleGliderAttribute(false);
                 ResCurve.undraw();
                 ResCurveOn = false;
             } else {
