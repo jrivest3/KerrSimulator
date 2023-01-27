@@ -369,7 +369,7 @@ As the user drags the $$a$$ and $$x$$ sliders, the code takes a sufficient sampl
 A Zero Angular Momentum Observer (ZAMO) is an observer that follows a circular path around the spin axis of a Kerr black hole with an orbital velocity equal to the 'frame-dragging' rate of the Kerr spacetime at the radius and polar angle of the observer, thus the observer has no angular momentum.
 
 >If one imagines spacetime to be dragged into a whirlpool-like flow by the black hole’s rotation, then the ZAMO is the observer who simply rides along with the flow.
->>Scott A. Hughes (2009)<sup>3</sup> 
+>>Scott A. Hughes (2009)<sup>6</sup> 
 
 A very distant observer viewing a ZAMO close to the black hole sees that ZAMO moving around the black hole and would measure a mass following that observer to have orbital momentum. But in the reference frame of the ZAMO, it doesn't have any orbital momentum, because its frame is being 'dragged' at the same rate as its motion.
 This makes a ZAMO a helpful reference point to see how a given trajectory is moving relative to the axial component of the flow of its local spacetime. For example, one useful demonstration with the ZAMOs displayed is to set $$e=0$$, $$x=0$$, and $$p$$ set to place the trajectory at the radius of the inner sphere of ZAMOs, and play the animation with the second camera in Trailing mode. This will show that a geodesic with invariant $$L_z=0$$ runs along side the ZAMOs.
@@ -387,8 +387,7 @@ We have to be careful when talking about frequencies in this context, because th
 
 ### Calculating Trajectories from Orbital Parameters
 
-Details and further explanation of this math can be found in many sources. Some include  Schmidt
-(2009)<sup>4</sup>; Drasco & Hughes (2004)<sup>1</sup>; Fujita & Hikida (2009)<sup>5</sup>.
+Details and further explanation of this math can be found in many sources. Some include Schmidt (2002)<sup>3</sup>; Drasco & Hughes (2004)<sup>4</sup>; Fujita & Hikida (2009)<sup>5</sup>.
 
 #### B-L Coordinates
 
@@ -408,7 +407,7 @@ The roots of this $$\Delta$$ give the locations of the inner and outer event hor
 #### Equations of Motion
 
 The invariant, conserved quantities are the energy, $$E$$, the component of angular momentum parallel to the spin axis of the black hole, $$L_z$$, and what is known as the Carter's Constant, $$Q$$.
-The constants of motion are calculated here by converting and adapting the Mathematica code from the Black Hole Perturbation Toolkit<sup>2</sup> to Javascript, as well as math from Schmidt (2002)<sup>4</sup>.
+The constants of motion are calculated here by converting and adapting the Mathematica code from the Black Hole Perturbation Toolkit<sup>2</sup> to Javascript, as well as math from Schmidt (2002)<sup>3</sup>.
 The code contains a series of equations for $$E$$, $$L_z$$, and $$Q$$ each written purely in terms of the orbital elements, $$(a,p,e,x)$$.
 
 The constants of motion need to be computed, because they appear in the equations of motion.
@@ -531,10 +530,8 @@ $$
 ### References
 
 1. Leo C. Stein and Niels Warburton. Location of the last stable orbit in Kerr spacetime. Phys. Rev. D, 101(6):064007, 2020. doi: 10.1103/PhysRevD.101.064007.
-2. Black Hole Perturbation Toolkit. [bhptoolkit.org](bhptoolkit.org)
-3. Scott A. Hughes. Nearly horizon skimming orbits of Kerr black holes. Phys. Rev. D, 63:064016,
-2001. doi: 10.1103/PhysRevD.63.064016.
-4. Wolfram Schmidt. Celestial mechanics in Kerr space-time. Class. Quant. Grav., 19:2743, 2002.
-doi: 10.1088/0264-9381/19/10/314.
-5. Ryuichi Fujita and Wataru Hikida. Analytical solutions of bound timelike geodesic orbits in Kerr
-spacetime. Class. Quant. Grav., 26:135002, 2009. doi: 10.1088/0264-9381/26/13/135002.
+2. Black Hole Perturbation Toolkit. [bhptoolkit.org](bhptoolkit.org) 
+3. Wolfram Schmidt. Celestial mechanics in Kerr space-time. Class. Quant. Grav., 19:2743, 2002. doi: 10.1088/0264-9381/19/10/314.
+4. Steve Drasco and Scott A. Hughes. Rotating black hole orbit functionals in the frequency domain. Phys. Rev. D, 69:044015, 2004. doi: 10.1103/PhysRevD.69.044015.
+5. Ryuichi Fujita and Wataru Hikida. Analytical solutions of bound timelike geodesic orbits in Kerr spacetime. Class. Quant. Grav., 26:135002, 2009. doi: 10.1088/0264-9381/26/13/135002.
+6. Scott A. Hughes. Nearly horizon skimming orbits of Kerr black holes. Phys. Rev. D, 63:064016, 2001. doi: 10.1103/PhysRevD.63.064016.
