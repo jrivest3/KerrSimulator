@@ -28,7 +28,7 @@
 }
 .tooltipBox {
 	/*top:174px;*/
-	z-index: 10;
+	z-index: 101;/*jsxgraph has stuff at z=100*/
 	width: fit-content;
 	position: absolute;
 	background: #f0f7ff;

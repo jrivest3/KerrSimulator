@@ -15,6 +15,9 @@ jsxgraph: true
 
       .box div {
         display: inline-block;
+      }
+      .boxrel div {/* not currently used*/
+        display: inline-block;
         vertical-align: middle;
         position:relative;
       }
