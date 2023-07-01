@@ -76,7 +76,7 @@ r4);
     CapitalGamma = 4 * M * M * En +
       /*2a2Ez+CapitalUpsilonThetaMath.PILzMath.sqrtǫ0z+ = \
 (2/Math.PI)En/(1-En*En)Math.sqrtz2 CapitalUpsilonTheta */
-      En / (1 - En * En) * z2 * (KkTheta - EkTheta) / KkTheta +
+      En / (1 - En * En) * z2 * (1 - EkTheta / KkTheta) +
        /*(2/Math.PI)CapitalUpsilonr/Math.sqrt((1-En*En)(r1-\
  r3)(r2-r4))*/(1 / Kkr)
       * (En / 2
