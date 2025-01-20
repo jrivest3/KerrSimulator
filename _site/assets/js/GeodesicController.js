@@ -143,7 +143,7 @@ class GeodCont {
         this.ctrlbrd.on('update', function () {
             var o;
             if (typeof that.ctrlbrd.touches != 'undefined' && that.ctrlbrd.touches.length > 0) {
-                o = brd.touches[0].obj;
+                o = that.ctrlbrd.touches[0].obj;
             } else if (that.ctrlbrd.mouse != null && typeof that.ctrlbrd.mouse.obj != 'undefined') {
                 o = that.ctrlbrd.mouse.obj;
             } else {
