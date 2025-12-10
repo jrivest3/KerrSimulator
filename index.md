@@ -435,8 +435,8 @@ so we can write
 $$\begin{aligned}
 \Sigma^2\left(\frac{dr}{d\tau}\right)^2&= R(r)\\
 \Sigma^2\left(\frac{d\theta}{d\tau}\right)^2&= \Theta(\theta) \\
-\Sigma\frac{d\phi}{d\tau} &=\frac{a}{\Delta}(2rE - aL_z) + \frac{L_z}{\sin^2\theta}\\
-\Sigma\frac{dt}{d\tau} &=\frac{1}{\Delta}\left((r^2 + a^2)^2E - 2arL_z\right)- a^2E \sin^2\theta,
+\Sigma \frac{dt}{d\tau} = \frac{(r^2 + a^2)}{\Delta} \left[ E (r^2 + a^2) - a L_z \right] - a^2 E (\sin^2 \theta) + a L_z
+\Sigma \frac{d\phi}{d\tau} = \frac{a}{\Delta} \left[ E (r^2 + a^2) - a L_z \right] + \frac{L_z}{\sin^2 \theta} - a E
 \end{aligned}$$  
 where  
 $$\begin{aligned}
